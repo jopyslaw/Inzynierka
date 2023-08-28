@@ -1,0 +1,57 @@
+@use "../../../../assets/variables.scss" as *;
+
+.offer-item {
+  min-width: 300px;
+  min-height: 300px;
+  background-color: $purple-color;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &__info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  &__btn-container:last-of-type {
+    margin-top: auto;
+  }
+
+  &__btn-container {
+    padding-bottom: 10px;
+  }
+
+  &__title {
+    color: white;
+    font-size: 30px;
+  }
+
+  &__price {
+    color: white;
+    font-size: 30px;
+  }
+
+  &__description {
+    color: white;
+    font-size: 30px;
+  }
+
+  &__btn {
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    transition-duration: 0.4s;
+  }
+
+  &__btn:hover {
+    background-color: green;
+    color: white;
+    cursor: pointer;
+  }
+}

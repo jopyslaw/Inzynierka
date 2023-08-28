@@ -12,6 +12,10 @@ services:
     ports:
       - "4200:4200"
 
+    volumes:
+      - "./Frontend:/app"
+      - "/app/node_modules"
+
   express:
     build:
       context: Backend

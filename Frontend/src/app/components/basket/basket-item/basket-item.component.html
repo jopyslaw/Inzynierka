@@ -1,0 +1,27 @@
+<li style="list-style: none">
+  <div class="basket-item">
+    <div class="basket-item__name">
+      {{ item.foodName }}
+    </div>
+    <div class="basket-item__amount">
+      <form [formGroup]="form">
+        <div>
+          <label for="amount">Ilość</label>
+          <input
+            type="number"
+            id="amount"
+            formControlName="itemAmount"
+            class="basket-item__input"
+            [min]="1"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="basket-item__price">
+      {{ item.price * this.form.get("itemAmount")?.value }} zł
+    </div>
+    <div class="basket-item__remove" (click)="removeItem(item)">
+      <mat-icon>remove_circle</mat-icon>
+    </div>
+  </div>
+</li>

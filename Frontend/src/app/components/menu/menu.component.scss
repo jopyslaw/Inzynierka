@@ -1,0 +1,54 @@
+@use "../../../assets/variables.scss" as *;
+
+.menu-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+
+  &__filter-container {
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__filter {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    min-height: 50px;
+    border-radius: 20px;
+    color: white;
+    border: 2px solid violet;
+
+    &-option {
+      transition-duration: 0.4s;
+    }
+
+    &-option:hover {
+      color: $purple-color;
+      cursor: pointer;
+    }
+  }
+
+  &__offers {
+    margin-top: 20px;
+    width: 95%;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  &__offers-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

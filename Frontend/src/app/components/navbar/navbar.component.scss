@@ -1,0 +1,46 @@
+@use "../../../assets/variables.scss" as *;
+
+a {
+  text-decoration: none;
+  color: $main-font-color;
+}
+
+.navbar {
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $main-font-color;
+
+  &__logo {
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &--text {
+      font-size: 18px;
+      margin-left: 10px;
+    }
+  }
+
+  &__buttons {
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 25px;
+  }
+
+  &__button {
+    font-size: 18px;
+    transition-duration: 0.4s;
+  }
+
+  &__button:hover {
+    text-decoration: none !important;
+    color: $purple-color !important;
+    cursor: pointer;
+  }
+}

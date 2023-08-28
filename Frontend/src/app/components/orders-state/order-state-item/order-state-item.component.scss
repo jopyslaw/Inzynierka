@@ -1,0 +1,46 @@
+.basket-item {
+  display: flex;
+  flex-direction: row;
+  min-height: 50px;
+  background-color: white;
+  border-radius: 20px;
+  border: none;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: space-around;
+
+  &__name {
+    width: 70%;
+  }
+
+  &__input {
+    border-radius: 20px;
+    min-height: 20px;
+    width: 40px;
+    padding: 5px;
+    border: 1px solid black;
+    margin-left: 10px;
+    text-align: center;
+  }
+
+  &__remove {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__btn {
+    border-radius: 20px;
+    background-color: green;
+    color: white;
+    min-height: 30px;
+    padding: 10px;
+    border-style: none;
+    transition-duration: 0.5s;
+  }
+
+  &__btn:hover {
+    background-color: rgb(0, 94, 0);
+    cursor: pointer;
+  }
+}

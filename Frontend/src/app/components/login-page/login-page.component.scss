@@ -1,0 +1,83 @@
+@use "../../../assets/variables.scss" as *;
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__img {
+    background-image: url("../../../assets/img/tlo-log.png");
+    z-index: -1;
+    height: 87vh;
+    width: 100%;
+  }
+
+  &__form {
+    background-color: $background-color-base;
+    padding: 20px;
+    border: 5px solid $main-font-color;
+    border-radius: 30px;
+    min-height: 250px;
+    width: 350px;
+
+    &--text {
+      color: $main-font-color;
+      text-align: center;
+      font-size: 30px;
+    }
+
+    &--style {
+      margin-top: 30px;
+      color: $main-font-color;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      gap: 20px;
+    }
+
+    &--width {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    &--label {
+      font-size: 15px;
+    }
+  }
+
+  .input-field {
+    border-radius: 20px;
+    width: 100%;
+    height: 40px;
+    padding: 2px;
+  }
+
+  .btn-style {
+    border-radius: 20px;
+    height: 50px;
+    width: 100px;
+    background-color: $purple-color;
+    color: $main-font-color;
+  }
+
+  .field-width {
+    width: 70%;
+  }
+}
+
+.validator {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  &--color {
+    color: red;
+  }
+}

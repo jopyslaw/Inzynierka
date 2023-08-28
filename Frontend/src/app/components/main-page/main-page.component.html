@@ -1,0 +1,77 @@
+<div class="main-page">
+  <div class="main-page__img">
+    <img
+      src="../../../assets/img/tlo.png"
+      width="100%"
+      height="auto"
+      alt="zdjęcie jedzenia"
+    />
+  </div>
+  <div class="main-page__menu">
+    <div class="main-page__menu-text">
+      <span>A oto nasze menu</span>
+    </div>
+    <div class="main-page__menu-img">
+      <a [routerLink]="'menu'" [queryParams]="{ category: 'wszystko' }">
+        <img
+          src="../../../assets/img/menu-img.PNG"
+          height="150px"
+          alt="zdjęcie menu"
+        />
+      </a>
+    </div>
+    <hr class="line" />
+    <div class="main-page__menu-category">
+      <a [routerLink]="'menu'" [queryParams]="{ category: 'napoje' }">
+        <div class="main-page__one-category">
+          <img
+            src="../../../assets/img/Napoje.PNG"
+            height="200px"
+            alt="napoje"
+          />
+          <span>Napoje</span>
+        </div>
+      </a>
+      <a [routerLink]="'menu'" [queryParams]="{ category: 'przekąski' }">
+        <div class="main-page__one-category">
+          <img
+            src="../../../assets/img/Przekąski.PNG"
+            height="200px"
+            alt="przekąski"
+          />
+          <span>Przekąski</span>
+        </div>
+      </a>
+      <a [routerLink]="'menu'" [queryParams]="{ category: 'dania główne' }">
+        <div class="main-page__one-category">
+          <img
+            src="../../../assets/img/main-dish.PNG"
+            height="200px"
+            alt="Dania główne"
+          />
+          <span>Dania główne</span>
+        </div>
+      </a>
+      <a [routerLink]="'menu'" [queryParams]="{ category: 'desery' }">
+        <div class="main-page__one-category">
+          <img
+            src="../../../assets/img/Deser.PNG"
+            height="200px"
+            alt="Desery"
+          />
+          <span>Desery</span>
+        </div>
+      </a>
+      <a [routerLink]="'menu'" [queryParams]="{ category: 'przystawki' }">
+        <div class="main-page__one-category">
+          <img
+            src="../../../assets/img/light-dish.PNG"
+            height="200px"
+            alt="Przystawki"
+          />
+          <span>Przystawki</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

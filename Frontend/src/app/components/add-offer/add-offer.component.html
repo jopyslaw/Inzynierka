@@ -1,0 +1,68 @@
+<div class="addOffer">
+  <div class="addOffer__container">
+    <span class="addOffer__title">Dodaj potrawę</span>
+    <form [formGroup]="addForm">
+      <div class="addOffer__item">
+        <label class="addOffer__item--text">Nazwa potrawy</label>
+        <input
+          type="text"
+          formControlName="foodName"
+          class="addOffer__input"
+          placeholder="Wpisz nazwę potrawy"
+        />
+      </div>
+      <!--<div class="addOffer__item">
+        <label class="addOffer__item--text">Kategoria</label>
+        <select formControlName="category" class="addOffer__input" required>
+          <option value="" disabled selected hidden>
+            Wybierz kategorię dania
+          </option>
+          <option
+            *ngFor="let category of foodCategories"
+            value="{{ category }}"
+          >
+            {{ category }}
+          </option>
+        </select>
+      </div>-->
+      <div class="addOffer__item">
+        <label class="addOffer__item--text">Opis</label>
+        <input
+          type="text"
+          formControlName="description"
+          class="addOffer__input"
+          placeholder="Krótki opis dania"
+        />
+      </div>
+      <div class="addOffer__item">
+        <label class="addOffer__item--text">Cena</label>
+        <input
+          type="number"
+          formControlName="price"
+          class="addOffer__input"
+          min="0"
+          value="0"
+          placeholder="Podaj cenę dania"
+        />
+      </div>
+      <div class="addOffer__item">
+        <label class="addOffer__item--text">Dodaj zdjęcie</label>
+        <input
+          type="file"
+          formControlName="image"
+          class="addOffer__input"
+          placeholder="Dodaj zdjęcie dania"
+          (change)="onFileSelect($event)"
+        />
+      </div>
+      <div class="addOffer__btnContainer">
+        <button class="addOffer__agreeButton" (click)="this.sendForm()">
+          Dodaj ofertę
+        </button>
+        <button class="addOffer__deleteButton" (click)="this.clearFrom()">
+          Wyczyść formularz
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

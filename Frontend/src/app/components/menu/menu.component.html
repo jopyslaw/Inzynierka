@@ -1,0 +1,17 @@
+<div class="menu-page">
+  <!--<div class="menu-page__filter-container">
+    <div class="menu-page__filter">
+      <div class="menu-page__filter-option" *ngFor="let item of filterOption">
+        <span>{{ item }}</span>
+      </div>
+    </div>
+  </div>-->
+  <div class="menu-page__offers-container">
+    <div class="menu-page__offers">
+      <app-offer-item
+        *ngFor="let item of items"
+        [offerItemData]="item"
+      ></app-offer-item>
+    </div>
+  </div>
+</div>

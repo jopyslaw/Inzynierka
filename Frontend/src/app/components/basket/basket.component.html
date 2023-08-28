@@ -1,0 +1,67 @@
+<div class="main-container">
+  <div class="basket">
+    <div class="basket__items">
+      <div
+        style="text-align: center; font-size: 40px; padding: 10px; color: white"
+      >
+        Koszyk
+      </div>
+      <ul *ngIf="basketItems.length !== 0">
+        <app-basket-item
+          #basketItems
+          *ngFor="let item of basketItems"
+          [item]="item"
+          (itemRemoveEmitter)="removeItemFromBasket($event)"
+        ></app-basket-item>
+      </ul>
+      <div *ngIf="basketItems.length === 0">Koszyk jest pusty</div>
+    </div>
+    <div class="basket__options">
+      <div class="basket__delivery-options">
+        <div class="basket__delivery-options--title">Sposoby dostawy</div>
+        <label id="deliveryOption"></label>
+        <mat-radio-group
+          aria-labelledby="deliveryOption"
+          class="basket__delivery-options--radio-group"
+          [(ngModel)]="selectedDelivery"
+        >
+          <mat-radio-button
+            class="basket__delivery-options--radio-btn"
+            *ngFor="let option of deliveryOptions"
+            [value]="option"
+          >
+            {{ option }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="basket__payments">
+        <div class="payments">
+          <div class="payments--title">Sposoby płatności</div>
+          <label id="paymentMethod"></label>
+          <mat-radio-group
+            aria-labelledby="paymentMethod"
+            class="basket__delivery-options--radio-group"
+            [(ngModel)]="selectedPaymentMethod"
+          >
+            <mat-radio-button
+              class="basket__delivery-options--radio-btn"
+              *ngFor="let option of paymentsMethods"
+              [value]="option"
+            >
+              {{ option }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+    <div class="basket__payment-container">
+      {{ this.allCost + " zł" }}
+    </div>
+    <div class="basket__btn-container">
+      <button class="basket__btn" (click)="clearBasket()">
+        Wyczyść koszyk
+      </button>
+      <button class="basket__btn" (click)="send()">Złóż zamówienie</button>
+    </div>
+  </div>
+</div>
