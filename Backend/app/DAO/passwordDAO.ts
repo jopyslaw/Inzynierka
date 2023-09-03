@@ -3,6 +3,7 @@ import { PasswordDAO } from "../shared/models/passwordDAO.model";
 import * as _ from "lodash";
 import { convert } from "../service/mongoConverter";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
+import bcrypt from "bcrypt";
 
 const passwordSchema = new mongoose.Schema(
   {
@@ -42,11 +43,16 @@ const createOrUpdate = async (data: PasswordDAO) => {
 const authorize = async (userId: string, password: string) => {
   const result = await PasswordModel.findOne({
     userId: userId,
-    password: password,
   });
-  console.log(result);
   if (result && convert(result)) {
-    return true;
+    const check = await bcrypt.compare(password, result.password);
+    if (check) {
+      return true;
+    }
+    throw errorUtils.new(
+      ErrorCodes.UNAUTHORIZED.code,
+      "User and password does not match"
+    );
   }
   throw errorUtils.new(
     ErrorCodes.UNAUTHORIZED.code,

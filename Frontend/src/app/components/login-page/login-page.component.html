@@ -16,25 +16,25 @@
         <div class="login-page__form--style">
           <form [formGroup]="loginForm" class="login-page__form--width">
             <div class="field-width">
-              <label for="username" class="login-page__form--label"
+              <label for="login" class="login-page__form--label"
                 >Podaj nazwę użytkownika</label
               >
               <br />
               <input
                 type="text"
-                id="username"
-                formControlName="username"
+                id="login"
+                formControlName="login"
                 class="input-field"
               />
               <div
                 class="validator"
                 *ngIf="
-                  this.loginForm.get('username')?.invalid &&
-                  this.loginForm.get('username')?.touched
+                  this.loginForm.get('login')?.invalid &&
+                  this.loginForm.get('login')?.touched
                 "
               >
                 <span
-                  *ngIf="this.loginForm.get('username')?.hasError('required')"
+                  *ngIf="this.loginForm.get('login')?.hasError('required')"
                   class="validator--color"
                   >To pole nie może być puste</span
                 >

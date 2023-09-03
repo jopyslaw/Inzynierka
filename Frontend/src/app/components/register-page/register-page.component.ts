@@ -4,7 +4,12 @@ import { RegisterService } from 'src/app/services/register/register.service';
 import { emailRegex } from './../../../assets/validators/email-validator';
 import { passwordRegex } from './../../../assets/validators/password-validator';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-register-page',
@@ -14,18 +19,38 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class RegisterPageComponent implements OnInit, OnDestroy {
   registerForm!: FormGroup;
   subscriptions: Subscription = new Subscription();
+  roles: string[] = ['USER', 'TUTOR'];
 
   constructor(
     private service: RegisterService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.registerForm = new FormGroup({
+    this.registerForm = this.fb.group({
+      name: this.fb.control('', [Validators.required]),
+      surname: this.fb.control('', [Validators.required]),
+      login: this.fb.control('', [Validators.required]),
+      email: this.fb.control('', [Validators.required, Validators.email]),
+      password: this.fb.control('', [
+        Validators.required,
+        Validators.pattern(passwordRegex),
+      ]),
+      repeatPassword: this.fb.control('', [
+        Validators.required,
+        Validators.pattern(passwordRegex),
+      ]),
+      phoneNumber: this.fb.control('', [Validators.required]),
+      checkbox: this.fb.control(false),
+      role: this.fb.control('', [Validators.required]),
+    });
+
+    /*this.registerForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
       surname: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
+      login: new FormControl('', [Validators.required]),
       email: new FormControl('', [
         Validators.required,
         Validators.pattern(emailRegex),
@@ -40,7 +65,8 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
       ]),
       phoneNumber: new FormControl(''),
       checkbox: new FormControl(false),
-    });
+      role: new FormControl(''),
+    });*/
   }
 
   clear(): void {

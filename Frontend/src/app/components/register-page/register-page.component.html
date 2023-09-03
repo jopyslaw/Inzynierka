@@ -44,20 +44,20 @@
         </div>
       </div>
       <div class="register-page__form--margin">
-        <label class="register-page__form--label" for="username"
+        <label class="register-page__form--label" for="login"
           >Podaj nazwę użtykownika</label
         ><br />
         <input
           type="text"
           class="input-style"
-          id="username"
-          formControlName="username"
+          id="login"
+          formControlName="login"
         />
         <div
           class="validator"
           *ngIf="
-            this.registerForm.get('username')?.invalid &&
-            this.registerForm.get('username')?.touched
+            this.registerForm.get('login')?.invalid &&
+            this.registerForm.get('login')?.touched
           "
         >
           <span class="validator--color">To pole nie może być puste</span>
@@ -168,6 +168,15 @@
           id="phoneNumber"
           formControlName="phoneNumber"
         />
+      </div>
+      <div class="register-page__form--margin">
+        <label class="register-page__form--label" for="role">Rola</label><br />
+        <select formControlName="role">
+          <option value="">Choose city</option>
+          <option *ngFor="let role of roles" [value]="role">
+            {{ role }}
+          </option>
+        </select>
       </div>
       <div class="register-page__form--margin">
         <input type="checkbox" formControlName="checkbox" />

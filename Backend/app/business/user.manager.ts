@@ -16,6 +16,7 @@ const create = (context: Context) => {
   }
 
   const authenticate = async (name: string, password: string) => {
+    console.log("auth");
     let userData;
     const user = await UserDAO.getByEmailOrLogin(name);
     if (!user) {
@@ -25,7 +26,7 @@ const create = (context: Context) => {
       );
     }
     userData = await user;
-    await passwordDAO.authorize(user.id, await hashString(password));
+    await passwordDAO.authorize(user.id, password);
     const token = await tokenDAO.create(userData);
     return getToken(token);
   };
