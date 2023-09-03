@@ -1,4 +1,4 @@
-FROM node:16-alpine as development
+FROM node:18-alpine as development
 
 RUN mkdir -p /usr/src/app
 
@@ -14,7 +14,7 @@ EXPOSE 3000
 
 CMD ["npm","run","dev"]
 
-FROM node:16-alpine as production
+FROM node:18-alpine as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}

@@ -4,8 +4,10 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import { Express, Request, Response } from "express";
+import { routes } from "./REST/routes";
 
-const app = express();
+const app: Express = express();
 app.use(express.static(__dirname + "/public"));
 
 app.use(morgan("dev"));
@@ -16,13 +18,13 @@ app.use(express.static("public"));
 
 app.use(cors());
 
-mongoose.connect(config.databaseUrl, {}, (error) => {
-  if (error) {
-    console.error(error);
-  } else {
-    console.info("Connect with database estabilished");
-  }
-});
+try {
+  mongoose.connect(config.databaseUrl);
+  console.log("Mongo connected");
+} catch (error) {
+  console.log(error);
+  process.exit();
+}
 
 process.on("SIGINT", () => {
   mongoose.connection.close(() => {
@@ -33,7 +35,9 @@ process.on("SIGINT", () => {
   });
 });
 
-app.get("/*", (req, res) => {
+routes(app);
+
+app.get("/*", (req: Request, res: Response) => {
   res.sendFile(__dirname + "/public/index.html");
 });
 

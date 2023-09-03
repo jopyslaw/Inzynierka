@@ -10,9 +10,8 @@ export class RegisterService {
   constructor(private http: HttpClient) {}
 
   register(data: RegisterModel): Observable<RegisterModel> {
-    console.log(data);
     return this.http.post<RegisterModel>(
-      'http://www.localhost:8080/api/auth/register',
+      'http://www.localhost:3000/api/user/create',
       data
     );
   }
