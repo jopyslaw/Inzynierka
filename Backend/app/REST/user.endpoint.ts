@@ -9,9 +9,7 @@ export const userEndpoint = (router: Router) => {
   router.post(
     "/api/user/auth",
     async (request: Request, response: Response, next: NextFunction) => {
-      console.log("xDDD");
       try {
-        console.log("auth work");
         let result = await businessContainer
           .getUserManager()
           .authenticate(request.body.login, request.body.password);
@@ -26,7 +24,6 @@ export const userEndpoint = (router: Router) => {
     "/api/user/create",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        console.log("work");
         const result = await businessContainer
           .getUserManager()
           .createNewOrUpdate(request.body);

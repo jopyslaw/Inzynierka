@@ -36,11 +36,8 @@ export class EditAccountComponent implements OnInit {
   }
 
   clear(): void {
-    console.log(this.registerForm);
-    //this.registerForm.reset();
+    this.registerForm.reset();
   }
 
-  send(): void {
-    console.log('wysyłam');
-  }
+  send(): void {}
 }

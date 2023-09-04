@@ -15,7 +15,6 @@ export class OrderStateItemComponent implements OnInit {
   ngOnInit(): void {}
 
   changeOrderState(status: string): void {
-    console.log(this.item);
     const data = this.item.deliveryId;
     this.order.changeOrderStatus(data).subscribe((data) => console.log(data));
   }

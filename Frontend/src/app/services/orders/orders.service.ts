@@ -13,7 +13,6 @@ export class OrdersService {
   }
 
   sendOrder(data: any): Observable<any> {
-    console.log(data);
     return this.http.post<any>(
       'http://www.localhost:8080/api/delivery/newDel',
       data

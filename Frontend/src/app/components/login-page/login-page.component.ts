@@ -38,9 +38,8 @@ export class LoginPageComponent implements OnInit {
 
     this.login.sendData(this.loginForm.value).subscribe({
       next: (data) => {
-        this.store.set('userId', data.userId);
-        this.store.set('role', data.role);
         if (data) {
+          this.token.setToken(data.token);
           this.token.isLogged.next(true);
         }
       },

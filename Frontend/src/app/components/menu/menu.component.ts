@@ -1,4 +1,4 @@
-import { foodModel } from './../../models/food.model';
+import { foodModel } from '../../shared/models/food.model';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FoodService } from 'src/app/services/food-service/food.service';
