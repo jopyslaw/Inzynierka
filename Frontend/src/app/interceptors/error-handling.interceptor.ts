@@ -25,7 +25,6 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         let errorMsg = '';
         if (error.error instanceof ErrorEvent) {
-          console.log('This is client side error');
           errorMsg = `Error: ${error.error.message}`;
           this._snack_bar.openFromComponent(ErrorDialogComponent, {
             data: errorMsg,
@@ -33,7 +32,6 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
             panelClass: ['red-snackbar'],
           });
         } else {
-          console.log('This is server side error');
           errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
           this._snack_bar.openFromComponent(ErrorDialogComponent, {
             data: errorMsg,
@@ -41,7 +39,6 @@ export class ErrorHandlingInterceptor implements HttpInterceptor {
             panelClass: ['red-snackbar'],
           });
         }
-        console.log(errorMsg);
         return throwError(errorMsg);
       })
     );

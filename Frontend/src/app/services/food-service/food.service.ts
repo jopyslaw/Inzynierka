@@ -1,5 +1,5 @@
-import { foodModel } from './../../models/food.model';
-import { addFoodModel } from './../../models/addFood.model';
+import { foodModel } from '../../shared/models/food.model';
+import { addFoodModel } from '../../shared/models/addFood.model';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -21,7 +21,6 @@ export class FoodService {
     let formParams = new FormData();
     formParams.append('image', data);
     const headers = new HttpHeaders({ 'Content-Type': 'multipart/form-data' });
-    console.log(data);
     return this.http.post<any>(
       'http://www.localhost:8080/api/food/addfoodimg',
       formParams

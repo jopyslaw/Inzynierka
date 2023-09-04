@@ -39,8 +39,7 @@ export class AdminAddAccountComponent implements OnInit, OnDestroy {
   }
 
   clear(): void {
-    console.log(this.registerForm);
-    //this.registerForm.reset();
+    this.registerForm.reset();
   }
 
   send(): void {

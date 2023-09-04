@@ -171,12 +171,28 @@
       </div>
       <div class="register-page__form--margin">
         <label class="register-page__form--label" for="role">Rola</label><br />
-        <select formControlName="role">
-          <option value="">Choose city</option>
-          <option *ngFor="let role of roles" [value]="role">
-            {{ role }}
-          </option>
-        </select>
+        <div class="flex">
+          <div>
+            <input
+              id="user"
+              type="radio"
+              value="USER"
+              name="role"
+              formControlName="role"
+            />
+            <label for="male">Użytkownik</label>
+          </div>
+          <div>
+            <input
+              id="tutor"
+              type="radio"
+              value="TUTOR"
+              name="role"
+              formControlName="role"
+            />
+            <label for="male">Korepetytor</label>
+          </div>
+        </div>
       </div>
       <div class="register-page__form--margin">
         <input type="checkbox" formControlName="checkbox" />

@@ -83,3 +83,10 @@
   color: $main-font-color;
   margin-left: 20px;
 }
+
+.flex {
+  font-size: 15px;
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+}

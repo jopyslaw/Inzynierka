@@ -1,21 +1,46 @@
 import { LocalStorageService } from '../local-storage/local-storage.service';
 import { Injectable } from '@angular/core';
+import jwtDecode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
+import { Role } from 'src/app/shared/enums/role.enum';
+import { DecodedToken } from 'src/app/shared/models/decodedToken.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
   isLogged: BehaviorSubject<boolean> = new BehaviorSubject(
-    !!this.store.get('userId')
+    !!this.store.get('token')
   );
 
   constructor(private store: LocalStorageService) {}
 
   removeToken(): void {
-    this.store.remove('userId');
-    this.store.remove('basket');
-    this.store.remove('role');
+    this.store.remove('token');
     this.isLogged.next(false);
+  }
+
+  setToken(token: string): void {
+    this.store.set('token', token);
+  }
+
+  getToken(): string | null {
+    return this.store.get('token');
+  }
+
+  decodeToken(): DecodedToken | null {
+    const token = this.getToken();
+    if (token) {
+      return jwtDecode(token);
+    }
+    return null;
+  }
+
+  getRole(): Role | null {
+    const decodedToken = this.decodeToken();
+    if (decodedToken) {
+      return decodedToken.role;
+    }
+    return null;
   }
 }

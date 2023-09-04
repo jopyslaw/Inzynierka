@@ -20,16 +20,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private token: TokenService,
     private router: Router,
-    private basket: BasketService,
-    private localStorage: LocalStorageService
+    private basket: BasketService
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
       this.token.isLogged.subscribe((log: boolean) => {
         this.isLogged = log;
-        if (localStorage.getItem('userId')) {
-          this.role = this.localStorage.get('role') ?? '';
+        if (this.token.getRole()) {
+          this.role = this.token.getRole() ?? '';
         }
       })
     );

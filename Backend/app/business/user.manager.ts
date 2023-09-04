@@ -16,7 +16,6 @@ const create = (context: Context) => {
   }
 
   const authenticate = async (name: string, password: string) => {
-    console.log("auth");
     let userData;
     const user = await UserDAO.getByEmailOrLogin(name);
     if (!user) {
@@ -36,7 +35,6 @@ const create = (context: Context) => {
   };
 
   const createNewOrUpdate = async (userData: UserDaoModel) => {
-    console.log("work");
     const user = await UserDAO.createNewOrUpdate(userData);
     if (await userData.password) {
       return await passwordDAO.createOrUpdate({
