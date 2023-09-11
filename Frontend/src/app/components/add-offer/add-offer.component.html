@@ -6,7 +6,7 @@
         <label class="addOffer__item--text">Nazwa potrawy</label>
         <input
           type="text"
-          formControlName="foodName"
+          formControlName="title"
           class="addOffer__input"
           placeholder="Wpisz nazwę potrawy"
         />
@@ -47,13 +47,7 @@
       </div>
       <div class="addOffer__item">
         <label class="addOffer__item--text">Dodaj zdjęcie</label>
-        <input
-          type="file"
-          formControlName="image"
-          class="addOffer__input"
-          placeholder="Dodaj zdjęcie dania"
-          (change)="onFileSelect($event)"
-        />
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
       </div>
       <div class="addOffer__btnContainer">
         <button class="addOffer__agreeButton" (click)="this.sendForm()">

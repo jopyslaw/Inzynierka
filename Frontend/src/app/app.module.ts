@@ -36,6 +36,7 @@ import { ErrorHandlingInterceptor } from './interceptors/error-handling.intercep
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { CookieService } from 'ngx-cookie-service';
     MatBadgeModule,
     MatDialogModule,
     MatSnackBarModule,
+    FullCalendarModule,
   ],
   providers: [
     {
