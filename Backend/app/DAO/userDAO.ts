@@ -71,8 +71,9 @@ const getByEmailOrLogin = async (login: string) => {
 };
 
 const get = async (id: string) => {
+  console.log(id);
   const result = await UserModel.findOne({ _id: id });
-
+  console.log(result);
   if (result) {
     return convert(result);
   }

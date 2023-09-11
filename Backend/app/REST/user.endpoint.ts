@@ -48,4 +48,36 @@ export const userEndpoint = (router: Router) => {
       }
     }
   );
+
+  router.get(
+    "/api/user/data/:userId", //auth,
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const userId = request.params.userId;
+        const result = await businessContainer
+          .getUserManager()
+          .getAccountInfo(userId);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
+
+  router.post(
+    "/api/user/password/:userId", //auth
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        console.log(request.body);
+        const userId = request.params.userId;
+        const data = request.body.password;
+        const result = await businessContainer
+          .getUserManager()
+          .updatePassword(userId, data);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
 };

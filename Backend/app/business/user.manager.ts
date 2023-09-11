@@ -9,7 +9,7 @@ import { TokenDAO } from "../shared/models/tokenDAO.model";
 
 const saltRounds = 10;
 
-const create = (context: Context) => {
+const operations = (context: Context) => {
   async function hashString(password: string) {
     const hash = await bcrypt.hash(password, saltRounds);
     return hash;
@@ -50,13 +50,33 @@ const create = (context: Context) => {
     return await tokenDAO.remove(userId);
   };
 
+  const getAccountInfo = async (userId: string) => {
+    const user = await UserDAO.get(userId);
+    if (user) {
+      return user;
+    }
+  };
+
+  const updatePassword = async (userId: string, password: string) => {
+    const hashedPassword = await hashString(password);
+    const result = await passwordDAO.createOrUpdate({
+      userId,
+      password: hashedPassword,
+    });
+    if (result) {
+      return result;
+    }
+  };
+
   return {
     authenticate: authenticate,
     createNewOrUpdate: createNewOrUpdate,
     removeHashSession: removeHashSession,
+    getAccountInfo,
+    updatePassword,
   };
 };
 
 export default {
-  create,
+  operations,
 };
