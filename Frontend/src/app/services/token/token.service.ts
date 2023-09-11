@@ -43,4 +43,12 @@ export class TokenService {
     }
     return null;
   }
+
+  getUserId(): string | null {
+    const decodedToken = this.decodeToken();
+    if (decodedToken) {
+      return decodedToken.userId;
+    }
+    return null;
+  }
 }

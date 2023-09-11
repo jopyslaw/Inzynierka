@@ -44,20 +44,20 @@
         </div>
       </div>
       <div class="register-page__form--margin">
-        <label class="register-page__form--label" for="username"
+        <label class="register-page__form--label" for="login"
           >Nazwa użytkownika</label
         ><br />
         <input
           type="text"
           class="input-style"
-          id="username"
-          formControlName="username"
+          id="login"
+          formControlName="login"
         />
         <div
           class="validator"
           *ngIf="
-            this.registerForm.get('username')?.invalid &&
-            this.registerForm.get('username')?.touched
+            this.registerForm.get('login')?.invalid &&
+            this.registerForm.get('login')?.touched
           "
         >
           <span class="validator--color">To pole nie może być puste</span>
@@ -91,6 +91,31 @@
           >
         </div>
       </div>
+
+      <div class="register-page__form--margin">
+        <label class="register-page__form--label" for="phoneNumber"
+          >Numer telefonu (opcjonalnie)</label
+        ><br />
+        <input
+          type="text"
+          class="input-style"
+          id="phoneNumber"
+          formControlName="phoneNumber"
+        />
+      </div>
+      <div class="register-page__form--margin">
+        <button
+          class="register-btn"
+          [disabled]="!this.registerForm.valid"
+          (click)="updateAccountData()"
+        >
+          Zmień dane
+        </button>
+        <button class="clear-btn" (click)="clear()">Wyczyść</button>
+      </div>
+    </form>
+
+    <form [formGroup]="this.passwordForm">
       <div class="register-page__form--flex register-page__form--margin">
         <div class="register-page__form--half-width">
           <label class="register-page__form--label" for="password">Hasło</label
@@ -104,17 +129,17 @@
           <div
             class="validator"
             *ngIf="
-              this.registerForm.get('password')?.invalid &&
-              this.registerForm.get('password')?.touched
+              this.passwordForm.get('password')?.invalid &&
+              this.passwordForm.get('password')?.touched
             "
           >
             <span
-              *ngIf="this.registerForm.get('password')?.hasError('required')"
+              *ngIf="this.passwordForm.get('password')?.hasError('required')"
               class="validator--color"
               >To pole nie może być puste</span
             >
             <span
-              *ngIf="this.registerForm.get('password')?.hasError('pattern')"
+              *ngIf="this.passwordForm.get('password')?.hasError('pattern')"
               class="validator--color"
               >Podane hasło musi zawierać minimum 8 znaków, jedną dużą literę,
               jedną małą literę, jedną liczbę i jeden znak specjalny</span
@@ -134,20 +159,20 @@
           <div
             class="validator"
             *ngIf="
-              this.registerForm.get('repeatPassword')?.invalid &&
-              this.registerForm.get('repeatPassword')?.touched
+              this.passwordForm.get('repeatPassword')?.invalid &&
+              this.passwordForm.get('repeatPassword')?.touched
             "
           >
             <span
               *ngIf="
-                this.registerForm.get('repeatPassword')?.hasError('required')
+                this.passwordForm.get('repeatPassword')?.hasError('required')
               "
               class="validator--color"
               >To pole nie może być puste</span
             >
             <span
               *ngIf="
-                this.registerForm.get('repeatPassword')?.hasError('pattern')
+                this.passwordForm.get('repeatPassword')?.hasError('pattern')
               "
               class="validator--color"
               >Podane hasło musi zawierać minimum 8 znaków, jedną dużą literę,
@@ -157,23 +182,12 @@
         </div>
       </div>
       <div class="register-page__form--margin">
-        <label class="register-page__form--label" for="phoneNumber"
-          >Numer telefonu (opcjonalnie)</label
-        ><br />
-        <input
-          type="text"
-          class="input-style"
-          id="phoneNumber"
-          formControlName="phoneNumber"
-        />
-      </div>
-      <div class="register-page__form--margin">
         <button
           class="register-btn"
-          [disabled]="!this.registerForm.valid"
-          (click)="send()"
+          [disabled]="!this.passwordForm.valid"
+          (click)="updatePassword()"
         >
-          Zmień dane
+          Zmień hasło
         </button>
         <button class="clear-btn" (click)="clear()">Wyczyść</button>
       </div>
