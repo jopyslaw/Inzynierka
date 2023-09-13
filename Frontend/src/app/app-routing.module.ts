@@ -11,6 +11,7 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 import { TokenGuard } from './guards/token.guard';
 import { AddOfferComponent } from './components/add-offer/add-offer.component';
 import { AdminAddAccountComponent } from './components/admin-add-account/admin-add-account.component';
+import { PosterDetailsComponent } from './components/poster-details/poster-details.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'orderHistory',
     component: OrderHistoryComponent,
+    canActivate: [TokenGuard],
+  },
+  {
+    path: 'posterDetails/:id',
+    component: PosterDetailsComponent,
     canActivate: [TokenGuard],
   },
 ];

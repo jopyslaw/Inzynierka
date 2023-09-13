@@ -1,8 +1,12 @@
-import { FoodService } from 'src/app/services/food-service/food.service';
+import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import { BasketService } from './../../../services/basket/basket.service';
 import { LocalStorageService } from './../../../services/local-storage/local-storage.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { PosterModel } from 'src/app/shared/models/poster.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-offer-item',
@@ -10,23 +14,19 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./offer-item.component.scss'],
 })
 export class OfferItemComponent implements OnInit {
-  @Input() offerItemData: any;
-  img: any;
+  @Input() offerItemData!: PosterModel;
+
   constructor(
     private basket: BasketService,
-    private foodService: FoodService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     console.log(this.offerItemData);
-    this.foodService.getFoodImg(this.offerItemData.foodId).subscribe((data) => {
-      const objectURL = 'data:image/png;base64,' + data;
-      this.img = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    });
   }
 
   addItemToBasket(): void {
-    this.basket.addItemToBasket(this.offerItemData);
+    this.router.navigateByUrl('posterDetails/' + this.offerItemData._id);
   }
 }

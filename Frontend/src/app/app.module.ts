@@ -37,6 +37,7 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { PosterDetailsComponent } from './components/poster-details/poster-details.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     OrderStateItemComponent,
     OrderHistoryItemComponent,
     ErrorDialogComponent,
+    PosterDetailsComponent,
   ],
   imports: [
     BrowserModule,

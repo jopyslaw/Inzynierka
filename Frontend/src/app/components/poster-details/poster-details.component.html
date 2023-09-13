@@ -1,0 +1,12 @@
+<div class="poster-details__component">
+  <div class="poster-details__container">
+    <div class="poster-details__info">
+      <div class="poster-details__info-card">{{ posterData.title }}</div>
+      <div class="poster-details__info-card">{{ posterData.description }}</div>
+      <div class="poster-details__info-card">{{ posterData.price }}</div>
+    </div>
+    <div class="poster-details__calendar">
+      <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,9 @@
 import { foodModel } from '../../shared/models/food.model';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FoodService } from 'src/app/services/food-service/food.service';
+import { PosterModel } from 'src/app/shared/models/poster.model';
+import { CategoryPosterEnum } from 'src/app/shared/enums/categoryPoster.enum';
+import { PosterService } from 'src/app/services/poster-service/poster.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,29 +12,24 @@ import { FoodService } from 'src/app/services/food-service/food.service';
 })
 export class MenuComponent implements OnInit, OnDestroy {
   filterOption: any[] = [
-    'Pizza',
-    'Dania główne',
-    'Przekąski',
-    'Napoje',
-    'Desery',
-    'Przystawki',
+    CategoryPosterEnum.ARTISTIC,
+    CategoryPosterEnum.HUMAN,
+    CategoryPosterEnum.SCIENCE,
+    CategoryPosterEnum.OTHERS,
   ];
 
   private subsrciption: Subscription = new Subscription();
 
-  items: foodModel[] = [];
-  photos: any[] = [];
+  items: PosterModel[] = [];
 
-  constructor(private service: FoodService) {}
+  constructor(private service: PosterService) {}
   ngOnDestroy(): void {
     this.subsrciption.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.subsrciption.add(
-      this.service.getFood().subscribe((data) => {
-        this.items = data;
-      })
-    );
+    this.service.getAllAvailablePosters().subscribe((response) => {
+      this.items = response;
+    });
   }
 }

@@ -1,9 +1,9 @@
 <div class="addOffer">
   <div class="addOffer__container">
-    <span class="addOffer__title">Dodaj potrawę</span>
+    <span class="addOffer__title">Dodaj ogłoszenie</span>
     <form [formGroup]="addForm">
       <div class="addOffer__item">
-        <label class="addOffer__item--text">Nazwa potrawy</label>
+        <label class="addOffer__item--text">Tytuł ogłoszenia</label>
         <input
           type="text"
           formControlName="title"
@@ -11,20 +11,18 @@
           placeholder="Wpisz nazwę potrawy"
         />
       </div>
-      <!--<div class="addOffer__item">
+      <div class="addOffer__item">
         <label class="addOffer__item--text">Kategoria</label>
         <select formControlName="category" class="addOffer__input" required>
-          <option value="" disabled selected hidden>
-            Wybierz kategorię dania
-          </option>
+          <option value="" disabled selected hidden>Wybierz kategorię</option>
           <option
-            *ngFor="let category of foodCategories"
+            *ngFor="let category of posterCategories"
             value="{{ category }}"
           >
             {{ category }}
           </option>
         </select>
-      </div>-->
+      </div>
       <div class="addOffer__item">
         <label class="addOffer__item--text">Opis</label>
         <input

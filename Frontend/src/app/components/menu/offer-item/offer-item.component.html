@@ -1,16 +1,16 @@
-<div class="offer-item" [style.background-image]="img">
+<div class="offer-item">
   <div class="offer-item__info">
     <div class="offer-item__title">
-      {{ offerItemData.foodName }}
+      {{ offerItemData.title }}
     </div>
     <div class="offer-item__price">{{ offerItemData.price }} zł</div>
-    <div class="offer-item__description">
+    <!--<div class="offer-item__description">
       {{ offerItemData.description }}
-    </div>
+    </div>-->
   </div>
   <div class="offer-item__btn-container">
     <button class="offer-item__btn" (click)="addItemToBasket()">
-      Dodaj do koszyka
+      Pokaż więcej
     </button>
   </div>
 </div>

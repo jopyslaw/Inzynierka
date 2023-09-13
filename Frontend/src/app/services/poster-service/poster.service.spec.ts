@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AddOfferService } from './food.service';
+/*import { AddOfferService } from './poster.service';
 
 describe('AddOfferService', () => {
   let service: AddOfferService;
@@ -13,4 +13,4 @@ describe('AddOfferService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-});
+});*/

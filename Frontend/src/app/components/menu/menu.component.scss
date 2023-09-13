@@ -37,9 +37,10 @@
 
   &__offers {
     margin-top: 20px;
-    width: 95%;
-    flex-wrap: wrap;
+    width: 25%;
+    flex-wrap: nowrap;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: flex-start;
     gap: 20px;
@@ -50,5 +51,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
   }
 }

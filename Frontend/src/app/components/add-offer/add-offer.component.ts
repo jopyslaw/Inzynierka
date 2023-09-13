@@ -1,19 +1,24 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { FoodService } from 'src/app/services/food-service/food.service';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import {
   CalendarOptions,
   DateSelectArg,
   EventClickArg,
-  EventApi,
 } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import listPlugin from '@fullcalendar/list';
 import { UUID } from 'angular2-uuid';
-//import { INITIAL_EVENTS, createEventId } from './event-utils';
+import { TokenService } from 'src/app/services/token/token.service';
+import { PosterModel } from 'src/app/shared/models/poster.model';
+import { AddOfferModel } from './addOfferForm.model';
+import { CategoryPosterEnum } from 'src/app/shared/enums/categoryPoster.enum';
+import { PosterService } from 'src/app/services/poster-service/poster.service';
 
 @Component({
   selector: 'app-add-offer',
@@ -23,50 +28,64 @@ import { UUID } from 'angular2-uuid';
 export class AddOfferComponent implements OnInit {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
-  addForm!: FormGroup;
-  foodCategories: any[] = [];
+  addForm!: FormGroup<AddOfferModel>;
+  posterData!: PosterModel[];
+  posterCategories: any[] = [
+    CategoryPosterEnum.ARTISTIC,
+    CategoryPosterEnum.HUMAN,
+    CategoryPosterEnum.SCIENCE,
+    CategoryPosterEnum.OTHERS,
+  ];
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
     plugins: [timeGridPlugin, interactionPlugin],
     selectable: true,
-
+    events: this.posterData,
+    editable: false,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
-    //eventsSet: this.handleEvents.bind(this)
   };
-  //currentEvents = signal<EventApi[]>([]);
 
   constructor(
-    private addService: FoodService,
+    private addService: PosterService,
     private fb: FormBuilder,
-    private changeDetector: ChangeDetectorRef
+    private token: TokenService
   ) {}
 
   ngOnInit(): void {
-    this.addForm = this.fb.group({
-      title: this.fb.control(null),
-      category: this.fb.control(null),
+    this.addForm = this.fb.group<AddOfferModel>({
+      title: this.fb.control(null, Validators.required),
+      category: this.fb.control(null, Validators.required),
       description: this.fb.control(null),
-      price: this.fb.control(null),
-      /*events: this.fb.group({
-        eventsData: this.fb.array([]),
-      }),*/
+      price: this.fb.control(null, Validators.required),
     });
+
+    this.getAllPosterForUser();
   }
 
   sendForm(): void {
+    if (!this.addForm.valid) {
+      this.addForm.markAllAsTouched();
+      return;
+    }
+
     const calendarApi = this.calendarComponent.getApi();
     const data = this.addForm.getRawValue();
-    const events = calendarApi.getEvents().map((event) => {
-      return event.toJSON();
+    const events = calendarApi.getEvents().filter((event) => {
+      const index = this.posterData.findIndex(
+        (e) => e.id === event.toJSON()['id']
+      );
+      if (index === -1) {
+        return true;
+      }
+      return false;
     });
     data.events = events;
-    console.log(events);
-    console.log(data);
+    data.userId = this.token.getUserId() as string;
 
-    /*this.addService.addFood(data).subscribe((data) => {
+    this.addService.addPoster(data).subscribe((data) => {
       console.log('data was send');
-    });*/
+    });
   }
 
   clearFrom(): void {
@@ -80,19 +99,18 @@ export class AddOfferComponent implements OnInit {
 
     calendarApi.addEvent({
       id: UUID.UUID(),
-      title: 'Korki',
+      title: this.addForm.controls.title.value ?? 'Korki',
       start: selectInfo.startStr,
       end: selectInfo.endStr,
       allDay: selectInfo.allDay,
+      reserved: false,
     });
-    console.log(
-      calendarApi.getEvents().forEach((d) => {
-        console.log(d.toJSON());
-      })
-    );
   }
 
   handleEventClick(clickInfo: EventClickArg) {
+    if (this.isEditable(clickInfo.event.id)) {
+      return;
+    }
     if (
       confirm(
         `Are you sure you want to delete the event '${clickInfo.event.title}'`
@@ -100,5 +118,28 @@ export class AddOfferComponent implements OnInit {
     ) {
       clickInfo.event.remove();
     }
+  }
+
+  getAllPosterForUser(): void {
+    if (!this.token.getUserId()) {
+      return;
+    }
+
+    this.addService
+      .getAllPosters(this.token.getUserId() as string)
+      .subscribe((data) => {
+        const posterData = data.map((event) =>
+          event.events.map((e) => {
+            return { ...e, backgroundColor: 'gray' };
+          })
+        );
+        this.posterData = posterData.flatMap((event) => event) as any;
+        this.calendarComponent.events = this.posterData;
+      });
+  }
+
+  isEditable(id: string): boolean {
+    const eventIndex = this.posterData.findIndex((d) => d.id === id);
+    return eventIndex === -1 ? false : true;
   }
 }
