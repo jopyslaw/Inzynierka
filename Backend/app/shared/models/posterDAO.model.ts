@@ -7,14 +7,5 @@ export interface PosterDAO {
   category: CategoryEnum;
   description: string;
   price: string;
-  events: [];
-}
-
-export interface EventDAO {
-  id: string;
-  title: string;
-  start: string;
-  end: string;
-  allDay: boolean;
-  editable: boolean;
+  events?: [];
 }

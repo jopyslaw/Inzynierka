@@ -36,6 +36,7 @@ const operations = (context: Context) => {
 
   const createNewOrUpdate = async (userData: UserDaoModel) => {
     const user = await UserDAO.createNewOrUpdate(userData);
+    console.log("userxDD", user);
     if (await userData.password) {
       return await passwordDAO.createOrUpdate({
         userId: user.id,

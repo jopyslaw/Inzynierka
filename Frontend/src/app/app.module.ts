@@ -38,6 +38,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CookieService } from 'ngx-cookie-service';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PosterDetailsComponent } from './components/poster-details/poster-details.component';
+import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { PosterDetailsComponent } from './components/poster-details/poster-detai
     OrderHistoryItemComponent,
     ErrorDialogComponent,
     PosterDetailsComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

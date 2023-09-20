@@ -1,47 +1,56 @@
 import mongoose from "mongoose";
-import { CategoryEnum } from "../shared/enums/category.enum";
-import { PosterDAO } from "../shared/models/posterDAO.model";
+import { PosterEventDAO } from "../shared/models/posterEventDAO.model";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
 
-const posterSchema = new mongoose.Schema(
+const posterEventsSchema = new mongoose.Schema(
   {
-    userId: {
+    posterId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "poster",
       required: true,
     },
     title: { type: String, required: true },
-    category: {
-      type: String,
-      enum: CategoryEnum,
-      default: CategoryEnum.OTHERS,
-    },
-    description: { type: String },
-    price: { type: String, required: true },
+    start: { type: String, required: true },
+    end: { type: String, required: true },
+    allDay: { type: Boolean, required: true, default: false },
   },
   {
-    collection: "poster",
+    collection: "posterEvent",
   }
 );
 
-const PosterModel = mongoose.model<PosterDAO>("poster", posterSchema);
+const PosterEventModel = mongoose.model<PosterEventDAO>(
+  "posterEvent",
+  posterEventsSchema
+);
 
-const createNewOrUpdate = (poster: PosterDAO) => {
+const createNewOrUpdate = (poster: PosterEventDAO) => {
+  console.log("posterEvent", poster);
   return Promise.resolve()
     .then(() => {
       if (!poster.id) {
-        return new PosterModel(poster).save().then((result) => {
-          console.log(result);
-          if (result) {
-            return convert(result);
-          }
-        });
+        console.log("new");
+        return new PosterEventModel({
+          ...poster,
+          posterId: poster.posterId,
+        })
+          .save()
+          .then((result) => {
+            console.log(result);
+            if (result) {
+              return convert(result);
+            }
+          });
       } else {
-        return PosterModel.findByIdAndUpdate(poster.id, _.omit(poster, "id"), {
-          new: true,
-        });
+        return PosterEventModel.findByIdAndUpdate(
+          poster.id,
+          _.omit(poster, "id"),
+          {
+            new: true,
+          }
+        );
       }
     })
     .catch((error) => {
@@ -54,7 +63,7 @@ const createNewOrUpdate = (poster: PosterDAO) => {
 };
 
 const getPosterById = async (id: string) => {
-  const result = await PosterModel.findOne({ _id: id }, null, {
+  const result = await PosterEventModel.findOne({ _id: id }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -65,11 +74,11 @@ const getPosterById = async (id: string) => {
 };
 
 const removeById = async (id: string) => {
-  return await PosterModel.findByIdAndRemove(id);
+  return await PosterEventModel.findByIdAndRemove(id);
 };
 
 const getAllUserPosters = async (userId: string) => {
-  const result = await PosterModel.find({ userId: userId }, null, {
+  const result = await PosterEventModel.find({ userId: userId }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -81,7 +90,7 @@ const getAllUserPosters = async (userId: string) => {
 };
 
 const getAllPosters = async () => {
-  const result = await PosterModel.find({}, null, { lean: "toObject" });
+  const result = await PosterEventModel.find({}, null, { lean: "toObject" });
   if (result) {
     return result;
   }
@@ -95,5 +104,5 @@ export default {
   removeById,
   getAllUserPosters,
   getAllPosters,
-  model: PosterModel,
+  model: PosterEventModel,
 };

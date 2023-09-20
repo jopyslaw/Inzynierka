@@ -7,6 +7,7 @@ export const posterEndpoint = (router: Router) => {
     "/api/poster/add",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
+        console.log(request.body);
         const result = await businessContainer
           .getPosterManager()
           .createNewOrUpdate(request.body);
@@ -47,6 +48,21 @@ export const posterEndpoint = (router: Router) => {
     }
   );
 
+  router.get(
+    "/api/poster/getAll",
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const result = await businessContainer
+          .getPosterManager()
+          .getAllPosters();
+        console.log(result);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
+
   router.delete(
     "api/poster/remove/:posterId",
     async (request: Request, response: Response, next: NextFunction) => {
@@ -61,4 +77,6 @@ export const posterEndpoint = (router: Router) => {
       }
     }
   );
+
+  router.put("api/poster/reserve")
 };
