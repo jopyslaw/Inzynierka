@@ -19,6 +19,7 @@ import { PosterModel } from 'src/app/shared/models/poster.model';
 import { AddOfferModel } from './addOfferForm.model';
 import { CategoryPosterEnum } from 'src/app/shared/enums/categoryPoster.enum';
 import { PosterService } from 'src/app/services/poster-service/poster.service';
+import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
 
 @Component({
   selector: 'app-add-offer',
@@ -49,7 +50,8 @@ export class AddOfferComponent implements OnInit {
   constructor(
     private addService: PosterService,
     private fb: FormBuilder,
-    private token: TokenService
+    private token: TokenService,
+    private posterEventService: PosterEventsService
   ) {}
 
   ngOnInit(): void {
@@ -125,14 +127,12 @@ export class AddOfferComponent implements OnInit {
       return;
     }
 
-    this.addService
-      .getAllPosters(this.token.getUserId() as string)
+    this.posterEventService
+      .getAllEventsForUser(this.token.getUserId() as string)
       .subscribe((data) => {
-        const posterData = data.map((event) =>
-          event.events.map((e) => {
-            return { ...e, backgroundColor: 'gray' };
-          })
-        );
+        const posterData = data.map((event) => {
+          return { ...event, backgroundColor: 'gray' };
+        });
         this.posterData = posterData.flatMap((event) => event) as any;
         this.calendarComponent.events = this.posterData;
       });

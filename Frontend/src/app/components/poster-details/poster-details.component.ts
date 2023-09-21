@@ -11,6 +11,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
 
 @Component({
   selector: 'app-poster-details',
@@ -35,7 +36,8 @@ export class PosterDetailsComponent implements OnInit {
     private service: PosterService,
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private posterEventsService: PosterEventsService
   ) {}
 
   ngOnInit(): void {
@@ -58,6 +60,11 @@ export class PosterDetailsComponent implements OnInit {
       console.log(response);
       this.posterData = response;
       this.events = response.events;
+      this.calendarComponent.events = this.events;
+    });
+
+    this.posterEventsService.getAllEventsForPoster(id).subscribe((response) => {
+      this.events = response;
       this.calendarComponent.events = this.events;
     });
   }

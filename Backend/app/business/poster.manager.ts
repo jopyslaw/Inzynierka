@@ -10,7 +10,10 @@ const operations = (context: Context) => {
     const posterData = await posterDAO.createNewOrUpdate(preparedData);
     console.log("posterData", posterData);
     if (posterData) {
-      await posterEventsDAO.createNewOrUpdate(posterData);
+      const data = events?.map((event: any) => {
+        return { ...event, posterId: posterData.id, userId: posterData.userId };
+      });
+      await posterEventsDAO.createNewOrUpdate(data as any);
       return posterData;
     }
   };

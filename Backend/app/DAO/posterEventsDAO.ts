@@ -11,6 +11,11 @@ const posterEventsSchema = new mongoose.Schema(
       ref: "poster",
       required: true,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
     title: { type: String, required: true },
     start: { type: String, required: true },
     end: { type: String, required: true },
@@ -26,44 +31,18 @@ const PosterEventModel = mongoose.model<PosterEventDAO>(
   posterEventsSchema
 );
 
-const createNewOrUpdate = (poster: PosterEventDAO) => {
-  console.log("posterEvent", poster);
-  return Promise.resolve()
-    .then(() => {
-      if (!poster.id) {
-        console.log("new");
-        return new PosterEventModel({
-          ...poster,
-          posterId: poster.posterId,
-        })
-          .save()
-          .then((result) => {
-            console.log(result);
-            if (result) {
-              return convert(result);
-            }
-          });
-      } else {
-        return PosterEventModel.findByIdAndUpdate(
-          poster.id,
-          _.omit(poster, "id"),
-          {
-            new: true,
-          }
-        );
-      }
-    })
-    .catch((error) => {
-      if (error.name === "ValidationError") {
-        error = error.errors[Object.keys(error.errors)[0]];
-        throw errorUtils.new(ErrorCodes.BAD_REQUEST.code, error.message);
-      }
-      throw error;
-    });
+const createNewOrUpdate = async (poster: PosterEventDAO[]) => {
+  const result = await PosterEventModel.insertMany(poster);
+
+  if (result) {
+    return result;
+  }
+
+  throw errorUtils.new(ErrorCodes.BAD_REQUEST.code, "User not found");
 };
 
-const getPosterById = async (id: string) => {
-  const result = await PosterEventModel.findOne({ _id: id }, null, {
+const getPosterEventById = async (id: string) => {
+  const result = await PosterEventModel.find({ posterId: id }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -77,7 +56,7 @@ const removeById = async (id: string) => {
   return await PosterEventModel.findByIdAndRemove(id);
 };
 
-const getAllUserPosters = async (userId: string) => {
+const getAllUserPostersEvents = async (userId: string) => {
   const result = await PosterEventModel.find({ userId: userId }, null, {
     lean: "toObject",
   });
@@ -100,9 +79,9 @@ const getAllPosters = async () => {
 
 export default {
   createNewOrUpdate,
-  getPosterById,
+  getPosterEventById,
   removeById,
-  getAllUserPosters,
+  getAllUserPostersEvents,
   getAllPosters,
   model: PosterEventModel,
 };
