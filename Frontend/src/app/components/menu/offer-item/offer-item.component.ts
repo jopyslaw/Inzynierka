@@ -1,5 +1,4 @@
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
-import { BasketService } from './../../../services/basket/basket.service';
 import { LocalStorageService } from './../../../services/local-storage/local-storage.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -16,11 +15,7 @@ import { Router } from '@angular/router';
 export class OfferItemComponent implements OnInit {
   @Input() offerItemData!: PosterModel;
 
-  constructor(
-    private basket: BasketService,
-    private sanitizer: DomSanitizer,
-    private router: Router
-  ) {}
+  constructor(private sanitizer: DomSanitizer, private router: Router) {}
 
   ngOnInit(): void {
     console.log(this.offerItemData);

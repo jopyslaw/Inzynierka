@@ -1,10 +1,7 @@
-import { BasketService } from './../../services/basket/basket.service';
 import { TokenService } from '../../services/token/token.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import jwtDecode from 'jwt-decode';
-import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,11 +14,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   role = '';
 
-  constructor(
-    private token: TokenService,
-    private router: Router,
-    private basket: BasketService
-  ) {}
+  constructor(private token: TokenService, private router: Router) {}
 
   ngOnInit(): void {
     this.subscription.add(
@@ -30,12 +23,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         if (this.token.getRole()) {
           this.role = this.token.getRole() ?? '';
         }
-      })
-    );
-
-    this.subscription.add(
-      this.basket.numberOfElements.subscribe((number) => {
-        this.numberOfItemsInBasket = number;
       })
     );
   }

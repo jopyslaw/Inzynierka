@@ -1,8 +1,6 @@
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
-import { OrdersStateComponent } from './components/orders-state/orders-state.component';
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { BasketComponent } from './components/basket/basket.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { NgModule } from '@angular/core';
@@ -23,16 +21,10 @@ const routes: Routes = [
     canActivate: [TokenGuard],
   },
   { path: 'menu', component: MenuComponent, canActivate: [TokenGuard] },
-  { path: 'basket', component: BasketComponent, canActivate: [TokenGuard] },
   { path: 'addOffer', component: AddOfferComponent, canActivate: [TokenGuard] },
   {
     path: 'addAccount',
     component: AdminAddAccountComponent,
-    canActivate: [TokenGuard],
-  },
-  {
-    path: 'ordersStatus',
-    component: OrdersStateComponent,
     canActivate: [TokenGuard],
   },
   {

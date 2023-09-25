@@ -3,6 +3,7 @@ import { PosterEventDAO } from "../shared/models/posterEventDAO.model";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
+import reservedEventModel from "./reservedEventDAO";
 
 const posterEventsSchema = new mongoose.Schema(
   {
@@ -77,11 +78,22 @@ const getAllPosters = async () => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not exists");
 };
 
+const getAllPosterWithIds = async (eventIds: string[]) => {
+  const result = await PosterEventModel.find({ _id: { $in: eventIds } }, null, {
+    lean: "toObject",
+  });
+
+  if (result) {
+    return result;
+  }
+};
+
 export default {
   createNewOrUpdate,
   getPosterEventById,
   removeById,
   getAllUserPostersEvents,
   getAllPosters,
+  getAllPosterWithIds,
   model: PosterEventModel,
 };

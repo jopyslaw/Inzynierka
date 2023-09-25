@@ -134,6 +134,7 @@ export class AddOfferComponent implements OnInit {
           return { ...event, backgroundColor: 'gray' };
         });
         this.posterData = posterData.flatMap((event) => event) as any;
+        console.log(this.posterData);
         this.calendarComponent.events = this.posterData;
       });
   }

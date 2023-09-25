@@ -2,15 +2,15 @@ import { NextFunction, Request, Response, Router } from "express";
 import businessContainer from "../business/business.container";
 import { errorUtils } from "../service/applicationException";
 
-export const posterEventsEndpoint = (router: Router) => {
-  router.get(
-    "/api/posterEvents/getAll/:userId",
+export const reservationEventsEndpoint = (router: Router) => {
+  router.post(
+    "/api/reserve/add",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        const userId = request.params.userId;
+        console.log(request.body);
         const result = await businessContainer
-          .getPosterEventsManager()
-          .getAllPostersEventsByUserId(userId);
+          .getReservedEventsManager()
+          .createNewOrUpdate(request.body);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -19,30 +19,28 @@ export const posterEventsEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/posterEvents/get/:posterId",
+    "/api/reserve/getAll/:userId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        console.log("working");
+        const userId = request.params.userId;
+        const result = await businessContainer
+          .getReservedEventsManager()
+          .getAllPostersByUserId(userId);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
+
+  router.get(
+    "/api/reserve/get/:posterId",
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
         const posterId = request.params.posterId;
         const result = await businessContainer
-          .getPosterEventsManager()
-          .getPosterEventsById(posterId);
-        response.status(200).send(result);
-      } catch (error: any) {
-        errorUtils.errorHandler(error, response);
-      }
-    }
-  );
-
-  router.get(
-    "api/posterEvents/reservedUserEvents/:userId",
-    async (request: Request, response: Response, next: NextFunction) => {
-      try {
-        console.log("asdsadada");
-        const userId = request.params.userId;
-        const result = await businessContainer
-          .getPosterEventsManager()
-          .getAllReseveredEventsForUser(userId);
+          .getReservedEventsManager()
+          .getPosterById(posterId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -51,12 +49,12 @@ export const posterEventsEndpoint = (router: Router) => {
   );
 
   router.delete(
-    "api/posterEvents/remove/:posterEventId",
+    "api/reserve/remove/:posterId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        const posterId = request.params.posterEventId;
+        const posterId = request.params.posterId;
         const result = await businessContainer
-          .getPosterEventsManager()
+          .getPosterManager()
           .removeById(posterId);
         response.status(200).send(result);
       } catch (error: any) {

@@ -1,12 +1,32 @@
 import { Context } from "vm";
 import posterEventsDAO from "../DAO/posterEventsDAO";
+import reservedEventDAO from "../DAO/reservedEventDAO";
 
 const operations = (context: Context) => {
   const getPosterEventsById = async (id: string) => {
-    console.log("Im working xDDD", id);
     const poster = await posterEventsDAO.getPosterEventById(id);
+    const reservedPosters = await reservedEventDAO.getAllReservationForPosterId(
+      id
+    );
     if (poster) {
-      return poster;
+      console.log("poster", poster);
+
+      console.log("reservedPoster", reservedPosters);
+
+      const preparedData = poster.map((poster) => {
+        return {
+          ...poster,
+          reserved:
+            reservedPosters?.find(
+              (reservation) =>
+                reservation.posterEventId.toString() === poster._id.toString()
+            )?.reserved ?? null,
+        };
+      });
+
+      console.log("preparedData", preparedData);
+
+      return preparedData;
     }
   };
 
@@ -24,10 +44,27 @@ const operations = (context: Context) => {
     }
   };
 
+  const getAllReseveredEventsForUser = async (userId: string) => {
+    console.log("sadadad");
+    const reservedData = await reservedEventDAO.getAllReservationsForUserId(
+      userId
+    );
+    const eventsIds = reservedData?.map((event) => event.posterEventId);
+
+    if (eventsIds) {
+      const eventsForUser = await posterEventsDAO.getAllPosterWithIds(
+        eventsIds
+      );
+
+      return eventsForUser;
+    }
+  };
+
   return {
     getPosterEventsById,
     getAllPostersEventsByUserId,
     removePosterById,
+    getAllReseveredEventsForUser,
   };
 };
 

@@ -2,7 +2,6 @@ import { Context } from "vm";
 import { PosterDAO } from "../shared/models/posterDAO.model";
 import posterDAO from "../DAO/posterDAO";
 import posterEventsDAO from "../DAO/posterEventsDAO";
-import { PosterEventDAO } from "../shared/models/posterEventDAO.model";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (poster: PosterDAO) => {

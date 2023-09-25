@@ -12,13 +12,6 @@
     <a routerLink="login" *ngIf="!isLogged">
       <div class="navbar__button">Zaloguj się</div>
     </a>
-    <a routerLink="basket" *ngIf="isLogged">
-      <div class="navbar__button">
-        <mat-icon [matBadge]="numberOfItemsInBasket" matBadgeColor="warn"
-          >shopping_cart</mat-icon
-        >
-      </div>
-    </a>
     <a routerLink="edit-account" *ngIf="isLogged">
       <div class="navbar__button">Konto</div>
     </a>

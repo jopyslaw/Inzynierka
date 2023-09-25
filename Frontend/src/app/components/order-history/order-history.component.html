@@ -1,19 +1,9 @@
 <div class="main-container">
   <div class="basket">
-    <div class="basket__items">
-      <div
-        style="text-align: center; font-size: 40px; padding: 10px; color: white"
-      >
-        Historia zamówień
-      </div>
-      <ul *ngIf="orders.length !== 0">
-        <app-order-history-item
-          #basketItems
-          *ngFor="let item of orders"
-          [item]="item"
-        ></app-order-history-item>
-      </ul>
-      <div *ngIf="orders.length === 0">Historia jest pusta</div>
-    </div>
+    <full-calendar
+      class="calendar"
+      #calendar
+      [options]="calendarOptions"
+    ></full-calendar>
   </div>
 </div>
