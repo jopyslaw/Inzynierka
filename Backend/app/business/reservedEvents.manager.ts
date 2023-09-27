@@ -27,7 +27,8 @@ const operations = (context: Context) => {
     }
   };
 
-  const removeReservationById = async (posterId: string) => {
+  const removeById = async (posterId: string) => {
+    console.log("delete");
     const poster = await reservedEventDAO.removeById(posterId);
     if (poster) {
       return poster;
@@ -56,7 +57,7 @@ const operations = (context: Context) => {
     createNewOrUpdate,
     getAllReservationForTutor,
     getReservationById,
-    removeReservationById,
+    removeById,
     getAllReservationForPosterId,
     getAllReservationsForUserId,
   };

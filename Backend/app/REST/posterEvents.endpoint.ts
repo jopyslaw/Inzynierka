@@ -35,7 +35,7 @@ export const posterEventsEndpoint = (router: Router) => {
   );
 
   router.get(
-    "api/posterEvents/reservedUserEvents/:userId",
+    "/api/posterEvents/reservedUserEvents/:userId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         console.log("asdsadada");

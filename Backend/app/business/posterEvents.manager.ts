@@ -49,14 +49,30 @@ const operations = (context: Context) => {
     const reservedData = await reservedEventDAO.getAllReservationsForUserId(
       userId
     );
+
+    console.log(reservedData);
+
     const eventsIds = reservedData?.map((event) => event.posterEventId);
+
+    console.log(eventsIds);
 
     if (eventsIds) {
       const eventsForUser = await posterEventsDAO.getAllPosterWithIds(
         eventsIds
       );
 
-      return eventsForUser;
+      const preparedData = eventsForUser?.map((event) => {
+        return {
+          ...event,
+          reservedId:
+            reservedData?.find(
+              (reservation) =>
+                reservation.posterEventId.toString() === event._id.toString()
+            )?._id ?? null,
+        };
+      });
+
+      return preparedData;
     }
   };
 

@@ -49,12 +49,13 @@ export const reservationEventsEndpoint = (router: Router) => {
   );
 
   router.delete(
-    "api/reserve/remove/:posterId",
+    "/api/reserve/remove/:posterId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
+        console.log("delete");
         const posterId = request.params.posterId;
         const result = await businessContainer
-          .getPosterManager()
+          .getReservedEventsManager()
           .removeById(posterId);
         response.status(200).send(result);
       } catch (error: any) {

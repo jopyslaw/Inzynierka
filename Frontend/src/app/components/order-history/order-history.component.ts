@@ -58,7 +58,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       maxWidth: '400px',
       data: {
         title: 'Confirm',
-        message: 'Czy chcesz zarezrwować wizytę',
+        message: 'Czy chcesz usunąć wizytę',
         additionalData,
       },
     });
@@ -72,8 +72,10 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   removeVisit(data: any): void {
     this.posterEventsService
-      .removeEventFromUser(data.extendedProps._id)
-      .subscribe((d) => {});
+      .removeEventFromUser(data.extendedProps.reservedId)
+      .subscribe((d) => {
+        this.getAllReservations();
+      });
   }
 
   getAllReservations(): void {
