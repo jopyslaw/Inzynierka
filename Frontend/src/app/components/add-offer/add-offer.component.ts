@@ -20,6 +20,7 @@ import { AddOfferModel } from './addOfferForm.model';
 import { CategoryPosterEnum } from 'src/app/shared/enums/categoryPoster.enum';
 import { PosterService } from 'src/app/services/poster-service/poster.service';
 import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
+import { UtilsService } from 'src/app/services/utils/utils.service';
 
 @Component({
   selector: 'app-add-offer',
@@ -45,13 +46,17 @@ export class AddOfferComponent implements OnInit {
     editable: false,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
+    validRange: {
+      start: '',
+    },
   };
 
   constructor(
     private addService: PosterService,
     private fb: FormBuilder,
     private token: TokenService,
-    private posterEventService: PosterEventsService
+    private posterEventService: PosterEventsService,
+    private utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +68,7 @@ export class AddOfferComponent implements OnInit {
     });
 
     this.getAllPosterForUser();
+    this.getCurrentDate();
   }
 
   sendForm(): void {
@@ -142,5 +148,16 @@ export class AddOfferComponent implements OnInit {
   isEditable(id: string): boolean {
     const eventIndex = this.posterData.findIndex((d) => d.id === id);
     return eventIndex === -1 ? false : true;
+  }
+
+  getCurrentDate(): void {
+    this.utilsService.getCurrentDate().subscribe((repsonse) => {
+      this.calendarComponent.options = {
+        ...this.calendarComponent.options,
+        validRange: {
+          start: repsonse.stringDate,
+        },
+      };
+    });
   }
 }

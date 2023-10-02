@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TokenService } from 'src/app/services/token/token.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
+import { UtilsService } from 'src/app/services/utils/utils.service';
 
 @Component({
   selector: 'app-order-history',
@@ -17,6 +18,10 @@ import { PosterEventsService } from 'src/app/services/poster-events/poster-event
 })
 export class OrderHistoryComponent implements OnInit, OnDestroy {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+  validRange = {
+    start: '',
+  };
+
   data!: any[];
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
@@ -25,15 +30,18 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     events: [],
     editable: false,
     eventClick: this.handleEventClick.bind(this),
+    validRange: this.validRange,
   };
 
   constructor(
     private dialog: MatDialog,
     private tokenService: TokenService,
-    private posterEventsService: PosterEventsService
+    private posterEventsService: PosterEventsService,
+    private utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
+    this.getCurrentDate();
     this.getAllReservations();
   }
 
@@ -89,5 +97,17 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
           this.calendarComponent.events = this.data;
         });
     }
+  }
+
+  getCurrentDate(): void {
+    this.utilsService.getCurrentDate().subscribe((repsonse) => {
+      this.validRange.start = repsonse.stringDate;
+      this.calendarComponent.options = {
+        ...this.calendarComponent.options,
+        validRange: {
+          start: repsonse.stringDate,
+        },
+      };
+    });
   }
 }

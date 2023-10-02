@@ -2,6 +2,7 @@ import posterManager from "./poster.manager";
 import posterEventsManager from "./posterEvents.manager";
 import reservedEventsManager from "./reservedEvents.manager";
 import userManager from "./user.manager";
+import utilsManager from "./utils.manager";
 
 function getter(manager: any, request?: any) {
   return function (this: any) {
@@ -14,4 +15,5 @@ export default {
   getPosterManager: getter(posterManager),
   getPosterEventsManager: getter(posterEventsManager),
   getReservedEventsManager: getter(reservedEventsManager),
+  getUtilsManager: getter(utilsManager),
 };
