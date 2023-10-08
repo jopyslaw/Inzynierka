@@ -51,12 +51,12 @@ const removeById = async (id: string) => {
 };
 
 const getAllUserAdvertisementEvents = async (eventsIds: string[]) => {
+  const result = await AdvertisementEventModel.find(
+    { advertisementId: { $in: eventsIds } },
+    null,
+    { lean: "toObject" }
+  );
 
-  const result = await AdvertisementEventModel.find({ _id: { $in: eventsIds } }, null, {lean: 'toObject'});
-
-  /*(const result = await AdvertisementEventModel.find({ userId: userId }, null, {
-    lean: "toObject",
-  });*/
   if (result) {
     return result;
   }

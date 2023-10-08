@@ -3,7 +3,7 @@ import { CategoryEnum } from "../shared/enums/category.enum";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
-import { AdvertisementDAO } from "../shared/models/AdvertisementDAO.model";
+import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
 
 const advertisementSchema = new mongoose.Schema(
   {
