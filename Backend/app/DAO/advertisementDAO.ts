@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 import { CategoryEnum } from "../shared/enums/category.enum";
-import { PosterDAO } from "../shared/models/posterDAO.model";
+import { AdvertisementDAO } from "../shared/models/AdvertisementDAO.model";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
 
-const posterSchema = new mongoose.Schema(
+const advertisementSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -22,26 +22,33 @@ const posterSchema = new mongoose.Schema(
     price: { type: String, required: true },
   },
   {
-    collection: "poster",
+    collection: "advertisement",
   }
 );
 
-const PosterModel = mongoose.model<PosterDAO>("poster", posterSchema);
+const AdvertisementModel = mongoose.model<AdvertisementDAO>(
+  "advertisement",
+  advertisementSchema
+);
 
-const createNewOrUpdate = (poster: PosterDAO) => {
+const createNewOrUpdate = (poster: AdvertisementDAO) => {
   return Promise.resolve()
     .then(() => {
       if (!poster.id) {
-        return new PosterModel(poster).save().then((result) => {
+        return new AdvertisementModel(poster).save().then((result) => {
           console.log(result);
           if (result) {
             return convert(result);
           }
         });
       } else {
-        return PosterModel.findByIdAndUpdate(poster.id, _.omit(poster, "id"), {
-          new: true,
-        });
+        return AdvertisementModel.findByIdAndUpdate(
+          poster.id,
+          _.omit(poster, "id"),
+          {
+            new: true,
+          }
+        );
       }
     })
     .catch((error) => {
@@ -54,7 +61,7 @@ const createNewOrUpdate = (poster: PosterDAO) => {
 };
 
 const getPosterById = async (id: string) => {
-  const result = await PosterModel.findOne({ _id: id }, null, {
+  const result = await AdvertisementModel.findOne({ _id: id }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -65,11 +72,11 @@ const getPosterById = async (id: string) => {
 };
 
 const removeById = async (id: string) => {
-  return await PosterModel.findByIdAndRemove(id);
+  return await AdvertisementModel.findByIdAndRemove(id);
 };
 
 const getAllUserPosters = async (userId: string) => {
-  const result = await PosterModel.find({ userId: userId }, null, {
+  const result = await AdvertisementModel.find({ userId: userId }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -81,7 +88,7 @@ const getAllUserPosters = async (userId: string) => {
 };
 
 const getAllPosters = async () => {
-  const result = await PosterModel.find({}, null, { lean: "toObject" });
+  const result = await AdvertisementModel.find({}, null, { lean: "toObject" });
   if (result) {
     return result;
   }
@@ -95,5 +102,5 @@ export default {
   removeById,
   getAllUserPosters,
   getAllPosters,
-  model: PosterModel,
+  model: AdvertisementModel,
 };

@@ -1,7 +1,7 @@
 import { Context } from "vm";
-import posterDAO from "../DAO/posterDAO";
+import posterDAO from "../DAO/advertisementDAO";
 import reservedEventDAO from "../DAO/reservedEventDAO";
-import { PosterDAO } from "../shared/models/posterDAO.model";
+import { AdvertisementDAO } from "../shared/models/AdvertisementDAO.model";
 import { ReservedPosterEventDAO } from "../shared/models/reservedPosterEventDAO.model";
 
 const operations = (context: Context) => {

@@ -30,7 +30,7 @@ const ReservedEventSchema = new mongoose.Schema(
     reserved: { type: Boolean, default: true },
   },
   {
-    collection: "posterReservedEvent",
+    collection: "advertisementReservedEvent",
   }
 );
 

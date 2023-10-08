@@ -1,10 +1,10 @@
 import { Context } from "vm";
-import { PosterDAO } from "../shared/models/posterDAO.model";
-import posterDAO from "../DAO/posterDAO";
-import posterEventsDAO from "../DAO/posterEventsDAO";
+import { AdvertisementDAO } from "../shared/models/AdvertisementDAO.model";
+import posterDAO from "../DAO/advertisementDAO";
+import posterEventsDAO from "../DAO/advertisementEventDAO";
 
 const operations = (context: Context) => {
-  const createNewOrUpdate = async (poster: PosterDAO) => {
+  const createNewOrUpdate = async (poster: AdvertisementDAO) => {
     const { events, ...preparedData } = poster;
     const posterData = await posterDAO.createNewOrUpdate(preparedData);
     console.log("posterData", posterData);

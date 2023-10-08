@@ -1,5 +1,5 @@
 import { Context } from "vm";
-import posterEventsDAO from "../DAO/posterEventsDAO";
+import posterEventsDAO from "../DAO/advertisementEventDAO";
 import reservedEventDAO from "../DAO/reservedEventDAO";
 
 const operations = (context: Context) => {

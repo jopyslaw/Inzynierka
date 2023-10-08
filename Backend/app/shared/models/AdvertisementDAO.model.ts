@@ -1,6 +1,6 @@
 import { CategoryEnum } from "../enums/category.enum";
 
-export interface PosterDAO {
+export interface AdvertisementDAO {
   id?: string;
   userId: string;
   title: string;

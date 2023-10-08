@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
-import { PosterEventDAO } from "../shared/models/posterEventDAO.model";
+import { AdvertisementEventDAO } from "../shared/models/advertisementEventDAO.model";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
 import reservedEventModel from "./reservedEventDAO";
 
-const posterEventsSchema = new mongoose.Schema(
+const AdvertisementEventSchema = new mongoose.Schema(
   {
-    posterId: {
+    advertisementId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "poster",
+      ref: "advertisement",
       required: true,
     },
     userId: {
@@ -23,17 +23,17 @@ const posterEventsSchema = new mongoose.Schema(
     allDay: { type: Boolean, required: true, default: false },
   },
   {
-    collection: "posterEvent",
+    collection: "advertisementEvent",
   }
 );
 
-const PosterEventModel = mongoose.model<PosterEventDAO>(
-  "posterEvent",
-  posterEventsSchema
+const AdvertisementEventModel = mongoose.model<AdvertisementEventDAO>(
+  "advertisementEvent",
+  AdvertisementEventSchema
 );
 
-const createNewOrUpdate = async (poster: PosterEventDAO[]) => {
-  const result = await PosterEventModel.insertMany(poster);
+const createNewOrUpdate = async (poster: AdvertisementEventDAO[]) => {
+  const result = await AdvertisementEventModel.insertMany(poster);
 
   if (result) {
     return result;
@@ -43,7 +43,7 @@ const createNewOrUpdate = async (poster: PosterEventDAO[]) => {
 };
 
 const getPosterEventById = async (id: string) => {
-  const result = await PosterEventModel.find({ posterId: id }, null, {
+  const result = await AdvertisementEventModel.find({ posterId: id }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -54,11 +54,11 @@ const getPosterEventById = async (id: string) => {
 };
 
 const removeById = async (id: string) => {
-  return await PosterEventModel.findByIdAndRemove(id);
+  return await AdvertisementEventModel.findByIdAndRemove(id);
 };
 
 const getAllUserPostersEvents = async (userId: string) => {
-  const result = await PosterEventModel.find({ userId: userId }, null, {
+  const result = await AdvertisementEventModel.find({ userId: userId }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -70,7 +70,9 @@ const getAllUserPostersEvents = async (userId: string) => {
 };
 
 const getAllPosters = async () => {
-  const result = await PosterEventModel.find({}, null, { lean: "toObject" });
+  const result = await AdvertisementEventModel.find({}, null, {
+    lean: "toObject",
+  });
   if (result) {
     return result;
   }
@@ -79,9 +81,13 @@ const getAllPosters = async () => {
 };
 
 const getAllPosterWithIds = async (eventIds: string[]) => {
-  const result = await PosterEventModel.find({ _id: { $in: eventIds } }, null, {
-    lean: "toObject",
-  });
+  const result = await AdvertisementEventModel.find(
+    { _id: { $in: eventIds } },
+    null,
+    {
+      lean: "toObject",
+    }
+  );
 
   if (result) {
     return result;
@@ -95,5 +101,5 @@ export default {
   getAllUserPostersEvents,
   getAllPosters,
   getAllPosterWithIds,
-  model: PosterEventModel,
+  model: AdvertisementEventModel,
 };

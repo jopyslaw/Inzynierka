@@ -1,5 +1,5 @@
-export interface PosterEventDAO {
-  posterId: string;
+export interface AdvertisementEventDAO {
+  advertisementId: string;
   id?: string;
   title: string;
   start: string;
