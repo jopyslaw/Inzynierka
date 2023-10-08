@@ -1,7 +1,7 @@
 import { Context } from "vm";
 import advertisementDAO from "../DAO/advertisementDAO";
 import posterEventsDAO from "../DAO/advertisementEventDAO";
-import { AdvertisementDAO } from "../shared/models/AdvertisementDAO.model";
+import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (advertisement: AdvertisementDAO) => {
@@ -10,7 +10,7 @@ const operations = (context: Context) => {
 
     if (advertisementData) {
       const data = events?.map((event: any) => {
-        return { ...event, posterId: advertisementData.id, userId: advertisementData.userId };
+        return { ...event, Id: advertisementData.id, userId: advertisementData.userId };
       });
       await posterEventsDAO.createNewOrUpdate(data as any);
       return advertisementData;

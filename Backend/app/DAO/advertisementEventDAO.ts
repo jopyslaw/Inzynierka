@@ -10,11 +10,6 @@ const AdvertisementEventSchema = new mongoose.Schema(
       ref: "advertisement",
       required: true,
     },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-      required: true,
-    },
     title: { type: String, required: true },
     start: { type: String, required: true },
     end: { type: String, required: true },
@@ -55,10 +50,13 @@ const removeById = async (id: string) => {
   return await AdvertisementEventModel.findByIdAndRemove(id);
 };
 
-const getAllUserAdvertisementEvents = async (userId: string) => {
-  const result = await AdvertisementEventModel.find({ userId: userId }, null, {
+const getAllUserAdvertisementEvents = async (eventsIds: string[]) => {
+
+  const result = await AdvertisementEventModel.find({ _id: { $in: eventsIds } }, null, {lean: 'toObject'});
+
+  /*(const result = await AdvertisementEventModel.find({ userId: userId }, null, {
     lean: "toObject",
-  });
+  });*/
   if (result) {
     return result;
   }

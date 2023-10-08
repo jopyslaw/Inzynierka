@@ -1,6 +1,7 @@
 import { Context } from "vm";
 import advertisementEventDAO from "../DAO/advertisementEventDAO";
 import reservedEventDAO from "../DAO/reservedEventDAO";
+import advertisementDAO from "../DAO/advertisementDAO";
 
 const operations = (context: Context) => {
   const getAdvertisementEventsById = async (id: string) => {
@@ -25,7 +26,15 @@ const operations = (context: Context) => {
   };
 
   const getAllAdvertisementEventsByUserId = async (userId: string) => {
-    const posters = await advertisementEventDAO.getAllUserAdvertisementEvents(userId);
+    const advertisments = await advertisementDAO.getAllUserAdvertisement(userId);
+
+    const ids = advertisments.map(advertisment => advertisment.id);
+
+    console.log('ids', ids);
+
+    const posters = await advertisementEventDAO.getAllUserAdvertisementEvents(ids);
+
+
     if (posters) {
       return posters;
     }
