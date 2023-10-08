@@ -7,7 +7,6 @@ export const posterEndpoint = (router: Router) => {
     "/api/poster/add",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        console.log(request.body);
         const result = await businessContainer
           .getPosterManager()
           .createNewOrUpdate(request.body);
@@ -25,7 +24,7 @@ export const posterEndpoint = (router: Router) => {
         const userId = request.params.userId;
         const result = await businessContainer
           .getPosterManager()
-          .getAllPostersByUserId(userId);
+          .getAllAdvertisementsByUserId(userId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -40,7 +39,7 @@ export const posterEndpoint = (router: Router) => {
         const posterId = request.params.posterId;
         const result = await businessContainer
           .getPosterManager()
-          .getPosterById(posterId);
+          .getById(posterId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -54,8 +53,7 @@ export const posterEndpoint = (router: Router) => {
       try {
         const result = await businessContainer
           .getPosterManager()
-          .getAllPosters();
-        console.log(result);
+          .getAllAdvertisement()
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -77,6 +75,4 @@ export const posterEndpoint = (router: Router) => {
       }
     }
   );
-
-  router.put("api/poster/reserve")
 };

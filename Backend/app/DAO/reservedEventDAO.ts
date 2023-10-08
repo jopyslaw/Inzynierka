@@ -35,16 +35,14 @@ const ReservedEventSchema = new mongoose.Schema(
 );
 
 const ReservedEventModel = mongoose.model<ReservedPosterEventDAO>(
-  "posterReservedEvent",
+  "advertisementReservedEvent",
   ReservedEventSchema
 );
 
 const createNewOrUpdate = async (reservedData: ReservedPosterEventDAO) => {
-  console.log("sfdhgsdjhfghjds");
   return Promise.resolve()
     .then(() => {
       if (!reservedData.id) {
-        console.log("workxDDfjsdhfhjdajhgf");
         return new ReservedEventModel(reservedData).save().then((result) => {
           if (result) {
             return convert(result);

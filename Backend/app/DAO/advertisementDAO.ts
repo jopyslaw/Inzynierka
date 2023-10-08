@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import { CategoryEnum } from "../shared/enums/category.enum";
-import { AdvertisementDAO } from "../shared/models/AdvertisementDAO.model";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
+import { AdvertisementDAO } from "../shared/models/AdvertisementDAO.model";
 
 const advertisementSchema = new mongoose.Schema(
   {
@@ -60,7 +60,7 @@ const createNewOrUpdate = (poster: AdvertisementDAO) => {
     });
 };
 
-const getPosterById = async (id: string) => {
+const getById = async (id: string) => {
   const result = await AdvertisementModel.findOne({ _id: id }, null, {
     lean: "toObject",
   });
@@ -75,7 +75,7 @@ const removeById = async (id: string) => {
   return await AdvertisementModel.findByIdAndRemove(id);
 };
 
-const getAllUserPosters = async (userId: string) => {
+const getAllUserAdvertisement = async (userId: string) => {
   const result = await AdvertisementModel.find({ userId: userId }, null, {
     lean: "toObject",
   });
@@ -87,7 +87,7 @@ const getAllUserPosters = async (userId: string) => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not found");
 };
 
-const getAllPosters = async () => {
+const getAllAdvertisements = async () => {
   const result = await AdvertisementModel.find({}, null, { lean: "toObject" });
   if (result) {
     return result;
@@ -98,9 +98,9 @@ const getAllPosters = async () => {
 
 export default {
   createNewOrUpdate,
-  getPosterById,
+  getById,
   removeById,
-  getAllUserPosters,
-  getAllPosters,
+  getAllUserAdvertisement,
+  getAllAdvertisements,
   model: AdvertisementModel,
 };

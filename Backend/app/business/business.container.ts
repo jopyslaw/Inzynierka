@@ -1,5 +1,5 @@
-import posterManager from "./poster.manager";
-import posterEventsManager from "./posterEvents.manager";
+import advertisementManager from "./advertisement.manager";
+import advertisementEventsManager from "./advertisementEvents.manager";
 import reservedEventsManager from "./reservedEvents.manager";
 import userManager from "./user.manager";
 import utilsManager from "./utils.manager";
@@ -12,8 +12,8 @@ function getter(manager: any, request?: any) {
 
 export default {
   getUserManager: getter(userManager),
-  getPosterManager: getter(posterManager),
-  getPosterEventsManager: getter(posterEventsManager),
+  getPosterManager: getter(advertisementManager),
+  getPosterEventsManager: getter(advertisementEventsManager),
   getReservedEventsManager: getter(reservedEventsManager),
   getUtilsManager: getter(utilsManager),
 };
