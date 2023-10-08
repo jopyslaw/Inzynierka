@@ -16,12 +16,12 @@ const ReservedEventSchema = new mongoose.Schema(
       ref: "user",
       required: true,
     },
-    posterId: {
+    advertisementId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "poster",
       required: true,
     },
-    posterEventId: {
+    advertisementEventId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "posterEvent",
       required: true,
