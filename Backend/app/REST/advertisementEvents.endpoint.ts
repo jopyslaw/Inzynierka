@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import businessContainer from "../business/business.container";
 import { errorUtils } from "../service/applicationException";
 
-export const posterEventsEndpoint = (router: Router) => {
+export const advertisementEventsEndpoint = (router: Router) => {
   router.get(
     "/api/posterEvents/getAll/:userId",
     async (request: Request, response: Response, next: NextFunction) => {

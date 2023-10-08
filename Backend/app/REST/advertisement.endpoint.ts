@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import businessContainer from "../business/business.container";
 import { errorUtils } from "../service/applicationException";
 
-export const posterEndpoint = (router: Router) => {
+export const advertisementEndpoint = (router: Router) => {
   router.post(
     "/api/poster/add",
     async (request: Request, response: Response, next: NextFunction) => {

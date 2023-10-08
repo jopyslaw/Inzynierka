@@ -1,12 +1,11 @@
 import { Context } from "vm";
 import posterDAO from "../DAO/advertisementDAO";
 import reservedEventDAO from "../DAO/reservedEventDAO";
-import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
+import { AdvertisementDAO } from "../shared/models/AdvertisementDAO.model";
 import { ReservedPosterEventDAO } from "../shared/models/reservedPosterEventDAO.model";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (reservedData: ReservedPosterEventDAO) => {
-    console.log("workdgfgfdgfdgfdgfd");
     const reserved = await reservedEventDAO.createNewOrUpdate(reservedData);
     if (reserved) {
       return reserved;
@@ -28,7 +27,6 @@ const operations = (context: Context) => {
   };
 
   const removeById = async (posterId: string) => {
-    console.log("delete");
     const poster = await reservedEventDAO.removeById(posterId);
     if (poster) {
       return poster;
