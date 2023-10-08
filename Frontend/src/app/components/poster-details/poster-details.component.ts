@@ -102,8 +102,8 @@ export class PosterDetailsComponent implements OnInit {
     const preparedData = {
       tutorId: data.extendedProps.userId,
       userId: this.tokenService.getUserId(),
-      posterId: data.extendedProps.posterId,
-      posterEventId: data.extendedProps._id,
+      advertisementId: data.extendedProps.advertisementId,
+      advertisementEventId: data.extendedProps._id,
     };
     console.log(preparedData);
     this.posterEventsService.saveEventToUser(preparedData).subscribe((d) => {

@@ -6,11 +6,17 @@ import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
 const operations = (context: Context) => {
   const createNewOrUpdate = async (advertisement: AdvertisementDAO) => {
     const { events, ...preparedData } = advertisement;
-    const advertisementData = await advertisementDAO.createNewOrUpdate(preparedData);
+    const advertisementData = await advertisementDAO.createNewOrUpdate(
+      preparedData
+    );
 
     if (advertisementData) {
       const data = events?.map((event: any) => {
-        return { ...event, Id: advertisementData.id, userId: advertisementData.userId };
+        return {
+          ...event,
+          advertisementId: advertisementData.id,
+          userId: advertisementData.userId,
+        };
       });
       await posterEventsDAO.createNewOrUpdate(data as any);
       return advertisementData;
@@ -25,7 +31,9 @@ const operations = (context: Context) => {
   };
 
   const getAllAdvertisementsByUserId = async (userId: string) => {
-    const advertisements = await advertisementDAO.getAllUserAdvertisement(userId);
+    const advertisements = await advertisementDAO.getAllUserAdvertisement(
+      userId
+    );
     if (advertisements) {
       return advertisements;
     }
