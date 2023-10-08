@@ -100,7 +100,7 @@ export class PosterDetailsComponent implements OnInit {
 
   reserveVisit(data: any): void {
     const preparedData = {
-      tutorId: data.extendedProps.userId,
+      tutorId: this.posterData?.userId,
       userId: this.tokenService.getUserId(),
       advertisementId: data.extendedProps.advertisementId,
       advertisementEventId: data.extendedProps._id,
