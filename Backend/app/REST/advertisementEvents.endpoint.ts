@@ -10,7 +10,7 @@ export const advertisementEventsEndpoint = (router: Router) => {
         const userId = request.params.userId;
         const result = await businessContainer
           .getPosterEventsManager()
-          .getAllPostersEventsByUserId(userId);
+          .getAllAdvertisementEventsByUserId(userId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -22,11 +22,10 @@ export const advertisementEventsEndpoint = (router: Router) => {
     "/api/posterEvents/get/:posterId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        console.log("working");
         const posterId = request.params.posterId;
         const result = await businessContainer
           .getPosterEventsManager()
-          .getPosterEventsById(posterId);
+          .getAdvertisementEventsById(posterId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
