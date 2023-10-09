@@ -6,6 +6,7 @@ a {
 }
 
 .navbar {
+  background-color: $background-second-color;
   width: 100%;
   min-height: 60px;
   display: flex;
@@ -40,7 +41,7 @@ a {
 
   &__button:hover {
     text-decoration: none !important;
-    color: $purple-color !important;
+    color: #fff !important;
     cursor: pointer;
   }
 }

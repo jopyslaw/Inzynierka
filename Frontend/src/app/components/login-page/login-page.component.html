@@ -1,84 +1,73 @@
-<div class="login-page__img">
-  <div
-    style="
-      width: 100%;
-      height: 85vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    "
-  >
-    <div class="login-page">
-      <div class="login-page__form">
-        <div class="login-page__form--text">
-          <span>Zaloguj się</span>
-        </div>
-        <div class="login-page__form--style">
-          <form [formGroup]="loginForm" class="login-page__form--width">
-            <div class="field-width">
-              <label for="login" class="login-page__form--label"
-                >Podaj nazwę użytkownika</label
+<div class="container">
+  <div class="login-page">
+    <div class="login-page__form">
+      <div class="login-page__form--text">
+        <span>Zaloguj się</span>
+      </div>
+      <div class="login-page__form--style">
+        <form [formGroup]="loginForm" class="login-page__form--width">
+          <div class="field-width">
+            <label for="login" class="login-page__form--label"
+              >Podaj nazwę użytkownika</label
+            >
+            <br />
+            <input
+              type="text"
+              id="login"
+              formControlName="login"
+              class="input-field"
+            />
+            <div
+              class="validator"
+              *ngIf="
+                this.loginForm.get('login')?.invalid &&
+                this.loginForm.get('login')?.touched
+              "
+            >
+              <span
+                *ngIf="this.loginForm.get('login')?.hasError('required')"
+                class="validator--color"
+                >To pole nie może być puste</span
               >
-              <br />
-              <input
-                type="text"
-                id="login"
-                formControlName="login"
-                class="input-field"
-              />
-              <div
-                class="validator"
-                *ngIf="
-                  this.loginForm.get('login')?.invalid &&
-                  this.loginForm.get('login')?.touched
-                "
-              >
-                <span
-                  *ngIf="this.loginForm.get('login')?.hasError('required')"
-                  class="validator--color"
-                  >To pole nie może być puste</span
-                >
-              </div>
             </div>
-            <div class="field-width">
-              <label for="password" class="login-page__form--label"
-                >Podaj hasło</label
+          </div>
+          <div class="field-width">
+            <label for="password" class="login-page__form--label"
+              >Podaj hasło</label
+            >
+            <br />
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              class="input-field"
+            />
+            <div
+              class="validator"
+              *ngIf="
+                this.loginForm.get('password')?.invalid &&
+                this.loginForm.get('password')?.touched
+              "
+            >
+              <span
+                *ngIf="this.loginForm.get('password')?.hasError('required')"
+                class="validator--color"
+                >To pole nie może być puste</span
               >
-              <br />
-              <input
-                type="password"
-                id="password"
-                formControlName="password"
-                class="input-field"
-              />
-              <div
-                class="validator"
-                *ngIf="
-                  this.loginForm.get('password')?.invalid &&
-                  this.loginForm.get('password')?.touched
-                "
+              <span
+                *ngIf="this.loginForm.get('password')?.hasError('pattern')"
+                class="validator--color"
+                >Podane hasło musi zawierać minimum 8 znaków, jedną dużą literę,
+                jedną małą literę, jedną liczbę i jeden znak specjalny</span
               >
-                <span
-                  *ngIf="this.loginForm.get('password')?.hasError('required')"
-                  class="validator--color"
-                  >To pole nie może być puste</span
-                >
-                <span
-                  *ngIf="this.loginForm.get('password')?.hasError('pattern')"
-                  class="validator--color"
-                  >Podane hasło musi zawierać minimum 8 znaków, jedną dużą
-                  literę, jedną małą literę, jedną liczbę i jeden znak
-                  specjalny</span
-                >
-              </div>
             </div>
-            <div class="btn-container">
-              <button class="btn-style" (click)="this.sendLogin()">
-                Zaloguj się
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div class="btn-container">
+            <button class="btn-style" (click)="this.sendLogin()">
+              Zaloguj się
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

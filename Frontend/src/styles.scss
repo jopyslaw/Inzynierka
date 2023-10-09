@@ -21,6 +21,14 @@ body {
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Caveat";
+  src: local("Caveat-VariableFont_wght"),
+    url("../src/assets/fonts/Caveat-VariableFont_wght") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 html,
 body {
   height: 100%;
