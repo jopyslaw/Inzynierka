@@ -1,10 +1,14 @@
 @use "../../../assets/variables.scss" as *;
 
 .register-page {
-  margin-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  background-color: $background-second-color;
+  border-bottom: 5px solid #00a1ff;
+  border-top: 2px solid #00a1ff;
+  z-index: 1;
 
   &--text {
     text-align: center;
@@ -13,10 +17,11 @@
   }
 
   &__form {
+    border: 2px solid #00a1ff;
     max-width: 600px;
     padding: 20px;
     border-radius: 20px;
-    background-color: $purple-color;
+    background-color: $background-second-color;
     color: $main-font-color;
     display: flex;
     flex-direction: column;
@@ -68,7 +73,7 @@
   border-radius: 40px;
   background-color: #00a1ff;
   text-align: center;
-  color: $main-font-color;
+  color: #fff;
 }
 
 .clear-btn {
@@ -78,6 +83,6 @@
   border-radius: 40px;
   background-color: #ff3c5f;
   text-align: center;
-  color: $main-font-color;
+  color: #fff;
   margin-left: 20px;
 }
