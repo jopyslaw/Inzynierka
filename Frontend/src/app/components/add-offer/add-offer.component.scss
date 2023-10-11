@@ -1,13 +1,20 @@
 @use "../../../assets/variables.scss" as *;
 
+.textColor {
+  color: $main-font-color;
+}
+
 .addOffer {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: $background-third-color;
 
   &__container {
+    margin-top: 20px;
+    margin-bottom: 20px;
     padding: 20px;
-    background-color: $purple-color;
+    background-color: $background-second-color;
     width: 60%;
     min-height: 500px;
     border-radius: 20px;
@@ -24,7 +31,7 @@
     gap: 10px;
 
     &--text {
-      color: white;
+      color: $main-font-color;
       font-size: 25px;
     }
   }
@@ -50,7 +57,7 @@
 
   &__agreeButton {
     min-height: 50px;
-    background-color: green;
+    background-color: #00a1ff;
     border-radius: 20px;
     border: none;
     padding: 5px;
@@ -60,19 +67,11 @@
 
   &__deleteButton {
     min-height: 50px;
-    background-color: red;
+    background-color: #ff3c5f;
     border-radius: 20px;
     border: none;
     padding: 5px;
     color: white;
     transition-duration: 0.4s;
-  }
-
-  &__agreeButton:hover {
-    background-color: lightgreen;
-  }
-
-  &__deleteButton:hover {
-    background-color: brown;
   }
 }

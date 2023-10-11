@@ -45,7 +45,11 @@
       </div>
       <div class="addOffer__item">
         <label class="addOffer__item--text">Dodaj zdjęcie</label>
-        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+        <full-calendar
+          class="textColor"
+          #calendar
+          [options]="calendarOptions"
+        ></full-calendar>
       </div>
       <div class="addOffer__btnContainer">
         <button class="addOffer__agreeButton" (click)="this.sendForm()">

@@ -1,21 +1,29 @@
+@use "../../../assets/variables.scss" as *;
+
 .main-container {
   width: 100%;
   display: flex;
+
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  background-color: $background-third-color;
 }
 
 .basket {
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 70%;
-  background: linear-gradient(to left, #743ad5, #d53a9d);
+  background: $background-second-color;
   padding: 20px;
   border-radius: 20px;
 }
 
 .calendar {
   width: 100%;
+}
+
+.color {
+  color: $main-font-color;
 }

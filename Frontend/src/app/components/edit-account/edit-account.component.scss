@@ -4,11 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: $background-second-color;
-  border-bottom: 5px solid #00a1ff;
-  border-top: 2px solid #00a1ff;
-  z-index: 1;
+  height: 87vh;
+  background-color: $background-third-color;
 
   &--text {
     text-align: center;

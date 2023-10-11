@@ -3,13 +3,10 @@ import { Context } from "vm";
 
 const operations = (context: Context) => {
   const getCurrentDate = async () => {
-    let stringDate = new Date();
-    stringDate.setDate(stringDate.getDate() + 1);
-
-    console.log(stringDate);
-
-    const string = stringDate.toISOString().slice(0, 10);
-    return JSON.stringify({ string });
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    const stringDate = date.toISOString().slice(0, 10);
+    return JSON.stringify({ stringDate });
   };
 
   return {
