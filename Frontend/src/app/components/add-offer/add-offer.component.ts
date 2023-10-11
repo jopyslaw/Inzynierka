@@ -148,7 +148,7 @@ export class AddOfferComponent implements OnInit {
   }
 
   isEditable(id: string): boolean {
-    const eventIndex = this.posterData.findIndex((d) => d.id === id);
+    const eventIndex = this.posterData.findIndex((poster) => poster.id === id);
     return eventIndex === -1 ? false : true;
   }
 
