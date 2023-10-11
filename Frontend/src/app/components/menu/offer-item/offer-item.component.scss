@@ -1,4 +1,46 @@
 @use "../../../../assets/variables.scss" as *;
+@import url(https://fonts.googleapis.com/css?family=Satisfy);
+
+.note {
+  color: #333;
+  position: relative;
+  width: 240px;
+  min-height: 150px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Satisfy;
+  font-size: 30px;
+  box-shadow: 0 10px 10px 2px rgba(0, 0, 0, 0.3);
+  line-height: 50px;
+  background: #eae672;
+
+  transition: all 0.3s ease-out;
+}
+
+.transformNote1 {
+  -webkit-transform: rotate(2deg);
+  -moz-transform: rotate(2deg);
+  -o-transform: rotate(2deg);
+  -ms-transform: rotate(2deg);
+  transform: rotate(2deg);
+}
+
+.transformNote2 {
+  -webkit-transform: rotate(-2deg);
+  -moz-transform: rotate(-2deg);
+  -o-transform: rotate(-2deg);
+  -ms-transform: rotate(-2deg);
+  transform: rotate(-2deg);
+}
+
+.note:hover {
+  transform: scale(1.1);
+  background: #eae672;
+  color: rgba(29, 137, 253, 1);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+}
 
 .offer-item {
   min-width: 300px;
@@ -28,30 +70,17 @@
   }
 
   &__title {
-    color: white;
-    font-size: 30px;
+    color: #000;
+    font-size: 15px;
   }
 
   &__price {
-    color: white;
-    font-size: 30px;
+    color: #000;
+    font-size: 15px;
   }
 
   &__description {
-    color: white;
+    color: #000;
     font-size: 30px;
-  }
-
-  &__btn {
-    border: none;
-    border-radius: 20px;
-    padding: 10px;
-    transition-duration: 0.4s;
-  }
-
-  &__btn:hover {
-    background-color: green;
-    color: white;
-    cursor: pointer;
   }
 }

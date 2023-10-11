@@ -1,10 +1,15 @@
+import moment from "moment";
 import { Context } from "vm";
 
 const operations = (context: Context) => {
   const getCurrentDate = async () => {
-    const stringDate = new Date().toISOString().slice(0, 10);
+    let stringDate = new Date();
+    stringDate.setDate(stringDate.getDate() + 1);
+
     console.log(stringDate);
-    return JSON.stringify({ stringDate });
+
+    const string = stringDate.toISOString().slice(0, 10);
+    return JSON.stringify({ string });
   };
 
   return {

@@ -7,11 +7,9 @@
     </div>
   </div>
   <div class="menu-page__offers-container">
-    <div class="menu-page__offers">
-      <app-offer-item
-        *ngFor="let item of items"
-        [offerItemData]="item"
-      ></app-offer-item>
-    </div>
+    <app-offer-item
+      *ngFor="let item of items"
+      [offerItemData]="item"
+    ></app-offer-item>
   </div>
 </div>

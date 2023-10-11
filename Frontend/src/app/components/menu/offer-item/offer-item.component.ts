@@ -15,6 +15,17 @@ import { Router } from '@angular/router';
 export class OfferItemComponent implements OnInit {
   @Input() offerItemData!: PosterModel;
 
+  colors: string[] = [
+    '#eae672',
+    '#9FF5F5',
+    '#FAD1FF',
+    '#E3FFC9',
+    '#FFDEE8',
+    '#DEFFE1',
+  ];
+
+  class: string[] = ['transformNote1', 'transformNote2'];
+
   constructor(private sanitizer: DomSanitizer, private router: Router) {}
 
   ngOnInit(): void {
@@ -23,5 +34,17 @@ export class OfferItemComponent implements OnInit {
 
   addItemToBasket(): void {
     this.router.navigateByUrl('posterDetails/' + this.offerItemData._id);
+  }
+
+  randomColor(): string {
+    const randomIndex = Math.floor(Math.random() * this.colors.length);
+    const randomColor = this.colors[randomIndex];
+    return randomColor;
+  }
+
+  randomClass(): string {
+    const randomIndex = Math.floor(Math.random() * this.class.length);
+    const randomColor = this.class[randomIndex];
+    return randomColor;
   }
 }

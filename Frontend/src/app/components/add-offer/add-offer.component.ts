@@ -44,6 +44,8 @@ export class AddOfferComponent implements OnInit {
     selectable: true,
     events: this.posterData,
     editable: false,
+    selectOverlap: false,
+    eventOverlap: false,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     validRange: {
