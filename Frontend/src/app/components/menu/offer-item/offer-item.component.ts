@@ -1,9 +1,12 @@
-import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
-import { LocalStorageService } from './../../../services/local-storage/local-storage.service';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
 import { PosterModel } from 'src/app/shared/models/poster.model';
 import { Router } from '@angular/router';
 
@@ -14,6 +17,8 @@ import { Router } from '@angular/router';
 })
 export class OfferItemComponent implements OnInit {
   @Input() offerItemData!: PosterModel;
+  randomColorValue: string = '';
+  randomClassValue: string = '';
 
   colors: string[] = [
     '#eae672',
@@ -26,14 +31,16 @@ export class OfferItemComponent implements OnInit {
 
   class: string[] = ['transformNote1', 'transformNote2'];
 
-  constructor(private sanitizer: DomSanitizer, private router: Router) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
+    this.randomClassValue = this.randomClass();
+    this.randomColorValue = this.randomColor();
     console.log(this.offerItemData);
-  }
-
-  addItemToBasket(): void {
-    this.router.navigateByUrl('posterDetails/' + this.offerItemData._id);
   }
 
   randomColor(): string {

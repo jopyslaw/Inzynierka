@@ -4,55 +4,49 @@ import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
 import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
-import { PlaceEnum } from "../shared/enums/place.enum";
+import { TutorOpinionDAO } from "../shared/models/tutorOpinionDAO.model";
 
-const advertisementSchema = new mongoose.Schema(
+const tutorOpinionSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
     },
-    title: { type: String, required: true },
-    category: {
-      type: String,
-      enum: CategoryEnum,
-      default: CategoryEnum.OTHERS,
+    tutorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
     },
+    title: { type: String, required: true },
     description: { type: String },
-    price: { type: String, required: true },
-    place: {
+    rating: {
       type: String,
       required: true,
-      enum: PlaceEnum,
-    },
-    meetingAddress: {
-      type: String,
-      required: false,
     },
   },
   {
-    collection: "advertisement",
+    collection: "tutorOpinion",
   }
 );
 
-const AdvertisementModel = mongoose.model<AdvertisementDAO>(
-  "advertisement",
-  advertisementSchema
+const TutorOpinionModel = mongoose.model<TutorOpinionDAO>(
+  "tutorOpinion",
+  tutorOpinionSchema
 );
 
 const createNewOrUpdate = (poster: AdvertisementDAO) => {
   return Promise.resolve()
     .then(() => {
       if (!poster.id) {
-        return new AdvertisementModel(poster).save().then((result) => {
+        return new TutorOpinionModel(poster).save().then((result) => {
           console.log(result);
           if (result) {
             return convert(result);
           }
         });
       } else {
-        return AdvertisementModel.findByIdAndUpdate(
+        return TutorOpinionModel.findByIdAndUpdate(
           poster.id,
           _.omit(poster, "id"),
           {
@@ -71,7 +65,7 @@ const createNewOrUpdate = (poster: AdvertisementDAO) => {
 };
 
 const getById = async (id: string) => {
-  const result = await AdvertisementModel.findOne({ _id: id }, null, {
+  const result = await TutorOpinionModel.findOne({ _id: id }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -82,11 +76,11 @@ const getById = async (id: string) => {
 };
 
 const removeById = async (id: string) => {
-  return await AdvertisementModel.findByIdAndRemove(id);
+  return await TutorOpinionModel.findByIdAndRemove(id);
 };
 
-const getAllUserAdvertisement = async (userId: string) => {
-  const result = await AdvertisementModel.find({ userId: userId }, null, {
+const getAllTutorOpinions = async (userId: string) => {
+  const result = await TutorOpinionModel.find({ tutorId: userId }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -97,8 +91,10 @@ const getAllUserAdvertisement = async (userId: string) => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not found");
 };
 
-const getAllAdvertisements = async () => {
-  const result = await AdvertisementModel.find({}, null, { lean: "toObject" });
+const getAllUserOpinions = async (userId: string) => {
+  const result = await TutorOpinionModel.find({ userId: userId }, null, {
+    lean: "toObject",
+  });
   if (result) {
     return result;
   }
@@ -110,7 +106,7 @@ export default {
   createNewOrUpdate,
   getById,
   removeById,
-  getAllUserAdvertisement,
-  getAllAdvertisements,
-  model: AdvertisementModel,
+  getAllTutorOpinions,
+  getAllUserOpinions,
+  model: TutorOpinionModel,
 };

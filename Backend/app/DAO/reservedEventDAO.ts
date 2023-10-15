@@ -6,19 +6,9 @@ import { ErrorCodes, errorUtils } from "../service/applicationException";
 
 const ReservedEventSchema = new mongoose.Schema(
   {
-    tutorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-      required: true,
-    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
-      required: true,
-    },
-    advertisementId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "poster",
       required: true,
     },
     advertisementEventId: {

@@ -1,8 +1,8 @@
-<a [routerLink]="">
+<a [routerLink]="['/posterDetails/' + offerItemData._id]">
   <div
     class="note yellow"
-    [ngClass]="randomClass()"
-    [style.background-color]="randomColor()"
+    [ngClass]="randomClassValue"
+    [style.background-color]="randomColorValue"
   >
     <div class="offer-item__info">
       <div class="offer-item__title">
