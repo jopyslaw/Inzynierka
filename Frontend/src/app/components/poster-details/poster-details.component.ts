@@ -78,8 +78,6 @@ export class PosterDetailsComponent implements OnInit {
   }
 
   confirmDialog(additionalData: any): void {
-    const message = `Are you sure you want to do this?`;
-
     if (additionalData.extendedProps.reserved) {
       return;
     }
