@@ -23,14 +23,14 @@
     min-height: 50px;
     border-radius: 20px;
     color: white;
-    border: 2px solid violet;
+    border: 2px solid $background-second-color;
 
     &-option {
       transition-duration: 0.4s;
     }
 
     &-option:hover {
-      color: $purple-color;
+      color: $background-second-color;
       cursor: pointer;
     }
   }
