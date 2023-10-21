@@ -1,9 +1,18 @@
 <div class="poster-details__component">
   <div class="poster-details__container">
     <div class="poster-details__info">
-      <div class="poster-details__info-card">{{ posterData?.title }}</div>
-      <div class="poster-details__info-card">{{ posterData?.description }}</div>
-      <div class="poster-details__info-card">{{ posterData?.price }}</div>
+      <div class="poster-details__info-card">
+        <span>Tytuł ogłoszenia:</span>
+        <div>{{ posterData?.title }}</div>
+      </div>
+      <div class="poster-details__info-card">
+        <span>Opis:</span>
+        <div>{{ posterData?.title }}</div>
+      </div>
+      <div class="poster-details__info-card">
+        <span>Cena za godzinę: </span>
+        <div>{{ posterData?.price }} zł</div>
+      </div>
     </div>
     <div class="poster-details__calendar">
       <full-calendar #calendar [options]="calendarOptions"></full-calendar>

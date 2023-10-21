@@ -83,10 +83,14 @@ const getAllReservationForTutor = async (tutorId: string) => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "User not found");
 };
 
-const getAllReservationForPosterId = async (posterId: string) => {
-  const result = await ReservedEventModel.find({ posterId: posterId }, null, {
-    lean: "toObject",
-  });
+const getAllReservationForPosterId = async (eventsIds: string[]) => {
+  const result = await ReservedEventModel.find(
+    { advertisementEventId: { $in: eventsIds } },
+    null,
+    {
+      lean: "toObject",
+    }
+  );
 
   if (result) {
     return result;

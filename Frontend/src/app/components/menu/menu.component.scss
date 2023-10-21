@@ -2,10 +2,10 @@
 
 .menu-page {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 30px;
+  background-color: $background-third-color;
+  min-height: 100vh;
 
   &__filter-container {
     width: 95%;

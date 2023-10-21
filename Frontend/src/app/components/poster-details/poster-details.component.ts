@@ -7,12 +7,13 @@ import {
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { PosterService } from 'src/app/services/poster-service/poster.service';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
 import { TokenService } from 'src/app/services/token/token.service';
+import { UtilsService } from 'src/app/services/utils/utils.service';
 
 @Component({
   selector: 'app-poster-details',
@@ -29,25 +30,26 @@ export class PosterDetailsComponent implements OnInit {
     initialView: 'timeGridWeek',
     plugins: [timeGridPlugin, interactionPlugin],
     selectable: true,
-    events: [],
     editable: false,
+    selectOverlap: false,
+    eventOverlap: false,
+    events: [],
     eventClick: this.handleEventClick.bind(this),
   };
 
   constructor(
     private service: PosterService,
-    private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private posterEventsService: PosterEventsService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
     this.posterId = this.route.snapshot.params['id'];
     this.getPosterData(this.posterId);
-    console.log(this.events);
-    console.log(this.posterData);
+    this.getCurrentDate();
   }
 
   handleEventClick(clickInfo: EventClickArg) {
@@ -108,6 +110,17 @@ export class PosterDetailsComponent implements OnInit {
     console.log(preparedData);
     this.posterEventsService.saveEventToUser(preparedData).subscribe((d) => {
       this.getPosterData(this.posterId);
+    });
+  }
+
+  getCurrentDate(): void {
+    this.utilsService.getCurrentDate().subscribe((repsonse) => {
+      this.calendarComponent.options = {
+        ...this.calendarComponent.options,
+        validRange: {
+          start: repsonse.stringDate,
+        },
+      };
     });
   }
 }

@@ -36,9 +36,13 @@ const createNewOrUpdate = async (poster: AdvertisementEventDAO[]) => {
 };
 
 const getAdvertisementEventById = async (id: string) => {
-  const result = await AdvertisementEventModel.find({ posterId: id }, null, {
-    lean: "toObject",
-  });
+  const result = await AdvertisementEventModel.find(
+    { advertisementId: id },
+    null,
+    {
+      lean: "toObject",
+    }
+  );
   if (result) {
     return result;
   }

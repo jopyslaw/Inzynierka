@@ -5,14 +5,21 @@ import advertisementDAO from "../DAO/advertisementDAO";
 
 const operations = (context: Context) => {
   const getAdvertisementEventsById = async (id: string) => {
-    const advertisement = await advertisementEventDAO.getAdvertisementEventById(
-      id
-    );
-    const reservedPosters = await reservedEventDAO.getAllReservationForPosterId(
-      id
-    );
-    if (advertisement) {
-      const preparedData = advertisement.map((advertisement) => {
+    console.log(id);
+
+    const advertisements =
+      await advertisementEventDAO.getAdvertisementEventById(id);
+
+    if (advertisements) {
+      const advertisementIds = advertisements.map((advertisment) =>
+        advertisment._id.toString()
+      );
+
+      console.log(advertisementIds);
+
+      const reservedPosters =
+        await reservedEventDAO.getAllReservationForPosterId(advertisementIds);
+      const preparedData = advertisements.map((advertisement) => {
         return {
           ...advertisement,
           reserved:

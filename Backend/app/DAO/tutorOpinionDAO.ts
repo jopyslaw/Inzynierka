@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { CategoryEnum } from "../shared/enums/category.enum";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
@@ -24,6 +23,8 @@ const tutorOpinionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    like: { type: Number, required: false, default: 0 },
+    dislike: { type: Number, required: false, default: 0 },
   },
   {
     collection: "tutorOpinion",

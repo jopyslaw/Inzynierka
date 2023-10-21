@@ -93,6 +93,8 @@ export class AddOfferComponent implements OnInit {
     data.events = events;
     data.userId = this.token.getUserId() as string;
 
+    console.log(data);
+
     this.addService.addPoster(data).subscribe((data) => {
       console.log('data was send');
     });

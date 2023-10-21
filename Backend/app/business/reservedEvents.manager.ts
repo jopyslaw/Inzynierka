@@ -33,7 +33,7 @@ const operations = (context: Context) => {
     }
   };
 
-  const getAllReservationForPosterId = async (posterId: string) => {
+  /*const getAllReservationForPosterId = async (posterId: string) => {
     const poster = await reservedEventDAO.getAllReservationForPosterId(
       posterId
     );
@@ -41,7 +41,7 @@ const operations = (context: Context) => {
     if (poster) {
       return poster;
     }
-  };
+  };*/
 
   const getAllReservationsForUserId = async (userId: string) => {
     const poster = await reservedEventDAO.getAllReservationsForUserId(userId);
@@ -56,7 +56,7 @@ const operations = (context: Context) => {
     getAllReservationForTutor,
     getReservationById,
     removeById,
-    getAllReservationForPosterId,
+    //getAllReservationForPosterId,
     getAllReservationsForUserId,
   };
 };

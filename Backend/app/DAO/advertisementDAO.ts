@@ -23,8 +23,9 @@ const advertisementSchema = new mongoose.Schema(
     price: { type: String, required: true },
     place: {
       type: String,
-      required: true,
+      required: false,
       enum: PlaceEnum,
+      default: PlaceEnum.TUTOR_PLACE,
     },
     meetingAddress: {
       type: String,
