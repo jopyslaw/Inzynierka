@@ -9,11 +9,11 @@ import { DecodedToken } from 'src/app/shared/models/decodedToken.model';
   providedIn: 'root',
 })
 export class TokenService {
-  isLogged: BehaviorSubject<boolean> = new BehaviorSubject(
-    !!this.store.get('token')
-  );
+  isLogged: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private store: LocalStorageService) {}
+  constructor(private store: LocalStorageService) {
+    this.isLogged.next(!!this.store.get('token'));
+  }
 
   removeToken(): void {
     this.store.remove('token');

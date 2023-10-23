@@ -16,20 +16,20 @@ EXPOSE 4200
 
 CMD [ "npm","start" ]
 
-FROM node:18-alpine as developmentWindows
+#FROM node:18-alpine as developmentWindows
 
-RUN mkdir -p /app
+#RUN mkdir -p /app
 
-WORKDIR /app
+#WORKDIR /app
 
-ENV PATH /app/node_modules/.bin:$PATH
+#ENV PATH /app/node_modules/.bin:$PATH
 
-COPY package*.json /app/
+#COPY package*.json /app/
 
-RUN npm install
+#RUN npm install
 
-COPY . /app/
+#COPY . /app/
 
-EXPOSE 4200
+#EXPOSE 4200
 
-CMD [ "npm","run","enable" ]
+#CMD [ "npm","run","enable" ]

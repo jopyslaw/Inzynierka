@@ -30,11 +30,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ErrorHandlingInterceptor } from './interceptors/error-handling.interceptor';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { CookieService } from 'ngx-cookie-service';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PosterDetailsComponent } from './components/poster-details/poster-details.component';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TokenService } from './services/token/token.service';
 
 @NgModule({
   declarations: [
@@ -84,7 +84,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
       useClass: ErrorHandlingInterceptor,
       multi: true,
     },
-    CookieService,
+    TokenService,
   ],
   bootstrap: [AppComponent],
 })
