@@ -1,3 +1,5 @@
+import { CategoryPosterEnum } from '../enums/categoryPoster.enum';
+
 export interface PosterModel {
   id: string;
   userId: string;
@@ -5,6 +7,7 @@ export interface PosterModel {
   description: string;
   price: string;
   events: PosterEventsModel[];
+  category: CategoryPosterEnum;
   _id?: string;
 }
 

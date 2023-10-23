@@ -24,6 +24,25 @@
         </select>
       </div>
       <div class="addOffer__item">
+        <label class="addOffer__item--text"
+          >Czas obowiązywania ogłoszenia</label
+        >
+        <input matInput [matDatepicker]="picker" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <input
+          type="text"
+          formControlName="description"
+          class="addOffer__input"
+          placeholder="Data zakończenia ogłoszenia"
+        />
+      </div>
+
+      <div class="addOffer__item">
         <label class="addOffer__item--text">Opis</label>
         <input
           type="text"

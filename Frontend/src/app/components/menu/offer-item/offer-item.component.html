@@ -6,7 +6,24 @@
   >
     <div class="offer-item__info">
       <div class="offer-item__title">
+        Tytuł ogłoszenia:
         {{ offerItemData.title }}
+      </div>
+      <div class="offer-item__title">
+        Kategoria ogłoszenia:
+        <div class="offer-item__title--fontSize10">
+          {{ offerItemData.category }}
+        </div>
+      </div>
+      <div class="offer-item__price">
+        Krótki opis:
+        <div class="offer-item__title--fontSize10">
+          {{
+            offerItemData.description.length > 120
+              ? offerItemData.description.slice(0, 120) + "..."
+              : offerItemData.description
+          }}
+        </div>
       </div>
       <div class="offer-item__price">
         Cena za godzinę: {{ offerItemData.price }} zł
