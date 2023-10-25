@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
 import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
 import { PlaceEnum } from "../shared/enums/place.enum";
+import moment from "moment";
 
 const advertisementSchema = new mongoose.Schema(
   {
@@ -30,6 +31,19 @@ const advertisementSchema = new mongoose.Schema(
     meetingAddress: {
       type: String,
       required: false,
+    },
+    startDate: {
+      type: String,
+      required: true,
+    },
+    endDate: {
+      type: String,
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   {

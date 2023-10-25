@@ -21,6 +21,7 @@ import { CategoryPosterEnum } from 'src/app/shared/enums/categoryPoster.enum';
 import { PosterService } from 'src/app/services/poster-service/poster.service';
 import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
 import { UtilsService } from 'src/app/services/utils/utils.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-offer',
@@ -30,6 +31,7 @@ import { UtilsService } from 'src/app/services/utils/utils.service';
 export class AddOfferComponent implements OnInit {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
+  currentDate!: string;
   addForm!: FormGroup<AddOfferModel>;
   posterData!: PosterModel[];
   posterCategories: CategoryPosterEnum[] = [
@@ -67,13 +69,15 @@ export class AddOfferComponent implements OnInit {
       category: this.fb.control(null, Validators.required),
       description: this.fb.control(null),
       price: this.fb.control(null, Validators.required),
+      startDate: this.fb.control(null, Validators.required),
+      endDate: this.fb.control(null, Validators.required),
     });
 
-    this.getAllPosterForUser();
     this.getCurrentDate();
   }
 
   sendForm(): void {
+    console.log(this.addForm.getRawValue());
     if (!this.addForm.valid) {
       this.addForm.markAllAsTouched();
       return;
@@ -145,6 +149,15 @@ export class AddOfferComponent implements OnInit {
         });
         this.posterData = posterData.flatMap((event) => event) as any;
         this.calendarComponent.events = this.posterData;
+        this.calendarComponent.options = {
+          ...this.calendarComponent.options,
+          validRange: {
+            start: this.currentDate,
+            end: moment(this.addForm.controls.endDate.value).format(
+              'YYYY-MM-DD'
+            ),
+          },
+        };
       });
   }
 
@@ -155,12 +168,11 @@ export class AddOfferComponent implements OnInit {
 
   getCurrentDate(): void {
     this.utilsService.getCurrentDate().subscribe((repsonse) => {
-      this.calendarComponent.options = {
-        ...this.calendarComponent.options,
-        validRange: {
-          start: repsonse.stringDate,
-        },
-      };
+      this.currentDate = repsonse.stringDate;
     });
+  }
+
+  dateRangeChange(): void {
+    this.getAllPosterForUser();
   }
 }
