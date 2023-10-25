@@ -53,12 +53,41 @@ const operations = (context: Context) => {
     }
   };
 
+  const getAllInActiveAndNotArchivedAdvertisments = async () => {
+    const advertisements =
+      await advertisementDAO.getAllInActiveAndNotArchivedAdvertisments();
+    if (advertisements) {
+      return advertisements;
+    }
+  };
+
+  const activateAdvertisments = async (advertismentIds: string[]) => {
+    const advertisement = await advertisementDAO.activateAdvertisments(
+      advertismentIds
+    );
+    if (advertisement) {
+      return advertisement;
+    }
+  };
+
+  const deactivateAdvertisments = async (advertismentIds: string[]) => {
+    const advertisement = await advertisementDAO.deactivateAdvertisments(
+      advertismentIds
+    );
+    if (advertisement) {
+      return advertisement;
+    }
+  };
+
   return {
     createNewOrUpdate,
     getAllAdvertisementsByUserId,
     getById,
     removeAdvertisementById,
     getAllAdvertisement,
+    getAllInActiveAndNotArchivedAdvertisments,
+    activateAdvertisments,
+    deactivateAdvertisments,
   };
 };
 

@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import { Express, Request, Response } from "express";
 import { routes } from "./REST/routes";
+import { CronJob } from "cron";
+import { activateAdvertismentsIfStartDateIsToday } from "./cronJobs";
 
 const app: Express = express();
 app.use(express.static(__dirname + "/public"));
@@ -17,6 +19,13 @@ app.use(bodyParser.json({ limit: "2048kb" }));
 app.use(express.static("public"));
 
 app.use(cors());
+
+const changeActivationOfAdvertismentsCRONJob = new CronJob(
+  "* * * * *",
+  activateAdvertismentsIfStartDateIsToday,
+  null,
+  true
+);
 
 try {
   mongoose.connect(config.databaseUrl);

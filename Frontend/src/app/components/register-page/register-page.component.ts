@@ -46,27 +46,6 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
       checkbox: this.fb.control(false),
       role: this.fb.control('', [Validators.required]),
     });
-
-    /*this.registerForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      surname: new FormControl('', [Validators.required]),
-      login: new FormControl('', [Validators.required]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern(emailRegex),
-      ]),
-      password: new FormControl('', [
-        Validators.pattern(passwordRegex),
-        Validators.required,
-      ]),
-      repeatPassword: new FormControl('', [
-        Validators.pattern(passwordRegex),
-        Validators.required,
-      ]),
-      phoneNumber: new FormControl(''),
-      checkbox: new FormControl(false),
-      role: new FormControl(''),
-    });*/
   }
 
   clear(): void {
@@ -74,6 +53,7 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   }
 
   send(): void {
+    console.log('work');
     const data = this.registerForm.value;
     delete data.checkbox;
     delete data.repeatPassword;

@@ -8,4 +8,6 @@ export interface AdvertisementDAO {
   description: string;
   price: string;
   events?: [];
+  startDate: string;
+  endDate: string;
 }

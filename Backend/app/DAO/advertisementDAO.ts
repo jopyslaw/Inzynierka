@@ -45,6 +45,11 @@ const advertisementSchema = new mongoose.Schema(
       required: false,
       default: false,
     },
+    archived: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   {
     collection: "advertisement",
@@ -121,11 +126,53 @@ const getAllAdvertisements = async () => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not exists");
 };
 
+const getAllInActiveAndNotArchivedAdvertisments = async () => {
+  const result = await AdvertisementModel.find(
+    { isActive: false, archived: false },
+    null,
+    { lean: "toObject" }
+  );
+  if (result) {
+    return result;
+  }
+
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Advertisments not found");
+};
+
+const activateAdvertisments = async (advertismentsIds: string[]) => {
+  const filter = { id: { $in: advertismentsIds } };
+  const update = { $set: { isActive: true } };
+
+  const result = await AdvertisementModel.updateMany(filter, update);
+
+  if (result) {
+    return result;
+  }
+
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Nothing was updated");
+};
+
+const deactivateAdvertisments = async (advertismentsIds: string[]) => {
+  const filter = { id: { $in: advertismentsIds } };
+  const update = { $set: { isActive: true, archived: true } };
+
+  const result = await AdvertisementModel.updateMany(filter, update);
+
+  if (result) {
+    return result;
+  }
+
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Nothing was updated");
+}
+
 export default {
   createNewOrUpdate,
   getById,
   removeById,
   getAllUserAdvertisement,
   getAllAdvertisements,
+  getAllInActiveAndNotArchivedAdvertisments,
+  activateAdvertisments,
+  deactivateAdvertisments,
   model: AdvertisementModel,
 };
