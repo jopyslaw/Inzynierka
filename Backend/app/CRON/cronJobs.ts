@@ -1,6 +1,6 @@
 import moment from "moment";
-import businessContainer from "./business/business.container";
-import { AdvertisementDAO } from "./shared/models/advertisementDAO.model";
+import businessContainer from "../business/business.container";
+import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
 
 export const activateAdvertismentsIfStartDateIsToday = async () => {
   console.log("first job start");

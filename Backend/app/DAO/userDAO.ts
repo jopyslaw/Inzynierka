@@ -30,8 +30,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-//userSchema.plugin()
-
 const UserModel = mongoose.model<UserDAO>("user", userSchema);
 
 const createNewOrUpdate = (user: UserDAO) => {

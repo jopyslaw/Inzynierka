@@ -2,12 +2,25 @@ import { Context } from "vm";
 import advertisementDAO from "../DAO/advertisementDAO";
 import posterEventsDAO from "../DAO/advertisementEventDAO";
 import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
+import moment from "moment";
+import notificationsDAO from "../DAO/notificationsDAO";
+import { NotificationDAO } from "../shared/models/notificationDAO.model";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (advertisement: AdvertisementDAO) => {
     const { events, ...preparedData } = advertisement;
+
+    const updatedPreparedData = {
+      ...preparedData,
+      isActive:
+        moment().format("YYYY-MM-DD") ===
+        moment(preparedData.startDate).format("YYYY-MM-DD")
+          ? true
+          : false,
+    };
+
     const advertisementData = await advertisementDAO.createNewOrUpdate(
-      preparedData
+      updatedPreparedData
     );
 
     if (advertisementData) {
@@ -19,6 +32,16 @@ const operations = (context: Context) => {
         };
       });
       await posterEventsDAO.createNewOrUpdate(data as any);
+
+      const notificationData: NotificationDAO = {
+        userId: advertisementData.userId,
+        title: "Ogłoszenie zostało dodane",
+        content: "Ogłoszenie zostało dodane",
+        isReaded: false,
+        dateTimeSend: moment().format("YYYY-MM-DD"),
+      };
+      await notificationsDAO.createNewOrUpdate(notificationData);
+
       return advertisementData;
     }
   };
