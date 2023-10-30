@@ -18,7 +18,7 @@ export const notificationEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/notification",
+    "/api/notification/:userId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         let result = await businessContainer

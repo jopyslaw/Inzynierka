@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -54,8 +55,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   connectToSSE(): void {
-    this.socketService.on('newNotificationCounter', (response) => {
-      this.numberOfNotifications = response.counter;
+    this.socketService.connect(environment.SOCKET_NOTIFICATION_ENDPOINT);
+
+    this.socketService.on('newNotificationCounter').subscribe((counter) => {
+      const counterJSON = JSON.parse(counter);
+      this.numberOfNotifications = counterJSON.counter;
     });
   }
 }

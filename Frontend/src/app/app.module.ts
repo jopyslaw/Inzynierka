@@ -33,17 +33,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PosterDetailsComponent } from './components/poster-details/poster-details.component';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
-import {
-  MatDateSelectionModel,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TokenService } from './services/token/token.service';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  MAT_DATE_RANGE_SELECTION_STRATEGY,
-  MatDateRangeSelectionStrategy,
-} from '@angular/material/datepicker';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationItemComponent } from './components/notifications/notification-item/notification-item.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +58,8 @@ import {
     ErrorDialogComponent,
     PosterDetailsComponent,
     ConfirmDialogComponent,
+    NotificationsComponent,
+    NotificationItemComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,13 @@ export class PosterEventsService {
 
   getAllEventsForUser(userId: string): Observable<any[]> {
     return this.http.get<any[]>(
-      'http://localhost:3000/api/posterEvents/getAll/' + userId
+      `${environment.BACKEND_ENDPOINT}posterEvents/getAll/' + ${userId}`
     );
   }
 
   getAllEventsForPoster(posterId: string): Observable<any[]> {
     return this.http.get<any[]>(
-      'http://localhost:3000/api/posterEvents/get/' + posterId
+      `${environment.BACKEND_ENDPOINT}posterEvents/get/' + ${posterId}`
     );
   }
 

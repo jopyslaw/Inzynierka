@@ -5,16 +5,15 @@ import notificationsDAO from "../DAO/notificationsDAO";
 
 const notificationSocket = (io: Server) => {
   io.of("/notifications").on("connection", (socket: Socket) => {
-    console.log("Socket", socket.id);
     const notificationChangeStream = notificationsDAO.model.collection.watch();
 
-    notificationChangeStream.on("change", (change: any) => {
+    notificationChangeStream.on("change", async (change: any) => {
       if (change.operationType === "insert") {
-        console.log("check", change);
-        const notificationsNumberNotReaded = businessContainer
+        const notificationsNumberNotReaded = await businessContainer
           .getNotificationManager()
           .getNotReadedNotifications(socket.handshake.query.userId);
-        io.emit("newNotificationCounter", notificationsNumberNotReaded);
+
+        socket.emit("newNotificationCounter", notificationsNumberNotReaded);
       }
     });
   });

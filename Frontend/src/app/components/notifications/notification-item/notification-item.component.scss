@@ -1,0 +1,13 @@
+.container {
+  min-width: 100%;
+  margin: 5px;
+  border-radius: 30px;
+  min-height: 60px;
+  background: rgb(0, 74, 144);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 74, 144, 1) 0%,
+    rgba(0, 116, 210, 1) 35%,
+    rgba(0, 179, 255, 1) 100%
+  );
+}

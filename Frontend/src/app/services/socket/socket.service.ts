@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
 import { TokenService } from '../token/token.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketService {
-  private readonly url = 'http://localhost:3000/notifications';
-  private socket: Socket;
+  private socket!: Socket;
 
-  constructor(private token: TokenService) {
-    this.socket = io(this.url, {
+  constructor(private token: TokenService) {}
+
+  connect(url: string): void {
+    this.socket = io(url, {
       query: {
         userId: this.token.getUserId(),
       },
@@ -21,8 +23,12 @@ export class SocketService {
     this.socket.emit(event, data);
   }
 
-  on(event: string, callback: (data: any) => void) {
-    this.socket.on(event, callback);
+  on(event: string): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on(event, (data) => {
+        observer.next(data);
+      });
+    });
   }
 
   disconnect() {

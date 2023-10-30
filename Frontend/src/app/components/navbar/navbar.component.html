@@ -15,7 +15,7 @@
     <a routerLink="login" *ngIf="!isLogged">
       <div class="navbar__button">Zaloguj się</div>
     </a>
-    <a routerLink="basket" *ngIf="isLogged">
+    <a routerLink="notifications" *ngIf="isLogged">
       <div class="navbar__button">
         <mat-icon [matBadge]="numberOfNotifications" matBadgeColor="warn"
           >notifications</mat-icon

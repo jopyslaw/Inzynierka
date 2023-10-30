@@ -38,7 +38,7 @@ const operations = (context: Context) => {
         title: "Ogłoszenie zostało dodane",
         content: "Ogłoszenie zostało dodane",
         isReaded: false,
-        dateTimeSend: moment().format("YYYY-MM-DD"),
+        dateTimeSend: moment().toISOString(),
       };
       await notificationsDAO.createNewOrUpdate(notificationData);
 
