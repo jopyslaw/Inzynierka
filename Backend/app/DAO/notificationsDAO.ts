@@ -82,11 +82,21 @@ const getNotificationsForUserId = async (userId: string) => {
   return await NotificationModel.find({ userId }, null, { lean: "toObject" });
 };
 
+const setNotificationToReadedState = async (notificationId: string) => {
+  const result = await NotificationModel.findByIdAndUpdate(notificationId, {
+    isReaded: true,
+  });
+  if (result) {
+    return result;
+  }
+};
+
 export default {
   createNewOrUpdate,
   getById,
   removeById,
   getAllNotificationsNotReadedForUserId,
   getNotificationsForUserId,
+  setNotificationToReadedState,
   model: NotificationModel,
 };

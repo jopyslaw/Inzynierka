@@ -20,4 +20,11 @@ export class NotificationsService {
       `${environment.BACKEND_ENDPOINT}notification/${userId}`
     );
   }
+
+  setNotificationToReadedState(notificationId: string): Observable<any> {
+    return this.http.post<any>(
+      'http://localhost:3000/api/notification/readed',
+      { notificationId }
+    );
+  }
 }

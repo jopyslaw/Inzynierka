@@ -19,16 +19,15 @@ const notificationSocket = (io: Server) => {
   });
 
   io.of("/notifications/data").on("connection", (socket: Socket) => {
-    socket.emit("hello", "world");
     const notificationChangeStream = notificationsDAO.model.collection.watch();
 
     notificationChangeStream.on("change", async (change: any) => {
       if (change.operationType === "insert") {
-        const notifications = businessContainer
+        const notifications = await businessContainer
           .getNotificationManager()
           .getNotifications(socket.handshake.query.userId);
 
-        io.emit("newNotifications", notifications);
+        socket.emit("newNotifications", notifications);
       }
     });
   });

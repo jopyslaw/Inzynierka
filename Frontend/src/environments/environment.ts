@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   BACKEND_ENDPOINT: 'http://localhost:3000/api/',
   SOCKET_NOTIFICATION_ENDPOINT: 'http://localhost:3000/notifications',
+  SOCKET_NOTIFICATION_ENDPOINT_DATA: 'http://localhost:3000/notifications/data',
 };
 
 /*

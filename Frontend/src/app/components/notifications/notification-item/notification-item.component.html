@@ -1,6 +1,8 @@
-<div class="container">
-  <div></div>
-  <div>
-    <button></button>
+<div class="container" (click)="checkIsReaded()">
+  <div class="container__item">
+    {{ notification.title }}
+  </div>
+  <div class="">
+    {{ notification.content }}
   </div>
 </div>

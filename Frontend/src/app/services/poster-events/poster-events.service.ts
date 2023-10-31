@@ -11,13 +11,13 @@ export class PosterEventsService {
 
   getAllEventsForUser(userId: string): Observable<any[]> {
     return this.http.get<any[]>(
-      `${environment.BACKEND_ENDPOINT}posterEvents/getAll/' + ${userId}`
+      'http://localhost:3000/api/posterEvents/getAll/' + userId
     );
   }
 
   getAllEventsForPoster(posterId: string): Observable<any[]> {
     return this.http.get<any[]>(
-      `${environment.BACKEND_ENDPOINT}posterEvents/get/' + ${posterId}`
+      'http://localhost:3000/api/posterEvents/get/' + posterId
     );
   }
 

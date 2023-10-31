@@ -1,4 +1,6 @@
 .container {
+  display: flex;
+  border: 2px solid white;
   min-width: 100%;
   margin: 5px;
   border-radius: 30px;
@@ -10,4 +12,18 @@
     rgba(0, 116, 210, 1) 35%,
     rgba(0, 179, 255, 1) 100%
   );
+  transition: all 0.3s ease-out;
+
+  &__item {
+    padding: 10px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+}
+
+.container:hover {
+  border-color: rgb(0, 47, 255);
+  transform: scale(1.1);
+  cursor: pointer;
 }
