@@ -1,3 +1,5 @@
+import { NotificationTypeEnum } from "../enums/notificationType.enum";
+
 export interface NotificationDAO {
   id?: string;
   userId: string;
@@ -5,4 +7,5 @@ export interface NotificationDAO {
   content: string;
   isReaded: boolean;
   dateTimeSend: string;
+  typeOfNotification: NotificationTypeEnum;
 }

@@ -1,5 +1,6 @@
 import advertisementManager from "./advertisement.manager";
 import advertisementEventsManager from "./advertisementEvents.manager";
+import messageManager from "./message.manager";
 import notificationManager from "./notification.manager";
 import reservedEventsManager from "./reservedEvents.manager";
 import userManager from "./user.manager";
@@ -18,4 +19,5 @@ export default {
   getReservedEventsManager: getter(reservedEventsManager),
   getUtilsManager: getter(utilsManager),
   getNotificationManager: getter(notificationManager),
+  getMessageManager: getter(messageManager),
 };

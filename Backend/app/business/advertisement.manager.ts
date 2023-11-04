@@ -3,8 +3,9 @@ import advertisementDAO from "../DAO/advertisementDAO";
 import posterEventsDAO from "../DAO/advertisementEventDAO";
 import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
 import moment from "moment";
-import notificationsDAO from "../DAO/notificationsDAO";
 import { NotificationDAO } from "../shared/models/notificationDAO.model";
+import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
+import businessContainer from "./business.container";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (advertisement: AdvertisementDAO) => {
@@ -39,8 +40,11 @@ const operations = (context: Context) => {
         content: "Ogłoszenie zostało dodane",
         isReaded: false,
         dateTimeSend: moment().toISOString(),
+        typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
       };
-      await notificationsDAO.createNewOrUpdate(notificationData);
+      await businessContainer
+        .getNotificationManager()
+        .createNewOrUpdate(notificationData);
 
       return advertisementData;
     }

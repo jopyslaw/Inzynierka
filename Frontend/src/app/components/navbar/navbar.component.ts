@@ -2,6 +2,7 @@ import { TokenService } from '../../services/token/token.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MessageService } from 'src/app/services/message/message.service';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
 import { environment } from 'src/environments/environment';
@@ -14,6 +15,7 @@ import { environment } from 'src/environments/environment';
 export class NavbarComponent implements OnInit, OnDestroy {
   isLogged?: boolean;
   numberOfNotifications?: number;
+  numberOfMessages?: number;
   subscription: Subscription = new Subscription();
   role = '';
 
@@ -21,7 +23,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private token: TokenService,
     private router: Router,
     private notificationService: NotificationsService,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
           this.role = this.token.getRole() ?? '';
           this.getNotifications();
           this.connectToSSE();
+          this.getMessages();
         }
       })
     );
@@ -51,6 +55,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .getNotificationCounter(this.token.getUserId() ?? '')
       .subscribe((result) => {
         this.numberOfNotifications = result.counter;
+      });
+  }
+
+  getMessages(): void {
+    this.messageService
+      .getMessageCounter(this.token.getUserId() ?? '')
+      .subscribe((response) => {
+        this.numberOfMessages = response.counter;
       });
   }
 

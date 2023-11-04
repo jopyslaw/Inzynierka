@@ -1,6 +1,5 @@
 import { Server, Socket } from "socket.io";
 import businessContainer from "../business/business.container";
-import { ChangeStream } from "mongodb";
 import notificationsDAO from "../DAO/notificationsDAO";
 
 const notificationSocket = (io: Server) => {

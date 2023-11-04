@@ -1,10 +1,7 @@
 import mongoose from "mongoose";
-import { CategoryEnum } from "../shared/enums/category.enum";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
-import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
-import { TutorOpinionDAO } from "../shared/models/tutorOpinionDAO.model";
 import moment from "moment";
 import { MessageDAO } from "../shared/models/messageDAO.model";
 
@@ -72,9 +69,16 @@ const removeById = async (id: string) => {
   return await MessageModel.findByIdAndRemove(id);
 };
 
+const getAllMessagesNotReadedForUserId = async (userId: string) => {
+  return await MessageModel.find({ reciverId: userId, isReaded: false }, null, {
+    lean: "toObject",
+  });
+};
+
 export default {
   createNewOrUpdate,
   getById,
   removeById,
+  getAllMessagesNotReadedForUserId,
   model: MessageModel,
 };

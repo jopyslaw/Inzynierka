@@ -11,6 +11,7 @@ import { AddOfferComponent } from './components/add-offer/add-offer.component';
 import { AdminAddAccountComponent } from './components/admin-add-account/admin-add-account.component';
 import { PosterDetailsComponent } from './components/poster-details/poster-details.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { MessageComponent } from './components/message/message.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -41,6 +42,11 @@ const routes: Routes = [
   {
     path: 'notifications',
     component: NotificationsComponent,
+    canActivate: [TokenGuard],
+  },
+  {
+    path: 'message',
+    component: MessageComponent,
     canActivate: [TokenGuard],
   },
 ];

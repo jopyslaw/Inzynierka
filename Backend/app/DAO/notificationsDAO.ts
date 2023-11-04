@@ -3,8 +3,8 @@ import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
 import moment from "moment";
-import { MessageDAO } from "../shared/models/messageDAO.model";
 import { NotificationDAO } from "../shared/models/notificationDAO.model";
+import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
 
 const notificationSchema = new mongoose.Schema(
   {
@@ -17,6 +17,11 @@ const notificationSchema = new mongoose.Schema(
     content: { type: String },
     isReaded: { type: Boolean, required: true, default: false },
     dateTimeSend: { type: String, required: true, default: moment.now() },
+    typeOfNotification: {
+      type: String,
+      enum: NotificationTypeEnum,
+      required: true,
+    },
   },
   {
     collection: "notification",
@@ -24,7 +29,7 @@ const notificationSchema = new mongoose.Schema(
 );
 
 const NotificationModel = mongoose.model<NotificationDAO>(
-  "message",
+  "notification",
   notificationSchema
 );
 
@@ -73,13 +78,25 @@ const removeById = async (id: string) => {
 };
 
 const getAllNotificationsNotReadedForUserId = async (userId: string) => {
-  return await NotificationModel.find({ userId, isReaded: false }, null, {
-    lean: "toObject",
-  });
+  return await NotificationModel.find(
+    {
+      userId,
+      isReaded: false,
+      notificationType: NotificationTypeEnum.ADVERTISMENTS,
+    },
+    null,
+    {
+      lean: "toObject",
+    }
+  );
 };
 
 const getNotificationsForUserId = async (userId: string) => {
-  return await NotificationModel.find({ userId }, null, { lean: "toObject" });
+  return await NotificationModel.find(
+    { userId, notificationType: NotificationTypeEnum.ADVERTISMENTS },
+    null,
+    { lean: "toObject" }
+  );
 };
 
 const setNotificationToReadedState = async (notificationId: string) => {

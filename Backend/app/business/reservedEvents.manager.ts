@@ -6,6 +6,8 @@ import { ReservedPosterEventDAO } from "../shared/models/reservedPosterEventDAO.
 import notificationsDAO from "../DAO/notificationsDAO";
 import { NotificationDAO } from "../shared/models/notificationDAO.model";
 import moment from "moment";
+import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
+import businessContainer from "./business.container";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (reservedData: ReservedPosterEventDAO) => {
@@ -17,6 +19,7 @@ const operations = (context: Context) => {
         content: "Uzytkownik zapisał sie do ciebie na korepetycje",
         isReaded: false,
         dateTimeSend: moment().toISOString(),
+        typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
       };
 
       const dataForUser: NotificationDAO = {
@@ -25,14 +28,15 @@ const operations = (context: Context) => {
         content: "Zapis na wybrane korepetycje się powiódł",
         isReaded: false,
         dateTimeSend: moment().toISOString(),
+        typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
       };
 
-      const resultForTutor = await notificationsDAO.createNewOrUpdate(
-        dataForTutor
-      );
-      const resultForUser = await notificationsDAO.createNewOrUpdate(
-        dataForUser
-      );
+      const resultForTutor = await businessContainer
+        .getNotificationManager()
+        .createNewOrUpdate(dataForTutor);
+      const resultForUser = await businessContainer
+        .getNotificationManager()
+        .createNewOrUpdate(dataForUser);
       return reserved;
     }
   };

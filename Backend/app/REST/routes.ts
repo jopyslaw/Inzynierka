@@ -5,6 +5,7 @@ import { advertisementEventsEndpoint } from "./advertisementEvents.endpoint";
 import { reservationEventsEndpoint } from "./reservedEvents.endpoint";
 import { utilsEndpoint } from "./utils.endpoint";
 import { notificationEndpoint } from "./notification.endpoint";
+import { messageEndpoint } from "./message.endpoint";
 
 export const routes = (router: Router) => {
   userEndpoint(router);
@@ -12,4 +13,5 @@ export const routes = (router: Router) => {
   advertisementEventsEndpoint(router), reservationEventsEndpoint(router);
   utilsEndpoint(router);
   notificationEndpoint(router);
+  messageEndpoint(router);
 };

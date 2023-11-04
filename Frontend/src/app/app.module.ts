@@ -39,6 +39,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NotificationItemComponent } from './components/notifications/notification-item/notification-item.component';
+import { MessageComponent } from './components/message/message.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { NotificationItemComponent } from './components/notifications/notificati
     ConfirmDialogComponent,
     NotificationsComponent,
     NotificationItemComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
