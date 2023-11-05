@@ -80,4 +80,16 @@ export const userEndpoint = (router: Router) => {
       }
     }
   );
+
+  router.get(
+    "/api/user/getAllTutors",
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const result = await businessContainer.getUserManager().getAllTutors();
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
 };

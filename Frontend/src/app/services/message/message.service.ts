@@ -15,4 +15,14 @@ export class MessageService {
   getMessageCounter(token: string): Observable<any> {
     return this.http.get('http://localhost:3000/api/message/counter/' + token);
   }
+
+  getAllContacts(userId: string): Observable<any> {
+    return this.http.get(
+      'http://localhost:3000/api/message/contacts/' + userId
+    );
+  }
+
+  getAllTutors(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/user/getAllTutors');
+  }
 }

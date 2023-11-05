@@ -1,7 +1,7 @@
 export interface MessageDAO {
   id?: string;
   senderId: string;
-  userId: string;
+  reciverId: string;
   title: string;
   content: string;
   isReaded: boolean;

@@ -3,7 +3,7 @@ import businessContainer from "../business/business.container";
 import notificationsDAO from "../DAO/notificationsDAO";
 import messageDAO from "../DAO/messageDAO";
 
-const notificationSocket = (io: Server) => {
+const messageSocket = (io: Server) => {
   io.of("/message").on("connection", (socket: Socket) => {
     const messageChangeStream = messageDAO.model.collection.watch();
 
@@ -19,9 +19,9 @@ const notificationSocket = (io: Server) => {
   });
 
   io.of("/message/data").on("connection", (socket: Socket) => {
-    const notificationChangeStream = notificationsDAO.model.collection.watch();
+    const messageChangeStream = messageDAO.model.collection.watch();
 
-    notificationChangeStream.on("change", async (change: any) => {
+    messageChangeStream.on("change", async (change: any) => {
       if (change.operationType === "insert") {
         const message = await businessContainer
           .getMessageManager()
@@ -33,4 +33,4 @@ const notificationSocket = (io: Server) => {
   });
 };
 
-export default notificationSocket;
+export default messageSocket;

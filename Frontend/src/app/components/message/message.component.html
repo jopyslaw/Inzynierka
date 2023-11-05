@@ -1,6 +1,17 @@
 <div class="main_container">
   <div class="container">
-    <div class="container__users"></div>
+    <div class="container__users">
+      <div>
+        <button (click)="sendNewMessage()">Wyślij nową wiadomość</button>
+      </div>
+      <div>
+        <div *ngFor="let contact of contacts">
+          <div class="container__one-user">
+            {{ contact.login }}
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container__messages">
       <div class="container__show_messages"></div>
       <div class="container__input_message">

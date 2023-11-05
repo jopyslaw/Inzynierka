@@ -83,10 +83,40 @@ const removeById = async (id: string) => {
   return await UserModel.findByIdAndRemove(id);
 };
 
+const getAllTutors = async () => {
+  const result = await UserModel.find({ role: UserRole.TUTOR }, "login _id", {
+    lean: "toObject",
+  });
+
+  console.log("its", result);
+
+  if (result) {
+    return result;
+  }
+
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Tutors not found");
+};
+
+const getUsersInformation = async (userIds: (string | undefined)[]) => {
+  const result = await UserModel.find({ _id: { $in: userIds } }, "_id login", {
+    lean: "toObject",
+  });
+
+  console.log("usersData", result);
+
+  if (result) {
+    return result;
+  }
+
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Tutors not found");
+};
+
 export default {
   createNewOrUpdate,
   getByEmailOrLogin,
   get,
   removeById,
+  getAllTutors,
+  getUsersInformation,
   model: UserModel,
 };

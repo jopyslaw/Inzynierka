@@ -12,6 +12,7 @@ import { AdminAddAccountComponent } from './components/admin-add-account/admin-a
 import { PosterDetailsComponent } from './components/poster-details/poster-details.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { MessageComponent } from './components/message/message.component';
+import { NewMessageComponent } from './components/message/new-message/new-message.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -48,6 +49,11 @@ const routes: Routes = [
     path: 'message',
     component: MessageComponent,
     canActivate: [TokenGuard],
+  },
+  {
+    path: 'newMessage',
+    canActivate: [TokenGuard],
+    component: NewMessageComponent,
   },
 ];
 

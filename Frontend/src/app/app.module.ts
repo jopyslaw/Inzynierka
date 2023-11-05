@@ -40,6 +40,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NotificationItemComponent } from './components/notifications/notification-item/notification-item.component';
 import { MessageComponent } from './components/message/message.component';
+import { NewMessageComponent } from './components/message/new-message/new-message.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { MessageComponent } from './components/message/message.component';
     NotificationsComponent,
     NotificationItemComponent,
     MessageComponent,
+    NewMessageComponent,
   ],
   imports: [
     BrowserModule,

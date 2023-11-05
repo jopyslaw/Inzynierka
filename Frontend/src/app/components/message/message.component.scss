@@ -23,6 +23,17 @@
     width: 30%;
   }
 
+  &__one-user {
+    min-height: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 1px solid black;
+    margin-top: 5px;
+  }
+
   &__messages {
     margin-left: 20px;
     border: 2px solid black;

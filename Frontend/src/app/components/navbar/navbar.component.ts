@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private router: Router,
     private notificationService: NotificationsService,
     private socketService: SocketService,
+    private socketServiceMessage: SocketService,
     private messageService: MessageService
   ) {}
 
@@ -36,6 +37,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
           this.getNotifications();
           this.connectToSSE();
           this.getMessages();
+          this.connectToSSEMessage();
         }
       })
     );
@@ -72,6 +74,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.socketService.on('newNotificationCounter').subscribe((counter) => {
       const counterJSON = JSON.parse(counter);
       this.numberOfNotifications = counterJSON.counter;
+    });
+  }
+
+  connectToSSEMessage(): void {
+    this.socketServiceMessage.connect(environment.SOCKET_MESSAGE_ENDPOINT);
+
+    this.socketServiceMessage.on('newMessageCounter').subscribe((counter) => {
+      const counterJSON = JSON.parse(counter);
+      this.numberOfMessages = counterJSON.counter;
     });
   }
 }

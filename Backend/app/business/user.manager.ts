@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
 import { UserDAO as UserDaoModel } from "../shared/models/userDAO.model";
 import { TokenDAO } from "../shared/models/tokenDAO.model";
+import userDAO from "../DAO/userDAO";
 
 const saltRounds = 10;
 
@@ -69,12 +70,20 @@ const operations = (context: Context) => {
     }
   };
 
+  const getAllTutors = async () => {
+    const result = await userDAO.getAllTutors();
+    if (result) {
+      return result;
+    }
+  };
+
   return {
     authenticate: authenticate,
     createNewOrUpdate: createNewOrUpdate,
     removeHashSession: removeHashSession,
     getAccountInfo,
     updatePassword,
+    getAllTutors,
   };
 };
 

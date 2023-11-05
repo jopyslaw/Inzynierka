@@ -1,6 +1,7 @@
 import { Context } from "vm";
 import { MessageDAO } from "../shared/models/messageDAO.model";
 import messageDAO from "../DAO/messageDAO";
+import userDAO from "../DAO/userDAO";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (notification: MessageDAO) => {
@@ -27,6 +28,16 @@ const operations = (context: Context) => {
       return JSON.stringify({ counter: result.length });
     }
   };
+
+  const getAllUserContacts = async (userId: string) => {
+    const result = await messageDAO.getAllUserContacts(userId);
+
+    if (result.length) {
+      const usersData = await userDAO.getUsersInformation(result);
+      console.log(usersData);
+      return usersData;
+    }
+  };
   /*
   const getNotifications = async (userId: string) => {
     const result = await messageDAO.getNotificationsForUserId(userId);
@@ -49,6 +60,7 @@ const operations = (context: Context) => {
     removeById,
     listenToChangesInDatabase,
     getNotReadedMessage,
+    getAllUserContacts,
     /*
     getNotifications,
     setNotificationToReadedState,*/
