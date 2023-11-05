@@ -5,11 +5,11 @@
         <button (click)="sendNewMessage()">Wyślij nową wiadomość</button>
       </div>
       <div>
-        <div *ngFor="let contact of contacts">
-          <div class="container__one-user">
-            {{ contact.login }}
-          </div>
-        </div>
+        <app-contact-item
+          *ngFor="let contact of contacts"
+          [contact]="contact"
+          (selectedItemEmitter)="selectedItem($event)"
+        ></app-contact-item>
       </div>
     </div>
     <div class="container__messages">

@@ -41,6 +41,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { NotificationItemComponent } from './components/notifications/notification-item/notification-item.component';
 import { MessageComponent } from './components/message/message.component';
 import { NewMessageComponent } from './components/message/new-message/new-message.component';
+import { ContactItemComponent } from './components/message/contact-item/contact-item.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { NewMessageComponent } from './components/message/new-message/new-messag
     NotificationItemComponent,
     MessageComponent,
     NewMessageComponent,
+    ContactItemComponent,
   ],
   imports: [
     BrowserModule,

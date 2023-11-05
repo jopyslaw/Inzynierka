@@ -25,4 +25,13 @@ export class MessageService {
   getAllTutors(): Observable<any> {
     return this.http.get('http://localhost:3000/api/user/getAllTutors');
   }
+
+  getMessages(data: any): Observable<any> {
+    return this.http.get(
+      'http://localhost:3000/api/message/messages/' +
+        data.senderId +
+        '/' +
+        data.reciverId
+    );
+  }
 }

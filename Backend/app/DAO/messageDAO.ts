@@ -20,7 +20,7 @@ const messageSchema = new mongoose.Schema(
     title: { type: String },
     content: { type: String, required: true },
     isReaded: { type: Boolean, required: true, default: false },
-    dateTimeSend: { type: String, required: true, default: moment.now() },
+    dateTimeSend: { type: String, required: true, default: moment() },
   },
   {
     collection: "message",
@@ -100,11 +100,48 @@ const getAllUserContacts = async (userId: string) => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "User not found");
 };
 
+const getAllMessages = async (senderId: string, reciverId: string) => {
+  const senderMessages = await MessageModel.find(
+    {
+      senderId: senderId,
+      reciverId: reciverId,
+    },
+    null,
+    { lean: "toObject" }
+  );
+  const reciverMessages = await MessageModel.find(
+    {
+      senderId: reciverId,
+      reciverId: senderId,
+    },
+    null,
+    { lean: "toObject" }
+  );
+
+  const allMessages = [...senderMessages, ...reciverMessages];
+
+  const sortedAllMessages = allMessages.sort(sortMessages);
+
+  if (sortedAllMessages) {
+    return sortedAllMessages;
+  }
+
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "User not found");
+};
+
+const sortMessages = (a: MessageDAO, b: MessageDAO) => {
+  const dateA = moment(a.dateTimeSend);
+  const dateB = moment(b.dateTimeSend);
+
+  return dateA.diff(dateB);
+};
+
 export default {
   createNewOrUpdate,
   getById,
   removeById,
   getAllMessagesNotReadedForUserId,
   getAllUserContacts,
+  getAllMessages,
   model: MessageModel,
 };

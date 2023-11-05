@@ -10,6 +10,8 @@ import { TokenService } from 'src/app/services/token/token.service';
 })
 export class MessageComponent implements OnInit {
   contacts!: any[];
+  selectedContact: any;
+  messages!: any[];
 
   constructor(
     private messageService: MessageService,
@@ -32,5 +34,22 @@ export class MessageComponent implements OnInit {
 
   sendNewMessage(): void {
     this.router.navigateByUrl('newMessage');
+  }
+
+  getMessages(): void {
+    const data = {
+      senderId: this.tokenService.getUserId(),
+      reciverId: this.selectedContact._id,
+    };
+
+    this.messageService.getMessages(data).subscribe((response: any) => {
+      this.messages = response;
+    });
+  }
+
+  selectedItem(data: any): void {
+    this.selectedContact = data;
+    console.log(data);
+    this.getMessages();
   }
 }

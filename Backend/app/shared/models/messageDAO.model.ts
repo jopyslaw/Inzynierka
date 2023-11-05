@@ -5,5 +5,5 @@ export interface MessageDAO {
   title: string;
   content: string;
   isReaded: boolean;
-  dateTimeSend: String;
+  dateTimeSend: string;
 }

@@ -44,4 +44,18 @@ export const messageEndpoint = (router: Router) => {
       }
     }
   );
+
+  router.get(
+    "/api/message/messages/:senderId/:reciverId",
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const result = await businessContainer
+          .getMessageManager()
+          .getAllMessages(request.params.senderId, request.params.reciverId);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
 };

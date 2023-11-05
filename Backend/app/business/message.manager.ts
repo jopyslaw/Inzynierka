@@ -38,6 +38,14 @@ const operations = (context: Context) => {
       return usersData;
     }
   };
+
+  const getAllMessages = async (senderId: string, reciverId: string) => {
+    const result = await messageDAO.getAllMessages(senderId, reciverId);
+
+    if (result) {
+      return result;
+    }
+  };
   /*
   const getNotifications = async (userId: string) => {
     const result = await messageDAO.getNotificationsForUserId(userId);
@@ -61,6 +69,7 @@ const operations = (context: Context) => {
     listenToChangesInDatabase,
     getNotReadedMessage,
     getAllUserContacts,
+    getAllMessages,
     /*
     getNotifications,
     setNotificationToReadedState,*/
