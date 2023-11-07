@@ -1,10 +1,16 @@
 import { Context } from "vm";
 import notificationsDAO from "../DAO/notificationsDAO";
 import { NotificationDAO } from "../shared/models/notificationDAO.model";
+import moment from "moment";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (notification: NotificationDAO) => {
-    const reserved = await notificationsDAO.createNewOrUpdate(notification);
+    const data: NotificationDAO = {
+      ...notification,
+      dateTimeSend: moment().toISOString(),
+    };
+
+    const reserved = await notificationsDAO.createNewOrUpdate(data);
     if (reserved) {
       return reserved;
     }

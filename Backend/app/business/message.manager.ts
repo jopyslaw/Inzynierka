@@ -2,10 +2,16 @@ import { Context } from "vm";
 import { MessageDAO } from "../shared/models/messageDAO.model";
 import messageDAO from "../DAO/messageDAO";
 import userDAO from "../DAO/userDAO";
+import moment from "moment";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (notification: MessageDAO) => {
-    const reserved = await messageDAO.createNewOrUpdate(notification);
+    const data: MessageDAO = {
+      ...notification,
+      dateTimeSend: moment().toISOString(),
+    };
+
+    const reserved = await messageDAO.createNewOrUpdate(data);
     if (reserved) {
       return reserved;
     }
@@ -46,6 +52,19 @@ const operations = (context: Context) => {
       return result;
     }
   };
+
+  const setStateToReaded = async (data: {
+    senderId: string;
+    reciverId: string;
+  }) => {
+    const result = await messageDAO.setStateToReaded(
+      data.senderId,
+      data.reciverId
+    );
+    if (result) {
+      return result;
+    }
+  };
   /*
   const getNotifications = async (userId: string) => {
     const result = await messageDAO.getNotificationsForUserId(userId);
@@ -70,9 +89,7 @@ const operations = (context: Context) => {
     getNotReadedMessage,
     getAllUserContacts,
     getAllMessages,
-    /*
-    getNotifications,
-    setNotificationToReadedState,*/
+    setStateToReaded,
   };
 };
 

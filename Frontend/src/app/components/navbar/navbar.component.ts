@@ -69,7 +69,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   connectToSSE(): void {
-    this.socketService.connect(environment.SOCKET_NOTIFICATION_ENDPOINT);
+    this.socketService.connect(environment.SOCKET_NOTIFICATION_ENDPOINT, {
+      query: {
+        userId: this.token.getUserId(),
+      },
+    });
 
     this.socketService.on('newNotificationCounter').subscribe((counter) => {
       const counterJSON = JSON.parse(counter);
@@ -78,7 +82,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   connectToSSEMessage(): void {
-    this.socketServiceMessage.connect(environment.SOCKET_MESSAGE_ENDPOINT);
+    this.socketServiceMessage.connect(environment.SOCKET_MESSAGE_ENDPOINT, {
+      query: {
+        userId: this.token.getUserId(),
+      },
+    });
 
     this.socketServiceMessage.on('newMessageCounter').subscribe((counter) => {
       const counterJSON = JSON.parse(counter);

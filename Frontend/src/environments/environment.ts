@@ -8,6 +8,7 @@ export const environment = {
   SOCKET_NOTIFICATION_ENDPOINT: 'http://localhost:3000/notifications',
   SOCKET_NOTIFICATION_ENDPOINT_DATA: 'http://localhost:3000/notifications/data',
   SOCKET_MESSAGE_ENDPOINT: 'http://localhost:3000/message',
+  SOCKET_MESSAGE_ENDPOINT_DATA: 'http://localhost:3000/message/data',
 };
 
 /*

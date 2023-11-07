@@ -34,4 +34,11 @@ export class MessageService {
         data.reciverId
     );
   }
+
+  setStateToReaded(data: {
+    senderId: string;
+    reciverId: string;
+  }): Observable<any> {
+    return this.http.post('http://localhost:3000/api/message/readed', data);
+  }
 }

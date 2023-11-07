@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
-import moment from "moment";
 import { MessageDAO } from "../shared/models/messageDAO.model";
 
 const messageSchema = new mongoose.Schema(
@@ -20,7 +19,10 @@ const messageSchema = new mongoose.Schema(
     title: { type: String },
     content: { type: String, required: true },
     isReaded: { type: Boolean, required: true, default: false },
-    dateTimeSend: { type: String, required: true, default: moment() },
+    dateTimeSend: {
+      type: String,
+      required: true,
+    },
   },
   {
     collection: "message",
@@ -84,11 +86,19 @@ const getAllUserContacts = async (userId: string) => {
     { lean: "toObject" }
   ); // Wszystkie dane
 
-  const uniqueIds = result.map((ids) => {
-    if (ids.reciverId !== userId) {
-      return ids.reciverId;
-    } else if (ids.senderId !== userId) {
-      return ids.senderId;
+  console.log("results", result);
+  console.log("userId", userId);
+
+  const uniqueIds = result.map((id) => {
+    console.log("id", id);
+    console.log("userId", userId);
+
+    if (id.reciverId.toString() !== userId) {
+      console.log("reciver id inne od userId", id.reciverId !== userId);
+      return id.reciverId;
+    } else if (id.senderId.toString() !== userId) {
+      console.log("sender id inne od userId", id.senderId !== userId);
+      return id.senderId;
     }
   });
   console.log(userId);
@@ -120,7 +130,11 @@ const getAllMessages = async (senderId: string, reciverId: string) => {
 
   const allMessages = [...senderMessages, ...reciverMessages];
 
-  const sortedAllMessages = allMessages.sort(sortMessages);
+  console.log("allMessages", allMessages);
+
+  const sortedAllMessages = allMessages.sort((a: any, b: any) => {
+    return a.dateTimeSend.localeCompare(b.dateTimeSend);
+  });
 
   if (sortedAllMessages) {
     return sortedAllMessages;
@@ -129,11 +143,13 @@ const getAllMessages = async (senderId: string, reciverId: string) => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "User not found");
 };
 
-const sortMessages = (a: MessageDAO, b: MessageDAO) => {
-  const dateA = moment(a.dateTimeSend);
-  const dateB = moment(b.dateTimeSend);
+const setStateToReaded = async (senderId: string, reciverId: string) => {
+  const result = await MessageModel.updateMany(
+    { senderId: reciverId, reciverId: senderId, isReaded: false },
+    { $set: { isReaded: true } }
+  );
 
-  return dateA.diff(dateB);
+  return result;
 };
 
 export default {
@@ -143,5 +159,6 @@ export default {
   getAllMessagesNotReadedForUserId,
   getAllUserContacts,
   getAllMessages,
+  setStateToReaded,
   model: MessageModel,
 };

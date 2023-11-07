@@ -16,7 +16,10 @@ const notificationSchema = new mongoose.Schema(
     title: { type: String, required: true },
     content: { type: String },
     isReaded: { type: Boolean, required: true, default: false },
-    dateTimeSend: { type: String, required: true, default: moment.now() },
+    dateTimeSend: {
+      type: String,
+      required: true,
+    },
     typeOfNotification: {
       type: String,
       enum: NotificationTypeEnum,

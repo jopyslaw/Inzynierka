@@ -21,11 +21,21 @@ const messageSocket = (io: Server) => {
   io.of("/message/data").on("connection", (socket: Socket) => {
     const messageChangeStream = messageDAO.model.collection.watch();
 
+    console.log(
+      "data i need",
+      socket.handshake.query,
+      socket.handshake.query.senderId,
+      socket.handshake.query.reciverId
+    );
+
     messageChangeStream.on("change", async (change: any) => {
       if (change.operationType === "insert") {
         const message = await businessContainer
           .getMessageManager()
-          .getMessage(socket.handshake.query.userId);
+          .getAllMessages(
+            socket.handshake.query.senderId,
+            socket.handshake.query.reciverId
+          );
 
         socket.emit("newMessage", message);
       }

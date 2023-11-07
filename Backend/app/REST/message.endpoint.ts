@@ -58,4 +58,18 @@ export const messageEndpoint = (router: Router) => {
       }
     }
   );
+
+  router.post(
+    "/api/message/readed",
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const result = await businessContainer
+          .getMessageManager()
+          .setStateToReaded(request.body);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
 };

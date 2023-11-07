@@ -1,8 +1,10 @@
 <div class="main_container">
   <div class="container">
     <div class="container__users">
-      <div>
-        <button (click)="sendNewMessage()">Wyślij nową wiadomość</button>
+      <div class="container__button">
+        <button class="button" (click)="sendNewMessage()">
+          Wyślij nową wiadomość
+        </button>
       </div>
       <div>
         <app-contact-item
@@ -13,14 +15,30 @@
       </div>
     </div>
     <div class="container__messages">
-      <div class="container__show_messages"></div>
+      <div class="container__show_messages">
+        <ng-container *ngFor="let message of messages">
+          <div *ngIf="message.senderId === userId">
+            <div>Ty: {{ message.content }}</div>
+          </div>
+          <div *ngIf="message.senderId !== userId">
+            <div>Obcy: {{ message.content }}</div>
+          </div>
+          <div></div>
+        </ng-container>
+      </div>
       <div class="container__input_message">
-        <div>
-          <input type="text" />
-        </div>
-        <div>
-          <button>Send</button>
-        </div>
+        <form [formGroup]="form" class="container__form">
+          <div class="container__input-div">
+            <input
+              type="text"
+              formControlName="content"
+              class="container__input"
+            />
+          </div>
+          <div>
+            <button class="button-send" (click)="sendMessage()">Send</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

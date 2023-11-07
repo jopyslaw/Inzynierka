@@ -11,11 +11,12 @@ export class SocketService {
 
   constructor(private token: TokenService) {}
 
-  connect(url: string): void {
+  connect(url: string, connectOptions: any): void {
     this.socket = io(url, {
-      query: {
+      ...connectOptions,
+      /*query: {
         userId: this.token.getUserId(),
-      },
+      },*/
     });
   }
 

@@ -37,7 +37,11 @@ export class NotificationsComponent implements OnInit {
   }
 
   connectSSE(): void {
-    this.socketService.connect(environment.SOCKET_NOTIFICATION_ENDPOINT_DATA);
+    this.socketService.connect(environment.SOCKET_NOTIFICATION_ENDPOINT_DATA, {
+      query: {
+        userId: this.tokenService.getUserId(),
+      },
+    });
 
     this.socketService.on('newNotifications').subscribe((response) => {
       console.log(response);
