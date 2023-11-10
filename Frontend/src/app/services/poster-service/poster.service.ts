@@ -1,7 +1,6 @@
-import { foodModel } from '../../shared/models/food.model';
 import { PosterModel } from '../../shared/models/poster.model';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({

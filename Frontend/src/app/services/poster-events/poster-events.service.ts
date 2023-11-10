@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AdvertisementEvent } from 'src/app/shared/models/advertisementEvent.model';
+import { PosterEventsModel } from 'src/app/shared/models/poster.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -9,13 +11,13 @@ import { environment } from 'src/environments/environment';
 export class PosterEventsService {
   constructor(private http: HttpClient) {}
 
-  getAllEventsForUser(userId: string): Observable<any[]> {
+  getAllEventsForUser(userId: string): Observable<PosterEventsModel[]> {
     return this.http.get<any[]>(
       'http://localhost:3000/api/posterEvents/getAll/' + userId
     );
   }
 
-  getAllEventsForPoster(posterId: string): Observable<any[]> {
+  getAllEventsForPoster(posterId: string): Observable<PosterEventsModel[]> {
     return this.http.get<any[]>(
       'http://localhost:3000/api/posterEvents/get/' + posterId
     );
@@ -31,7 +33,7 @@ export class PosterEventsService {
     );
   }
 
-  getAllReservedUserEvents(userId: string): Observable<any[]> {
+  getAllReservedUserEvents(userId: string): Observable<PosterEventsModel[]> {
     return this.http.get<any[]>(
       'http://localhost:3000/api/posterEvents/reservedUserEvents/' + userId
     );

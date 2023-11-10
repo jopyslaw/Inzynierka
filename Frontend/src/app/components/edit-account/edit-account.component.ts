@@ -10,6 +10,7 @@ import { EditAccountService } from 'src/app/services/editAccount/edit-account.se
 import { TokenService } from 'src/app/services/token/token.service';
 import { emailRegex } from 'src/assets/validators/email-validator';
 import { passwordRegex } from 'src/assets/validators/password-validator';
+import { PasswordForm, RegisterForm } from './edit-account-form.model';
 
 @Component({
   selector: 'app-edit-account',
@@ -18,8 +19,8 @@ import { passwordRegex } from 'src/assets/validators/password-validator';
 })
 export class EditAccountComponent implements OnInit, OnDestroy {
   oldAccountInfo: any;
-  registerForm!: FormGroup;
-  passwordForm!: FormGroup;
+  registerForm!: FormGroup<RegisterForm>;
+  passwordForm!: FormGroup<PasswordForm>;
 
   destroy$: Subject<void> = new Subject();
   constructor(
@@ -30,6 +31,10 @@ export class EditAccountComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
+      id: this.fb.control({
+        value: this.tokenService.getUserId(),
+        disabled: true,
+      }),
       name: this.fb.control('', [Validators.required]),
       surname: this.fb.control('', [Validators.required]),
       login: this.fb.control('', [Validators.required]),
@@ -41,11 +46,11 @@ export class EditAccountComponent implements OnInit, OnDestroy {
     });
 
     this.passwordForm = this.fb.group({
-      password: this.fb.control('', [
+      password: this.fb.nonNullable.control('', [
         Validators.pattern(passwordRegex),
         Validators.required,
       ]),
-      repeatPassword: this.fb.control('', [
+      repeatPassword: this.fb.nonNullable.control('', [
         Validators.pattern(passwordRegex),
         Validators.required,
       ]),
@@ -64,18 +69,21 @@ export class EditAccountComponent implements OnInit, OnDestroy {
   }
 
   updateAccountData(): void {
-    console.log('work');
     const data = this.registerForm.getRawValue();
-    data.id = this.oldAccountInfo.id;
-    this.service.updateAccountInfo(data).subscribe(() => {});
+    this.service
+      .updateAccountInfo(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {});
   }
 
   updatePassword(): void {
-    console.log('work');
-    const data = this.passwordForm.get('password')?.value;
+    const data = this.passwordForm.controls.password.value;
     const userId = this.tokenService.getUserId();
     if (userId) {
-      this.service.updatePassword(userId, data).subscribe(() => {});
+      this.service
+        .updatePassword(userId, data)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {});
     }
   }
 

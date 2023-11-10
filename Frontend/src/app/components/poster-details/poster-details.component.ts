@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import {
   PosterEventsModel,
@@ -14,17 +14,19 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
 import { TokenService } from 'src/app/services/token/token.service';
 import { UtilsService } from 'src/app/services/utils/utils.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-poster-details',
   templateUrl: './poster-details.component.html',
   styleUrls: ['./poster-details.component.scss'],
 })
-export class PosterDetailsComponent implements OnInit {
+export class PosterDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
   posterData?: PosterModel;
   events?: PosterEventsModel[] = [];
   posterId!: string;
+  private destroy$: Subject<void> = new Subject<void>();
 
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
@@ -52,29 +54,38 @@ export class PosterDetailsComponent implements OnInit {
     this.getCurrentDate();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   handleEventClick(clickInfo: EventClickArg) {
     /*if (this.isEditable(clickInfo.event.id)) {
       return;
     }*/
     this.confirmDialog(clickInfo.event.toJSON());
-    console.log(clickInfo.event.toJSON());
   }
 
   getPosterData(id: string): void {
-    this.service.getPosterById(id).subscribe((response) => {
-      console.log(response);
-      this.posterData = response;
-    });
-
-    this.posterEventsService.getAllEventsForPoster(id).subscribe((response) => {
-      this.events = response.map((event) => {
-        return {
-          ...event,
-          backgroundColor: event.reserved ? 'gray' : '',
-        };
+    this.service
+      .getPosterById(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {
+        this.posterData = response;
       });
-      this.calendarComponent.events = this.events;
-    });
+
+    this.posterEventsService
+      .getAllEventsForPoster(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {
+        this.events = response.map((event) => {
+          return {
+            ...event,
+            backgroundColor: event.reserved ? 'gray' : '',
+          };
+        });
+        this.calendarComponent.events = this.events;
+      });
   }
 
   confirmDialog(additionalData: any): void {
@@ -91,11 +102,14 @@ export class PosterDetailsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((dialogResult) => {
-      if (dialogResult) {
-        this.reserveVisit(dialogResult);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((dialogResult) => {
+        if (dialogResult) {
+          this.reserveVisit(dialogResult);
+        }
+      });
   }
 
   reserveVisit(data: any): void {
@@ -105,20 +119,25 @@ export class PosterDetailsComponent implements OnInit {
       advertisementId: data.extendedProps.advertisementId,
       advertisementEventId: data.extendedProps._id,
     };
-    console.log(preparedData);
-    this.posterEventsService.saveEventToUser(preparedData).subscribe((d) => {
-      this.getPosterData(this.posterId);
-    });
+    this.posterEventsService
+      .saveEventToUser(preparedData)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((d) => {
+        this.getPosterData(this.posterId);
+      });
   }
 
   getCurrentDate(): void {
-    this.utilsService.getCurrentDate().subscribe((repsonse) => {
-      this.calendarComponent.options = {
-        ...this.calendarComponent.options,
-        validRange: {
-          start: repsonse.stringDate,
-        },
-      };
-    });
+    this.utilsService
+      .getCurrentDate()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((repsonse) => {
+        this.calendarComponent.options = {
+          ...this.calendarComponent.options,
+          validRange: {
+            start: repsonse.stringDate,
+          },
+        };
+      });
   }
 }

@@ -12,7 +12,7 @@ import {
 export class LoginService {
   constructor(private http: HttpClient) {}
 
-  sendData(loginData: LoginModel): Observable<LoginModelResponse> {
+  login(loginData: LoginModel): Observable<LoginModelResponse> {
     const headers = new HttpHeaders({ Accept: '*/*' });
     return this.http.post<LoginModelResponse>(
       'http://www.localhost:3000/api/user/auth',

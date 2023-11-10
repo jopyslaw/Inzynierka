@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'src/app/services/message/message.service';
@@ -6,22 +6,23 @@ import { TokenService } from 'src/app/services/token/token.service';
 import { NextMessageModel } from './message-form.model';
 import { SocketService } from 'src/app/services/socket/socket.service';
 import { environment } from 'src/environments/environment';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent implements OnInit, OnDestroy {
   form!: FormGroup<NextMessageModel>;
   contacts!: any[];
   selectedContact: any;
   messages!: any[];
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private messageService: MessageService,
     private tokenService: TokenService,
-    private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
     private socketService: SocketService
@@ -47,9 +48,15 @@ export class MessageComponent implements OnInit {
     console.log(this.userId);
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   getContacts(): void {
     this.messageService
       .getAllContacts(this.tokenService.getUserId() ?? '')
+      .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         this.contacts = response;
       });
@@ -65,14 +72,16 @@ export class MessageComponent implements OnInit {
       reciverId: this.selectedContact._id,
     };
 
-    this.messageService.getMessages(data).subscribe((response: any) => {
-      this.messages = response;
-    });
+    this.messageService
+      .getMessages(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response: any) => {
+        this.messages = response;
+      });
   }
 
   selectedItem(data: any): void {
     this.selectedContact = data;
-    console.log(data);
     this.getMessages();
     this.form.controls.reciverId.setValue(this.selectedContact._id);
     this.connectSSE();
@@ -82,6 +91,7 @@ export class MessageComponent implements OnInit {
   sendMessage(): void {
     this.messageService
       .sendMessage(this.form.getRawValue())
+      .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {});
   }
 
@@ -94,10 +104,12 @@ export class MessageComponent implements OnInit {
       forceNew: true,
     });
 
-    this.socketService.on('newMessage').subscribe((response) => {
-      console.log(response);
-      this.messages = response;
-    });
+    this.socketService
+      .on('newMessage')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {
+        this.messages = response;
+      });
   }
 
   setStateToReaded(): void {
@@ -105,6 +117,9 @@ export class MessageComponent implements OnInit {
       senderId: this.tokenService.getUserId() ?? '',
       reciverId: this.selectedContact._id,
     };
-    this.messageService.setStateToReaded(data).subscribe((response) => {});
+    this.messageService
+      .setStateToReaded(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {});
   }
 }

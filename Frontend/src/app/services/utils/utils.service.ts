@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CurrentDate } from 'src/app/shared/models/currentDateUtils.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class UtilsService {
 
   constructor(private http: HttpClient) {}
 
-  getCurrentDate(): Observable<any> {
-    return this.http.get<any>(this.url);
+  getCurrentDate(): Observable<CurrentDate> {
+    return this.http.get<CurrentDate>(this.url);
   }
 }

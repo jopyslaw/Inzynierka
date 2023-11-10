@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
-import { TokenService } from '../token/token.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,14 +8,11 @@ import { Observable } from 'rxjs';
 export class SocketService {
   private socket!: Socket;
 
-  constructor(private token: TokenService) {}
+  constructor() {}
 
   connect(url: string, connectOptions: any): void {
     this.socket = io(url, {
       ...connectOptions,
-      /*query: {
-        userId: this.token.getUserId(),
-      },*/
     });
   }
 

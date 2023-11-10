@@ -1,34 +1,37 @@
 import { TokenService } from '../../services/token/token.service';
-import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { LoginService } from '../../services/login/login.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { passwordRegex } from './../../../assets/validators/password-validator';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoginForm } from './login-form.model';
+import { Observable, Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
 })
-export class LoginPageComponent implements OnInit {
-  loginForm!: FormGroup;
+export class LoginPageComponent implements OnInit, OnDestroy {
+  loginForm!: FormGroup<LoginForm>;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private login: LoginService,
-    private store: LocalStorageService,
     private router: Router,
-    private token: TokenService
+    private token: TokenService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      login: new FormControl('', [Validators.required]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.pattern(passwordRegex),
-      ]),
+    this.loginForm = this.fb.group<LoginForm>({
+      login: this.fb.nonNullable.control('', [Validators.required]),
+      password: this.fb.nonNullable.control('', [Validators.required]),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   sendLogin(): void {
@@ -36,15 +39,19 @@ export class LoginPageComponent implements OnInit {
       return;
     }
 
-    this.login.sendData(this.loginForm.value).subscribe({
-      next: (data) => {
-        if (data) {
-          this.token.setToken(data.token);
-          this.token.isLogged.next(true);
-        }
-      },
-      complete: () => this.router.navigate(['/']),
-    });
-    //change this.token to data where the token from backend should be
+    const data = this.loginForm.getRawValue();
+
+    this.login
+      .login(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.token.setToken(data.token);
+            this.token.isLogged.next(true);
+          }
+        },
+        complete: () => this.router.navigate(['/']),
+      });
   }
 }

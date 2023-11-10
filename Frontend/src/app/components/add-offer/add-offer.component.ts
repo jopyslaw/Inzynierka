@@ -1,10 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import {
@@ -97,11 +92,7 @@ export class AddOfferComponent implements OnInit {
     data.events = events;
     data.userId = this.token.getUserId() as string;
 
-    console.log(data);
-
-    this.addService.addPoster(data).subscribe((data) => {
-      console.log('data was send');
-    });
+    this.addService.addPoster(data).subscribe((data) => {});
   }
 
   clearFrom(): void {
@@ -111,7 +102,7 @@ export class AddOfferComponent implements OnInit {
   handleDateSelect(selectInfo: DateSelectArg) {
     const calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect(); // clear date selection
+    calendarApi.unselect();
 
     calendarApi.addEvent({
       id: UUID.UUID(),
@@ -152,7 +143,9 @@ export class AddOfferComponent implements OnInit {
         this.calendarComponent.options = {
           ...this.calendarComponent.options,
           validRange: {
-            start: this.currentDate,
+            start: moment(this.addForm.controls.startDate.value).format(
+              'YYYY-MM-DD'
+            ),
             end: moment(this.addForm.controls.endDate.value).format(
               'YYYY-MM-DD'
             ),

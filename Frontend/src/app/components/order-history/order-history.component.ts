@@ -1,6 +1,5 @@
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -18,6 +17,7 @@ import { UtilsService } from 'src/app/services/utils/utils.service';
 })
 export class OrderHistoryComponent implements OnInit, OnDestroy {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
+  private destroy$: Subject<void> = new Subject<void>();
   validRange = {
     start: '',
   };
@@ -45,7 +45,10 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     this.getAllReservations();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   handleEventClick(clickInfo: EventClickArg) {
     /*if (this.isEditable(clickInfo.event.id)) {
@@ -56,8 +59,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   confirmDialog(additionalData: any): void {
-    const message = `Are you sure you want to do this?`;
-
     if (additionalData.extendedProps.reserved) {
       return;
     }
@@ -81,6 +82,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   removeVisit(data: any): void {
     this.posterEventsService
       .removeEventFromUser(data.extendedProps.reservedId)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((d) => {
         this.getAllReservations();
       });
@@ -92,6 +94,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     if (userId) {
       this.posterEventsService
         .getAllReservedUserEvents(userId)
+        .pipe(takeUntil(this.destroy$))
         .subscribe((response) => {
           this.data = response;
           this.calendarComponent.events = this.data;
@@ -100,14 +103,17 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   getCurrentDate(): void {
-    this.utilsService.getCurrentDate().subscribe((repsonse) => {
-      this.validRange.start = repsonse.stringDate;
-      this.calendarComponent.options = {
-        ...this.calendarComponent.options,
-        validRange: {
-          start: repsonse.stringDate,
-        },
-      };
-    });
+    this.utilsService
+      .getCurrentDate()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((repsonse) => {
+        this.validRange.start = repsonse.stringDate;
+        this.calendarComponent.options = {
+          ...this.calendarComponent.options,
+          validRange: {
+            start: repsonse.stringDate,
+          },
+        };
+      });
   }
 }

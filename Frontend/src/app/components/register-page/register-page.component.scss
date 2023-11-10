@@ -80,6 +80,15 @@
   color: #fff;
 }
 
+.register-btn:hover {
+  cursor: pointer;
+}
+
+.register-btn:disabled {
+  background-color: #919191;
+  border-color: #919191;
+}
+
 .clear-btn {
   min-width: 100px;
   min-height: 60px;
@@ -89,6 +98,10 @@
   text-align: center;
   color: #fff;
   margin-left: 20px;
+}
+
+.clear-btn:hover {
+  cursor: pointer;
 }
 
 .flex {

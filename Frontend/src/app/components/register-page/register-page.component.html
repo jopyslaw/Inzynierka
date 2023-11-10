@@ -1,6 +1,6 @@
 <div class="register-page img">
   <div class="register-page__form">
-    <span class="register-page--text">Zarejstruj się</span>
+    <span class="register-page--text">Zarejestruj się</span>
     <form [formGroup]="this.registerForm">
       <div class="register-page__form--flex register-page__form--margin">
         <div class="register-page__form--half-width">
@@ -45,7 +45,7 @@
       </div>
       <div class="register-page__form--margin">
         <label class="register-page__form--label" for="login"
-          >Podaj nazwę użtykownika</label
+          >Podaj nazwę użytkownika</label
         ><br />
         <input
           type="text"
@@ -160,7 +160,7 @@
       </div>
       <div class="register-page__form--margin">
         <label class="register-page__form--label" for="phoneNumber"
-          >Podaj numer telefonu (opcjonalnie)</label
+          >Podaj numer telefonu</label
         ><br />
         <input
           type="text"
@@ -211,7 +211,7 @@
           [disabled]="!this.registerForm.valid"
           (click)="send()"
         >
-          Zarejstruj się
+          Zarejestruj się
         </button>
         <button class="clear-btn" (click)="clear()">Wyczyść</button>
       </div>

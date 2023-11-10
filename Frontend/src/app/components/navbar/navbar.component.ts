@@ -53,19 +53,23 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   getNotifications(): void {
-    this.notificationService
-      .getNotificationCounter(this.token.getUserId() ?? '')
-      .subscribe((result) => {
-        this.numberOfNotifications = result.counter;
-      });
+    this.subscription.add(
+      this.notificationService
+        .getNotificationCounter(this.token.getUserId() ?? '')
+        .subscribe((result) => {
+          this.numberOfNotifications = result.counter;
+        })
+    );
   }
 
   getMessages(): void {
-    this.messageService
-      .getMessageCounter(this.token.getUserId() ?? '')
-      .subscribe((response) => {
-        this.numberOfMessages = response.counter;
-      });
+    this.subscription.add(
+      this.messageService
+        .getMessageCounter(this.token.getUserId() ?? '')
+        .subscribe((response) => {
+          this.numberOfMessages = response.counter;
+        })
+    );
   }
 
   connectToSSE(): void {
@@ -75,10 +79,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.socketService.on('newNotificationCounter').subscribe((counter) => {
-      const counterJSON = JSON.parse(counter);
-      this.numberOfNotifications = counterJSON.counter;
-    });
+    this.subscription.add(
+      this.socketService.on('newNotificationCounter').subscribe((counter) => {
+        const counterJSON = JSON.parse(counter);
+        this.numberOfNotifications = counterJSON.counter;
+      })
+    );
   }
 
   connectToSSEMessage(): void {
@@ -88,9 +94,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.socketServiceMessage.on('newMessageCounter').subscribe((counter) => {
-      const counterJSON = JSON.parse(counter);
-      this.numberOfMessages = counterJSON.counter;
-    });
+    this.subscription.add(
+      this.socketServiceMessage.on('newMessageCounter').subscribe((counter) => {
+        const counterJSON = JSON.parse(counter);
+        this.numberOfMessages = counterJSON.counter;
+      })
+    );
   }
 }

@@ -1,14 +1,5 @@
-import {
-  AfterContentChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, Input, OnInit } from '@angular/core';
 import { PosterModel } from 'src/app/shared/models/poster.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-offer-item',
@@ -31,27 +22,24 @@ export class OfferItemComponent implements OnInit {
 
   class: string[] = ['transformNote1', 'transformNote2'];
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.randomClassValue = this.randomClass();
     this.randomColorValue = this.randomColor();
-    console.log(this.offerItemData);
   }
 
   randomColor(): string {
-    const randomIndex = Math.floor(Math.random() * this.colors.length);
-    const randomColor = this.colors[randomIndex];
-    return randomColor;
+    return this.randomElementFromArray(this.colors);
   }
 
   randomClass(): string {
-    const randomIndex = Math.floor(Math.random() * this.class.length);
-    const randomColor = this.class[randomIndex];
-    return randomColor;
+    return this.randomElementFromArray(this.class);
+  }
+
+  private randomElementFromArray(array: string[]) {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    const randomValue = array[randomIndex];
+    return randomValue;
   }
 }

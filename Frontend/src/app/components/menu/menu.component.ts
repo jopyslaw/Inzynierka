@@ -1,5 +1,4 @@
-import { foodModel } from '../../shared/models/food.model';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PosterModel } from 'src/app/shared/models/poster.model';
 import { CategoryPosterEnum } from 'src/app/shared/enums/categoryPoster.enum';
@@ -11,25 +10,29 @@ import { PosterService } from 'src/app/services/poster-service/poster.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  filterOption: any[] = [
+  filterOption: CategoryPosterEnum[] = [
     CategoryPosterEnum.ARTISTIC,
     CategoryPosterEnum.HUMAN,
     CategoryPosterEnum.SCIENCE,
     CategoryPosterEnum.OTHERS,
   ];
-
-  private subsrciption: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
 
   items: PosterModel[] = [];
 
   constructor(private service: PosterService) {}
+
   ngOnDestroy(): void {
-    this.subsrciption.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngOnInit(): void {
-    this.service.getAllAvailablePosters().subscribe((response) => {
-      this.items = response;
-    });
+    this.service
+      .getAllAvailablePosters()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {
+        this.items = response;
+      });
   }
 }
