@@ -64,7 +64,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     }
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: '400px',
+      width: '500px',
+      height: '200px',
       data: {
         title: 'Confirm',
         message: 'Czy chcesz usunąć wizytę',

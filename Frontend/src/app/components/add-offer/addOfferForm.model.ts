@@ -7,6 +7,6 @@ export interface AddOfferModel {
   price: FormControl<string | null>;
   events?: FormArray;
   userId?: FormControl<string>;
-  startDate: FormControl<string | null>;
-  endDate: FormControl<string | null>;
+  startDate: FormControl<string | null | undefined>;
+  endDate: FormControl<string | null | undefined>;
 }

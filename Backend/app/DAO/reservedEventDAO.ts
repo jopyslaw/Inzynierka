@@ -3,6 +3,7 @@ import { ReservedPosterEventDAO } from "../shared/models/reservedPosterEventDAO.
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
+import { error } from "console";
 
 const ReservedEventSchema = new mongoose.Schema(
   {
@@ -17,7 +18,7 @@ const ReservedEventSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    reserved: { type: Boolean, default: true },
+    reserved: { type: Boolean, default: false, required: true },
   },
   {
     collection: "advertisementReservedEvent",
@@ -30,6 +31,12 @@ const ReservedEventModel = mongoose.model<ReservedPosterEventDAO>(
 );
 
 const createNewOrUpdate = async (reservedData: ReservedPosterEventDAO) => {
+  if (reservedData.tutorId === reservedData.userId) {
+    throw errorUtils.new(
+      ErrorCodes.CONFLICT.code,
+      "Tutor cant reserve his own advertisement"
+    );
+  }
   return Promise.resolve()
     .then(() => {
       if (!reservedData.id) {
@@ -58,7 +65,7 @@ const createNewOrUpdate = async (reservedData: ReservedPosterEventDAO) => {
 };
 
 const removeById = async (id: string) => {
-  return await ReservedEventModel.findByIdAndRemove(id);
+  return await ReservedEventModel.findByIdAndUpdate(id, { reserved: false });
 };
 
 const getReservationById = async (id: string) => {

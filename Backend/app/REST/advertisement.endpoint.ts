@@ -48,12 +48,27 @@ export const advertisementEndpoint = (router: Router) => {
   );
 
   router.get(
+    "/api/poster/getTutorPosters/:userId",
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const userId = request.params.userId;
+        const result = await businessContainer
+          .getPosterManager()
+          .getAllActiveAndNotArchivedAdvertismentsForTutor(userId);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
+
+  router.get(
     "/api/poster/getAll",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer
           .getPosterManager()
-          .getAllAdvertisement()
+          .getAllAdvertisement();
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);

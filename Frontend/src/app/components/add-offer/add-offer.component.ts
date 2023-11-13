@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -17,15 +17,20 @@ import { PosterService } from 'src/app/services/poster-service/poster.service';
 import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
 import { UtilsService } from 'src/app/services/utils/utils.service';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-offer',
   templateUrl: './add-offer.component.html',
   styleUrls: ['./add-offer.component.scss'],
 })
-export class AddOfferComponent implements OnInit {
+export class AddOfferComponent implements OnInit, OnDestroy {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
+  private destroy$: Subject<void> = new Subject<void>();
+
+  poster: PosterModel | null = null;
   currentDate!: string;
   addForm!: FormGroup<AddOfferModel>;
   posterData!: PosterModel[];
@@ -55,24 +60,58 @@ export class AddOfferComponent implements OnInit {
     private fb: FormBuilder,
     private token: TokenService,
     private posterEventService: PosterEventsService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private route: ActivatedRoute,
+    private posterService: PosterService
   ) {}
 
   ngOnInit(): void {
+    const advertisementId: string = this.route.snapshot.params['id'];
+
+    if (advertisementId) {
+      this.posterService
+        .getPosterById(advertisementId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((response) => {
+          this.poster = response;
+        });
+    }
+
     this.addForm = this.fb.group<AddOfferModel>({
-      title: this.fb.control(null, Validators.required),
-      category: this.fb.control(null, Validators.required),
-      description: this.fb.control(null),
-      price: this.fb.control(null, Validators.required),
-      startDate: this.fb.control(null, Validators.required),
-      endDate: this.fb.control(null, Validators.required),
+      title: this.fb.control(
+        this.poster !== null ? this.poster.title : null,
+        Validators.required
+      ),
+      category: this.fb.control(
+        this.poster !== null ? this.poster.category : null,
+        Validators.required
+      ),
+      description: this.fb.control(
+        this.poster !== null ? this.poster.description : null
+      ),
+      price: this.fb.control(
+        this.poster !== null ? this.poster.price : null,
+        Validators.required
+      ),
+      startDate: this.fb.control(
+        this.poster !== null ? this.poster.startDate : null,
+        Validators.required
+      ),
+      endDate: this.fb.control(
+        this.poster !== null ? this.poster.endDate : null,
+        Validators.required
+      ),
     });
 
     this.getCurrentDate();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   sendForm(): void {
-    console.log(this.addForm.getRawValue());
     if (!this.addForm.valid) {
       this.addForm.markAllAsTouched();
       return;
@@ -92,7 +131,9 @@ export class AddOfferComponent implements OnInit {
     data.events = events;
     data.userId = this.token.getUserId() as string;
 
-    this.addService.addPoster(data).subscribe((data) => {});
+    this.addService.addPoster(data).subscribe((data) => {
+      this.clearFrom();
+    });
   }
 
   clearFrom(): void {

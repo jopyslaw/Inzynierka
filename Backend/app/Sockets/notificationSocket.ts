@@ -7,7 +7,10 @@ const notificationSocket = (io: Server) => {
     const notificationChangeStream = notificationsDAO.model.collection.watch();
 
     notificationChangeStream.on("change", async (change: any) => {
-      if (change.operationType === "insert") {
+      if (
+        change.operationType === "insert" ||
+        change.operationType === "update"
+      ) {
         const notificationsNumberNotReaded = await businessContainer
           .getNotificationManager()
           .getNotReadedNotifications(socket.handshake.query.userId);
@@ -21,10 +24,13 @@ const notificationSocket = (io: Server) => {
     const notificationChangeStream = notificationsDAO.model.collection.watch();
 
     notificationChangeStream.on("change", async (change: any) => {
-      if (change.operationType === "insert") {
+      if (
+        change.operationType === "insert" ||
+        change.operationType === "update"
+      ) {
         const notifications = await businessContainer
           .getNotificationManager()
-          .getNotifications(socket.handshake.query.userId);
+          .getNotificationsNotReaded(socket.handshake.query.userId);
 
         socket.emit("newNotifications", notifications);
       }

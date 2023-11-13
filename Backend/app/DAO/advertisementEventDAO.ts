@@ -14,6 +14,7 @@ const AdvertisementEventSchema = new mongoose.Schema(
     start: { type: String, required: true },
     end: { type: String, required: true },
     allDay: { type: Boolean, required: true, default: false },
+    archived: { type: Boolean, required: true, default: false },
   },
   {
     collection: "advertisementEvent",
@@ -51,12 +52,14 @@ const getAdvertisementEventById = async (id: string) => {
 };
 
 const removeById = async (id: string) => {
-  return await AdvertisementEventModel.findByIdAndRemove(id);
+  return await AdvertisementEventModel.findByIdAndUpdate(id, {
+    archived: true,
+  });
 };
 
 const getAllUserAdvertisementEvents = async (eventsIds: string[]) => {
   const result = await AdvertisementEventModel.find(
-    { advertisementId: { $in: eventsIds } },
+    { advertisementId: { $in: eventsIds }, archived: false },
     null,
     { lean: "toObject" }
   );
@@ -69,7 +72,7 @@ const getAllUserAdvertisementEvents = async (eventsIds: string[]) => {
 };
 
 const getAllAdvertisement = async () => {
-  const result = await AdvertisementEventModel.find({}, null, {
+  const result = await AdvertisementEventModel.find({ archived: false }, null, {
     lean: "toObject",
   });
   if (result) {
@@ -81,7 +84,7 @@ const getAllAdvertisement = async () => {
 
 const getAllAdvertisementWithIds = async (eventIds: string[]) => {
   const result = await AdvertisementEventModel.find(
-    { _id: { $in: eventIds } },
+    { _id: { $in: eventIds }, archvied: false },
     null,
     {
       lean: "toObject",

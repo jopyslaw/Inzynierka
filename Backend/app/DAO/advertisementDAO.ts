@@ -102,13 +102,17 @@ const getById = async (id: string) => {
 };
 
 const removeById = async (id: string) => {
-  return await AdvertisementModel.findByIdAndRemove(id);
+  return await AdvertisementModel.findByIdAndUpdate(id, { archived: true });
 };
 
 const getAllUserAdvertisement = async (userId: string) => {
-  const result = await AdvertisementModel.find({ userId: userId }, null, {
-    lean: "toObject",
-  });
+  const result = await AdvertisementModel.find(
+    { userId: userId, archived: false },
+    null,
+    {
+      lean: "toObject",
+    }
+  );
   if (result) {
     console.log(result);
     return result;
@@ -118,7 +122,9 @@ const getAllUserAdvertisement = async (userId: string) => {
 };
 
 const getAllAdvertisements = async () => {
-  const result = await AdvertisementModel.find({}, null, { lean: "toObject" });
+  const result = await AdvertisementModel.find({ archived: false }, null, {
+    lean: "toObject",
+  });
   if (result) {
     return result;
   }
@@ -163,7 +169,17 @@ const deactivateAdvertisments = async (advertismentsIds: string[]) => {
   }
 
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Nothing was updated");
-}
+};
+
+const getAllActiveAndNotArchivedAdvertismentsForTutor = async (
+  userId: string
+) => {
+  return await AdvertisementModel.find(
+    { userId, isActive: true, archived: false },
+    null,
+    { lean: "toObject" }
+  );
+};
 
 export default {
   createNewOrUpdate,
@@ -174,5 +190,6 @@ export default {
   getAllInActiveAndNotArchivedAdvertisments,
   activateAdvertisments,
   deactivateAdvertisments,
+  getAllActiveAndNotArchivedAdvertismentsForTutor,
   model: AdvertisementModel,
 };

@@ -13,6 +13,7 @@ import { PosterDetailsComponent } from './components/poster-details/poster-detai
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { MessageComponent } from './components/message/message.component';
 import { NewMessageComponent } from './components/message/new-message/new-message.component';
+import { TutorAdvertisementComponent } from './components/tutor-advertisement/tutor-advertisement.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
@@ -25,6 +26,11 @@ const routes: Routes = [
   },
   { path: 'menu', component: MenuComponent, canActivate: [TokenGuard] },
   { path: 'addOffer', component: AddOfferComponent, canActivate: [TokenGuard] },
+  {
+    path: 'addOffer/:id',
+    component: AddOfferComponent,
+    canActivate: [TokenGuard],
+  },
   {
     path: 'addAccount',
     component: AdminAddAccountComponent,
@@ -54,6 +60,11 @@ const routes: Routes = [
     path: 'newMessage',
     canActivate: [TokenGuard],
     component: NewMessageComponent,
+  },
+  {
+    path: 'tutorAdvertisement',
+    canActivate: [TokenGuard],
+    component: TutorAdvertisementComponent,
   },
 ];
 

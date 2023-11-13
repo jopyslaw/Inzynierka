@@ -94,9 +94,10 @@ export class PosterDetailsComponent implements OnInit, OnDestroy {
     }
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: '400px',
+      width: '500px',
+      height: '200px',
       data: {
-        title: 'Confirm',
+        title: 'Wybierz',
         message: 'Czy chcesz zarezrwować wizytę',
         additionalData,
       },

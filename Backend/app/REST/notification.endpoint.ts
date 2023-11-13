@@ -23,7 +23,7 @@ export const notificationEndpoint = (router: Router) => {
       try {
         let result = await businessContainer
           .getNotificationManager()
-          .getNotifications(request.params.userId);
+          .getNotificationsNotReaded(request.params.userId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);

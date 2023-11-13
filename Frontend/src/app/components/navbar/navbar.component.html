@@ -32,8 +32,8 @@
     <a routerLink="edit-account" *ngIf="isLogged">
       <div class="navbar__button">Konto</div>
     </a>
-    <a routerLink="addAccount" *ngIf="isLogged && role === 'ADMIN'">
-      <div class="navbar__button">Dodaj pracownika</div>
+    <a routerLink="tutorAdvertisement" *ngIf="isLogged && role === 'TUTOR'">
+      <div class="navbar__button">Dodane ogłoszenia</div>
     </a>
     <a
       routerLink="addOffer"

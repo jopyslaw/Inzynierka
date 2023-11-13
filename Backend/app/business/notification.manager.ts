@@ -43,6 +43,15 @@ const operations = (context: Context) => {
     }
   };
 
+  const getNotificationsNotReaded = async (userId: string) => {
+    const result = await notificationsDAO.getAllNotificationsNotReadedForUserId(
+      userId
+    );
+    if (result) {
+      return result;
+    }
+  };
+
   const setNotificationToReadedState = async (notificationId: string) => {
     const result = await notificationsDAO.setNotificationToReadedState(
       notificationId
@@ -59,6 +68,7 @@ const operations = (context: Context) => {
     getNotReadedNotifications,
     getNotifications,
     setNotificationToReadedState,
+    getNotificationsNotReaded,
   };
 };
 

@@ -9,6 +9,8 @@ export interface PosterModel {
   events: PosterEventsModel[];
   category: CategoryPosterEnum;
   _id?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface PosterEventsModel {

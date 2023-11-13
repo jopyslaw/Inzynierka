@@ -42,6 +42,8 @@ import { NotificationItemComponent } from './components/notifications/notificati
 import { MessageComponent } from './components/message/message.component';
 import { NewMessageComponent } from './components/message/new-message/new-message.component';
 import { ContactItemComponent } from './components/message/contact-item/contact-item.component';
+import { TutorAdvertisementComponent } from './components/tutor-advertisement/tutor-advertisement.component';
+import { ItemComponent } from './components/tutor-advertisement/item/item.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { ContactItemComponent } from './components/message/contact-item/contact-
     MessageComponent,
     NewMessageComponent,
     ContactItemComponent,
+    TutorAdvertisementComponent,
+    ItemComponent,
   ],
   imports: [
     BrowserModule,

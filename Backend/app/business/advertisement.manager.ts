@@ -106,6 +106,18 @@ const operations = (context: Context) => {
     }
   };
 
+  const getAllActiveAndNotArchivedAdvertismentsForTutor = async (
+    userId: string
+  ) => {
+    const advertisement =
+      await advertisementDAO.getAllActiveAndNotArchivedAdvertismentsForTutor(
+        userId
+      );
+    if (advertisement) {
+      return advertisement;
+    }
+  };
+
   return {
     createNewOrUpdate,
     getAllAdvertisementsByUserId,
@@ -115,6 +127,7 @@ const operations = (context: Context) => {
     getAllInActiveAndNotArchivedAdvertisments,
     activateAdvertisments,
     deactivateAdvertisments,
+    getAllActiveAndNotArchivedAdvertismentsForTutor,
   };
 };
 

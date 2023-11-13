@@ -33,4 +33,10 @@ export class PosterService {
       'http://www.localhost:3000/api/poster/get/' + posterId
     );
   }
+
+  getAllAvailablePostersForTutor(userId: string): Observable<PosterModel[]> {
+    return this.http.get<PosterModel[]>(
+      'http://www.localhost:3000/api/poster/getTutorPosters/' + userId
+    );
+  }
 }
