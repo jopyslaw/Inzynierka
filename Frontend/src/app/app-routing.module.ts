@@ -9,7 +9,7 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 import { TokenGuard } from './guards/token.guard';
 import { AddOfferComponent } from './components/add-offer/add-offer.component';
 import { AdminAddAccountComponent } from './components/admin-add-account/admin-add-account.component';
-import { PosterDetailsComponent } from './components/poster-details/poster-details.component';
+import { AdvertisementDetailsComponent } from './components/advertisement-details/advertisement-details.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { MessageComponent } from './components/message/message.component';
 import { NewMessageComponent } from './components/message/new-message/new-message.component';
@@ -42,8 +42,8 @@ const routes: Routes = [
     canActivate: [TokenGuard],
   },
   {
-    path: 'posterDetails/:id',
-    component: PosterDetailsComponent,
+    path: 'advertisementDetails/:id',
+    component: AdvertisementDetailsComponent,
     canActivate: [TokenGuard],
   },
   {

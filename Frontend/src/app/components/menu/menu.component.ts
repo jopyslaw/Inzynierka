@@ -1,8 +1,8 @@
 import { Subject, takeUntil } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PosterModel } from 'src/app/shared/models/poster.model';
-import { CategoryPosterEnum } from 'src/app/shared/enums/categoryPoster.enum';
-import { PosterService } from 'src/app/services/poster-service/poster.service';
+import { AdvertisementModel } from 'src/app/shared/models/advertisement.model';
+import { CategoryAdvertisementEnum } from 'src/app/shared/enums/categoryAdvertisement.enum';
+import { AdvertisementService } from 'src/app/services/advertisement-service/advertisement.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,17 +10,17 @@ import { PosterService } from 'src/app/services/poster-service/poster.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  filterOption: CategoryPosterEnum[] = [
-    CategoryPosterEnum.ARTISTIC,
-    CategoryPosterEnum.HUMAN,
-    CategoryPosterEnum.SCIENCE,
-    CategoryPosterEnum.OTHERS,
+  filterOption: CategoryAdvertisementEnum[] = [
+    CategoryAdvertisementEnum.ARTISTIC,
+    CategoryAdvertisementEnum.HUMAN,
+    CategoryAdvertisementEnum.SCIENCE,
+    CategoryAdvertisementEnum.OTHERS,
   ];
   private destroy$: Subject<void> = new Subject<void>();
 
-  items: PosterModel[] = [];
+  items: AdvertisementModel[] = [];
 
-  constructor(private service: PosterService) {}
+  constructor(private service: AdvertisementService) {}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -29,7 +29,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.service
-      .getAllAvailablePosters()
+      .getAllAvailableAdvertisements()
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         this.items = response;

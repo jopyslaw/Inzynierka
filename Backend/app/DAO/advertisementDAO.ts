@@ -61,11 +61,11 @@ const AdvertisementModel = mongoose.model<AdvertisementDAO>(
   advertisementSchema
 );
 
-const createNewOrUpdate = (poster: AdvertisementDAO) => {
+const createNewOrUpdate = (advertisement: AdvertisementDAO) => {
   return Promise.resolve()
     .then(() => {
-      if (!poster.id) {
-        return new AdvertisementModel(poster).save().then((result) => {
+      if (!advertisement.id) {
+        return new AdvertisementModel(advertisement).save().then((result) => {
           console.log(result);
           if (result) {
             return convert(result);
@@ -73,8 +73,8 @@ const createNewOrUpdate = (poster: AdvertisementDAO) => {
         });
       } else {
         return AdvertisementModel.findByIdAndUpdate(
-          poster.id,
-          _.omit(poster, "id"),
+          advertisement.id,
+          _.omit(advertisement, "id"),
           {
             new: true,
           }
@@ -118,7 +118,7 @@ const getAllUserAdvertisement = async (userId: string) => {
     return result;
   }
 
-  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not found");
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "advertisements not found");
 };
 
 const getAllAdvertisements = async () => {
@@ -129,7 +129,7 @@ const getAllAdvertisements = async () => {
     return result;
   }
 
-  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not exists");
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "advertisements not exists");
 };
 
 const getAllInActiveAndNotArchivedAdvertisments = async () => {

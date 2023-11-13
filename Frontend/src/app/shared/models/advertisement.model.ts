@@ -1,20 +1,20 @@
-import { CategoryPosterEnum } from '../enums/categoryPoster.enum';
+import { CategoryAdvertisementEnum } from '../enums/categoryAdvertisement.enum';
 
-export interface PosterModel {
+export interface AdvertisementModel {
   id: string;
   userId: string;
   title: string;
   description: string;
   price: string;
-  events: PosterEventsModel[];
-  category: CategoryPosterEnum;
+  events: AdvertisementEventsModel[];
+  category: CategoryAdvertisementEnum;
   _id?: string;
   startDate?: string;
   endDate?: string;
 }
 
-export interface PosterEventsModel {
-  id: string;
+export interface AdvertisementEventsModel {
+  id?: string;
   title: string;
   start: string;
   end: string;

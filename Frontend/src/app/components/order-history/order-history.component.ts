@@ -7,7 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { MatDialog } from '@angular/material/dialog';
 import { TokenService } from 'src/app/services/token/token.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
-import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
+import { AdvertisementEventsService } from 'src/app/services/advertisement-events/advertisement-events.service';
 import { UtilsService } from 'src/app/services/utils/utils.service';
 
 @Component({
@@ -36,7 +36,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private dialog: MatDialog,
     private tokenService: TokenService,
-    private posterEventsService: PosterEventsService,
+    private advertisementEventsService: AdvertisementEventsService,
     private utilsService: UtilsService
   ) {}
 
@@ -81,7 +81,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   removeVisit(data: any): void {
-    this.posterEventsService
+    this.advertisementEventsService
       .removeEventFromUser(data.extendedProps.reservedId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((d) => {
@@ -93,7 +93,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     const userId = this.tokenService.getUserId();
 
     if (userId) {
-      this.posterEventsService
+      this.advertisementEventsService
         .getAllReservedUserEvents(userId)
         .pipe(takeUntil(this.destroy$))
         .subscribe((response) => {

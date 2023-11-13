@@ -36,11 +36,11 @@ const TutorOpinionModel = mongoose.model<TutorOpinionDAO>(
   tutorOpinionSchema
 );
 
-const createNewOrUpdate = (poster: AdvertisementDAO) => {
+const createNewOrUpdate = (advertisement: AdvertisementDAO) => {
   return Promise.resolve()
     .then(() => {
-      if (!poster.id) {
-        return new TutorOpinionModel(poster).save().then((result) => {
+      if (!advertisement.id) {
+        return new TutorOpinionModel(advertisement).save().then((result) => {
           console.log(result);
           if (result) {
             return convert(result);
@@ -48,8 +48,8 @@ const createNewOrUpdate = (poster: AdvertisementDAO) => {
         });
       } else {
         return TutorOpinionModel.findByIdAndUpdate(
-          poster.id,
-          _.omit(poster, "id"),
+          advertisement.id,
+          _.omit(advertisement, "id"),
           {
             new: true,
           }
@@ -89,7 +89,7 @@ const getAllTutorOpinions = async (userId: string) => {
     return result;
   }
 
-  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not found");
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "advertisements not found");
 };
 
 const getAllUserOpinions = async (userId: string) => {
@@ -100,7 +100,7 @@ const getAllUserOpinions = async (userId: string) => {
     return result;
   }
 
-  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not exists");
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "advertisements not exists");
 };
 
 export default {

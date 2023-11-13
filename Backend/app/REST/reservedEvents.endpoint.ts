@@ -25,7 +25,7 @@ export const reservationEventsEndpoint = (router: Router) => {
         const userId = request.params.userId;
         const result = await businessContainer
           .getReservedEventsManager()
-          .getAllPostersByUserId(userId);
+          .getAllAdvertisementsByUserId(userId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -34,13 +34,13 @@ export const reservationEventsEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/reserve/get/:posterId",
+    "/api/reserve/get/:advertisementId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        const posterId = request.params.posterId;
+        const advertisementId = request.params.advertisementId;
         const result = await businessContainer
           .getReservedEventsManager()
-          .getPosterById(posterId);
+          .getAdvertisementById(advertisementId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -49,14 +49,14 @@ export const reservationEventsEndpoint = (router: Router) => {
   );
 
   router.delete(
-    "/api/reserve/remove/:posterId",
+    "/api/reserve/remove/:advertisementId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         console.log("delete");
-        const posterId = request.params.posterId;
+        const advertisementId = request.params.advertisementId;
         const result = await businessContainer
           .getReservedEventsManager()
-          .removeById(posterId);
+          .removeById(advertisementId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);

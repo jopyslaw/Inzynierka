@@ -4,12 +4,12 @@ import { errorUtils } from "../service/applicationException";
 
 export const advertisementEventsEndpoint = (router: Router) => {
   router.get(
-    "/api/posterEvents/getAll/:userId",
+    "/api/advertisementEvents/getAll/:userId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const userId = request.params.userId;
         const result = await businessContainer
-          .getPosterEventsManager()
+          .getAdvertisementEventsManager()
           .getAllAdvertisementEventsByUserId(userId);
         response.status(200).send(result);
       } catch (error: any) {
@@ -19,13 +19,13 @@ export const advertisementEventsEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/posterEvents/get/:posterId",
+    "/api/advertisementEvents/get/:advertisementId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        const posterId = request.params.posterId;
+        const advertisementId = request.params.advertisementId;
         const result = await businessContainer
-          .getPosterEventsManager()
-          .getAdvertisementEventsById(posterId);
+          .getAdvertisementEventsManager()
+          .getAdvertisementEventsById(advertisementId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -34,13 +34,13 @@ export const advertisementEventsEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/posterEvents/reservedUserEvents/:userId",
+    "/api/advertisementEvents/reservedUserEvents/:userId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         console.log("asdsadada");
         const userId = request.params.userId;
         const result = await businessContainer
-          .getPosterEventsManager()
+          .getAdvertisementEventsManager()
           .getAllReseveredEventsForUser(userId);
         response.status(200).send(result);
       } catch (error: any) {
@@ -50,13 +50,13 @@ export const advertisementEventsEndpoint = (router: Router) => {
   );
 
   router.delete(
-    "api/posterEvents/remove/:posterEventId",
+    "api/advertisementEvents/remove/:advertisementEventId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        const posterId = request.params.posterEventId;
+        const advertisementId = request.params.advertisementEventId;
         const result = await businessContainer
-          .getPosterEventsManager()
-          .removeById(posterId);
+          .getAdvertisementEventsManager()
+          .removeById(advertisementId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);

@@ -4,11 +4,11 @@ import { errorUtils } from "../service/applicationException";
 
 export const advertisementEndpoint = (router: Router) => {
   router.post(
-    "/api/poster/add",
+    "/api/advertisement/add",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer
-          .getPosterManager()
+          .getAdvertisementManager()
           .createNewOrUpdate(request.body);
         response.status(200).send(result);
       } catch (error: any) {
@@ -18,12 +18,12 @@ export const advertisementEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/poster/getAll/:userId",
+    "/api/advertisement/getAll/:userId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const userId = request.params.userId;
         const result = await businessContainer
-          .getPosterManager()
+          .getAdvertisementManager()
           .getAllAdvertisementsByUserId(userId);
         response.status(200).send(result);
       } catch (error: any) {
@@ -33,13 +33,13 @@ export const advertisementEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/poster/get/:posterId",
+    "/api/advertisement/get/:advertisementId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        const posterId = request.params.posterId;
+        const advertisementId = request.params.advertisementId;
         const result = await businessContainer
-          .getPosterManager()
-          .getById(posterId);
+          .getAdvertisementManager()
+          .getById(advertisementId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
@@ -48,12 +48,12 @@ export const advertisementEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/poster/getTutorPosters/:userId",
+    "/api/advertisement/getTutorAdvertisements/:userId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const userId = request.params.userId;
         const result = await businessContainer
-          .getPosterManager()
+          .getAdvertisementManager()
           .getAllActiveAndNotArchivedAdvertismentsForTutor(userId);
         response.status(200).send(result);
       } catch (error: any) {
@@ -63,11 +63,11 @@ export const advertisementEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/poster/getAll",
+    "/api/advertisement/getAll",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer
-          .getPosterManager()
+          .getAdvertisementManager()
           .getAllAdvertisement();
         response.status(200).send(result);
       } catch (error: any) {
@@ -77,13 +77,13 @@ export const advertisementEndpoint = (router: Router) => {
   );
 
   router.delete(
-    "api/poster/remove/:posterId",
+    "api/advertisement/remove/:advertisementId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        const posterId = request.params.posterId;
+        const advertisementId = request.params.advertisementId;
         const result = await businessContainer
-          .getPosterManager()
-          .removeById(posterId);
+          .getAdvertisementManager()
+          .removeById(advertisementId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);

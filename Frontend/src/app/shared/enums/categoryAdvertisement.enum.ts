@@ -1,4 +1,4 @@
-export enum CategoryPosterEnum {
+export enum CategoryAdvertisementEnum {
   SCIENCE = 'SCIENCE',
   HUMAN = 'HUMAN',
   ARTISTIC = 'ARTISTIC',

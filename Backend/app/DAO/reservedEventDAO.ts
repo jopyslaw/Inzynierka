@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ReservedPosterEventDAO } from "../shared/models/reservedPosterEventDAO.model";
+import { ReservedAdvertisementEventDAO } from "../shared/models/reservedAdvertisementEventDAO.model";
 import { convert } from "../service/mongoConverter";
 import * as _ from "lodash";
 import { ErrorCodes, errorUtils } from "../service/applicationException";
@@ -14,7 +14,7 @@ const ReservedEventSchema = new mongoose.Schema(
     },
     advertisementEventId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "posterEvent",
+      ref: "advertisementEvent",
       required: true,
       unique: true,
     },
@@ -25,12 +25,14 @@ const ReservedEventSchema = new mongoose.Schema(
   }
 );
 
-const ReservedEventModel = mongoose.model<ReservedPosterEventDAO>(
+const ReservedEventModel = mongoose.model<ReservedAdvertisementEventDAO>(
   "advertisementReservedEvent",
   ReservedEventSchema
 );
 
-const createNewOrUpdate = async (reservedData: ReservedPosterEventDAO) => {
+const createNewOrUpdate = async (
+  reservedData: ReservedAdvertisementEventDAO
+) => {
   if (reservedData.tutorId === reservedData.userId) {
     throw errorUtils.new(
       ErrorCodes.CONFLICT.code,
@@ -40,11 +42,13 @@ const createNewOrUpdate = async (reservedData: ReservedPosterEventDAO) => {
   return Promise.resolve()
     .then(() => {
       if (!reservedData.id) {
-        return new ReservedEventModel(reservedData).save().then((result) => {
-          if (result) {
-            return convert(result);
-          }
-        });
+        return new ReservedEventModel(reservedData)
+          .save()
+          .then((result: any) => {
+            if (result) {
+              return convert(result);
+            }
+          });
       } else {
         return ReservedEventModel.findByIdAndUpdate(
           reservedData.id,
@@ -90,7 +94,7 @@ const getAllReservationForTutor = async (tutorId: string) => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "User not found");
 };
 
-const getAllReservationForPosterId = async (eventsIds: string[]) => {
+const getAllReservationForAdvertisementId = async (eventsIds: string[]) => {
   const result = await ReservedEventModel.find(
     { advertisementEventId: { $in: eventsIds } },
     null,
@@ -119,7 +123,7 @@ export default {
   getReservationById,
   removeById,
   getAllReservationForTutor,
-  getAllReservationForPosterId,
+  getAllReservationForAdvertisementId,
   getAllReservationsForUserId,
   model: ReservedEventModel,
 };

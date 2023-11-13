@@ -1,8 +1,8 @@
 import { Context } from "vm";
-import posterDAO from "../DAO/advertisementDAO";
+import advertisementDAO from "../DAO/advertisementDAO";
 import reservedEventDAO from "../DAO/reservedEventDAO";
 import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
-import { ReservedPosterEventDAO } from "../shared/models/reservedPosterEventDAO.model";
+import { ReservedAdvertisementEventDAO } from "../shared/models/reservedAdvertisementEventDAO.model";
 import notificationsDAO from "../DAO/notificationsDAO";
 import { NotificationDAO } from "../shared/models/notificationDAO.model";
 import moment from "moment";
@@ -10,7 +10,9 @@ import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
 import businessContainer from "./business.container";
 
 const operations = (context: Context) => {
-  const createNewOrUpdate = async (reservedData: ReservedPosterEventDAO) => {
+  const createNewOrUpdate = async (
+    reservedData: ReservedAdvertisementEventDAO
+  ) => {
     const reserved = await reservedEventDAO.createNewOrUpdate(reservedData);
     if (reserved) {
       const dataForTutor: NotificationDAO = {
@@ -49,34 +51,28 @@ const operations = (context: Context) => {
   };
 
   const getAllReservationForTutor = async (userId: string) => {
-    const posters = await reservedEventDAO.getAllReservationForTutor(userId);
-    if (posters) {
-      return posters;
-    }
-  };
-
-  const removeById = async (posterId: string) => {
-    const poster = await reservedEventDAO.removeById(posterId);
-    if (poster) {
-      return poster;
-    }
-  };
-
-  /*const getAllReservationForPosterId = async (posterId: string) => {
-    const poster = await reservedEventDAO.getAllReservationForPosterId(
-      posterId
+    const advertisements = await reservedEventDAO.getAllReservationForTutor(
+      userId
     );
-
-    if (poster) {
-      return poster;
+    if (advertisements) {
+      return advertisements;
     }
-  };*/
+  };
+
+  const removeById = async (advertisementId: string) => {
+    const advertisement = await reservedEventDAO.removeById(advertisementId);
+    if (advertisement) {
+      return advertisement;
+    }
+  };
 
   const getAllReservationsForUserId = async (userId: string) => {
-    const poster = await reservedEventDAO.getAllReservationsForUserId(userId);
+    const advertisement = await reservedEventDAO.getAllReservationsForUserId(
+      userId
+    );
 
-    if (poster) {
-      return poster;
+    if (advertisement) {
+      return advertisement;
     }
   };
 
@@ -85,7 +81,6 @@ const operations = (context: Context) => {
     getAllReservationForTutor,
     getReservationById,
     removeById,
-    //getAllReservationForPosterId,
     getAllReservationsForUserId,
   };
 };

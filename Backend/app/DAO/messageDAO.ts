@@ -31,18 +31,18 @@ const messageSchema = new mongoose.Schema(
 
 const MessageModel = mongoose.model<MessageDAO>("message", messageSchema);
 
-const createNewOrUpdate = (poster: MessageDAO) => {
+const createNewOrUpdate = (message: MessageDAO) => {
   return Promise.resolve()
     .then(() => {
-      if (!poster.id) {
-        return new MessageModel(poster).save().then((result) => {
+      if (!message.id) {
+        return new MessageModel(message).save().then((result) => {
           console.log(result);
           if (result) {
             return convert(result);
           }
         });
       } else {
-        return MessageModel.findByIdAndUpdate(poster.id, _.omit(poster, "id"), {
+        return MessageModel.findByIdAndUpdate(message.id, _.omit(message, "id"), {
           new: true,
         });
       }

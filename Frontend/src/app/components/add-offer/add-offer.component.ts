@@ -10,11 +10,14 @@ import {
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { UUID } from 'angular2-uuid';
 import { TokenService } from 'src/app/services/token/token.service';
-import { PosterModel } from 'src/app/shared/models/poster.model';
+import {
+  AdvertisementEventsModel,
+  AdvertisementModel,
+} from 'src/app/shared/models/advertisement.model';
 import { AddOfferModel } from './addOfferForm.model';
-import { CategoryPosterEnum } from 'src/app/shared/enums/categoryPoster.enum';
-import { PosterService } from 'src/app/services/poster-service/poster.service';
-import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
+import { CategoryAdvertisementEnum } from 'src/app/shared/enums/categoryAdvertisement.enum';
+import { AdvertisementService } from 'src/app/services/advertisement-service/advertisement.service';
+import { AdvertisementEventsService } from 'src/app/services/advertisement-events/advertisement-events.service';
 import { UtilsService } from 'src/app/services/utils/utils.service';
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
@@ -29,22 +32,26 @@ export class AddOfferComponent implements OnInit, OnDestroy {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
   private destroy$: Subject<void> = new Subject<void>();
-
-  poster: PosterModel | null = null;
-  currentDate!: string;
   addForm!: FormGroup<AddOfferModel>;
-  posterData!: PosterModel[];
-  posterCategories: CategoryPosterEnum[] = [
-    CategoryPosterEnum.ARTISTIC,
-    CategoryPosterEnum.HUMAN,
-    CategoryPosterEnum.SCIENCE,
-    CategoryPosterEnum.OTHERS,
+  advertisementId: string | null = null;
+
+  advertisement: AdvertisementModel | null = null;
+  advertisementEvents: AdvertisementEventsModel[] = [];
+  currentDate!: string;
+
+  //advertisementData!: AdvertisementModel;
+
+  advertisementCategories: CategoryAdvertisementEnum[] = [
+    CategoryAdvertisementEnum.ARTISTIC,
+    CategoryAdvertisementEnum.HUMAN,
+    CategoryAdvertisementEnum.SCIENCE,
+    CategoryAdvertisementEnum.OTHERS,
   ];
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
     plugins: [timeGridPlugin, interactionPlugin],
     selectable: true,
-    events: this.posterData,
+    events: this.advertisementEvents,
     editable: false,
     selectOverlap: false,
     eventOverlap: false,
@@ -56,54 +63,43 @@ export class AddOfferComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private addService: PosterService,
+    private service: AdvertisementService,
     private fb: FormBuilder,
     private token: TokenService,
-    private posterEventService: PosterEventsService,
+    private advertisementEventService: AdvertisementEventsService,
     private utilsService: UtilsService,
-    private route: ActivatedRoute,
-    private posterService: PosterService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    const advertisementId: string = this.route.snapshot.params['id'];
-
-    if (advertisementId) {
-      this.posterService
-        .getPosterById(advertisementId)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((response) => {
-          this.poster = response;
-        });
-    }
+    this.advertisementId = this.route.snapshot.params['id'];
 
     this.addForm = this.fb.group<AddOfferModel>({
-      title: this.fb.control(
-        this.poster !== null ? this.poster.title : null,
-        Validators.required
-      ),
-      category: this.fb.control(
-        this.poster !== null ? this.poster.category : null,
-        Validators.required
-      ),
-      description: this.fb.control(
-        this.poster !== null ? this.poster.description : null
-      ),
-      price: this.fb.control(
-        this.poster !== null ? this.poster.price : null,
-        Validators.required
-      ),
-      startDate: this.fb.control(
-        this.poster !== null ? this.poster.startDate : null,
-        Validators.required
-      ),
-      endDate: this.fb.control(
-        this.poster !== null ? this.poster.endDate : null,
-        Validators.required
-      ),
+      title: this.fb.control(null, Validators.required),
+      category: this.fb.control(null, Validators.required),
+      description: this.fb.control(null),
+      price: this.fb.control(null, Validators.required),
+      startDate: this.fb.control(null, Validators.required),
+      endDate: this.fb.control(null, Validators.required),
     });
 
     this.getCurrentDate();
+
+    if (this.advertisementId) {
+      this.service
+        .getAdvertisementById(this.advertisementId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((response) => {
+          this.advertisement = response;
+          this.addForm.patchValue(response);
+          this.advertisementEventService
+            .getAllEventsForAdvertisement(this.advertisement.id)
+            .subscribe((response) => {
+              this.advertisementEvents = response;
+              this.calendarComponent.events = response;
+            });
+        });
+    }
   }
 
   ngOnDestroy(): void {
@@ -120,7 +116,7 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     const calendarApi = this.calendarComponent.getApi();
     const data = this.addForm.getRawValue();
     const events = calendarApi.getEvents().filter((event) => {
-      const index = this.posterData.findIndex(
+      const index = this.advertisement?.events.findIndex(
         (e) => e.id === event.toJSON()['id']
       );
       if (index === -1) {
@@ -131,7 +127,11 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     data.events = events;
     data.userId = this.token.getUserId() as string;
 
-    this.addService.addPoster(data).subscribe((data) => {
+    if (this.advertisementId) {
+      //data.id =
+    }
+
+    this.service.addAdvertisement(data).subscribe((data) => {
       this.clearFrom();
     });
   }
@@ -168,18 +168,18 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAllPosterForUser(): void {
+  getAllAdvertisementForUser(): void {
     if (!this.token.getUserId()) {
       return;
     }
 
-    this.posterEventService
+    this.advertisementEventService
       .getAllEventsForUser(this.token.getUserId() as string)
       .subscribe((data) => {
         const posterData = data.map((event) => {
           return { ...event, backgroundColor: 'gray' };
         });
-        this.posterData = posterData.flatMap((event) => event) as any;
+        this.ad = Data.flatMap((event) => event) as any;
         this.calendarComponent.events = this.posterData;
         this.calendarComponent.options = {
           ...this.calendarComponent.options,
@@ -196,7 +196,9 @@ export class AddOfferComponent implements OnInit, OnDestroy {
   }
 
   isEditable(id: string): boolean {
-    const eventIndex = this.posterData.findIndex((poster) => poster.id === id);
+    const eventIndex = this.advertisementData.findIndex(
+      (advertisement) => advertisement.id === id
+    );
     return eventIndex === -1 ? false : true;
   }
 
@@ -207,6 +209,6 @@ export class AddOfferComponent implements OnInit, OnDestroy {
   }
 
   dateRangeChange(): void {
-    this.getAllPosterForUser();
+    this.getAllAdvertisementForUser();
   }
 }

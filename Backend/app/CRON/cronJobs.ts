@@ -5,7 +5,7 @@ import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
 export const activateAdvertismentsIfStartDateIsToday = async () => {
   console.log("first job start");
   const advertisments = await businessContainer
-    .getPosterManager()
+    .getAdvertisementManager()
     .getAllInActiveAndNotArchivedAdvertisments();
 
   const currentDate = moment().format("YYYY-MM-DD");
@@ -27,7 +27,7 @@ export const activateAdvertismentsIfStartDateIsToday = async () => {
   );
 
   await businessContainer
-    .getPosterManager()
+    .getAdvertisementManager()
     .activateAdvertisments(advertismentsIds);
   console.log("first job end");
   await deActivateAdvertismentsIfEndDateIsNotToday();
@@ -36,7 +36,7 @@ export const activateAdvertismentsIfStartDateIsToday = async () => {
 export const deActivateAdvertismentsIfEndDateIsNotToday = async () => {
   console.log("second job started");
   const advertisments = await businessContainer
-    .getPosterManager()
+    .getAdvertisementManager()
     .getAllInActiveAndNotArchivedAdvertisments();
 
   const currentDate = moment().subtract(1, "days").format("YYYY-MM-DD");
@@ -58,7 +58,7 @@ export const deActivateAdvertismentsIfEndDateIsNotToday = async () => {
   );
 
   await businessContainer
-    .getPosterManager()
+    .getAdvertisementManager()
     .deactivateAdvertisments(advertismentsIds);
 
   console.log("second Job ended");

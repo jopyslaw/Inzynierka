@@ -26,8 +26,8 @@ const AdvertisementEventModel = mongoose.model<AdvertisementEventDAO>(
   AdvertisementEventSchema
 );
 
-const createNewOrUpdate = async (poster: AdvertisementEventDAO[]) => {
-  const result = await AdvertisementEventModel.insertMany(poster);
+const createNewOrUpdate = async (advertisement: AdvertisementEventDAO[]) => {
+  const result = await AdvertisementEventModel.insertMany(advertisement);
 
   if (result) {
     return result;
@@ -68,7 +68,7 @@ const getAllUserAdvertisementEvents = async (eventsIds: string[]) => {
     return result;
   }
 
-  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not found");
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "advertisements not found");
 };
 
 const getAllAdvertisement = async () => {
@@ -79,7 +79,7 @@ const getAllAdvertisement = async () => {
     return result;
   }
 
-  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Posters not exists");
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "advertisements not exists");
 };
 
 const getAllAdvertisementWithIds = async (eventIds: string[]) => {

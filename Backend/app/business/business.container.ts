@@ -14,8 +14,8 @@ function getter(manager: any, request?: any) {
 
 export default {
   getUserManager: getter(userManager),
-  getPosterManager: getter(advertisementManager),
-  getPosterEventsManager: getter(advertisementEventsManager),
+  getAdvertisementManager: getter(advertisementManager),
+  getAdvertisementEventsManager: getter(advertisementEventsManager),
   getReservedEventsManager: getter(reservedEventsManager),
   getUtilsManager: getter(utilsManager),
   getNotificationManager: getter(notificationManager),

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { PosterService } from 'src/app/services/poster-service/poster.service';
+import { AdvertisementService } from 'src/app/services/advertisement-service/advertisement.service';
 import { TokenService } from 'src/app/services/token/token.service';
-import { CategoryPosterEnum } from 'src/app/shared/enums/categoryPoster.enum';
-import { PosterModel } from 'src/app/shared/models/poster.model';
+import { AdvertisementModel } from 'src/app/shared/models/advertisement.model';
 
 @Component({
   selector: 'app-tutor-advertisement',
@@ -13,10 +12,10 @@ import { PosterModel } from 'src/app/shared/models/poster.model';
 export class TutorAdvertisementComponent {
   private destroy$: Subject<void> = new Subject<void>();
 
-  items: PosterModel[] = [];
+  items: AdvertisementModel[] = [];
 
   constructor(
-    private service: PosterService,
+    private service: AdvertisementService,
     private tokenService: TokenService
   ) {}
 
@@ -30,7 +29,7 @@ export class TutorAdvertisementComponent {
 
     if (userId) {
       this.service
-        .getAllAvailablePostersForTutor(userId)
+        .getAllAvailableAdvertisementsForTutor(userId)
         .pipe(takeUntil(this.destroy$))
         .subscribe((response) => {
           this.items = response;

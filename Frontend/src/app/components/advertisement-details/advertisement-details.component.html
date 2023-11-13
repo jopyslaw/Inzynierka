@@ -1,0 +1,21 @@
+<div class="advertisement-details__component">
+  <div class="advertisement-details__container">
+    <div class="advertisement-details__info">
+      <div class="advertisement-details__info-card">
+        <span>Tytuł ogłoszenia:</span>
+        <div>{{ advertisementData?.title }}</div>
+      </div>
+      <div class="advertisement-details__info-card">
+        <span>Opis:</span>
+        <div>{{ advertisementData?.title }}</div>
+      </div>
+      <div class="advertisement-details__info-card">
+        <span>Cena za godzinę: </span>
+        <div>{{ advertisementData?.price }} zł</div>
+      </div>
+    </div>
+    <div class="advertisement-details__calendar">
+      <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
+</div>

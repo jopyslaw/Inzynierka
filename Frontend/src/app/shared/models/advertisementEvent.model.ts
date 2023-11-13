@@ -1,4 +1,5 @@
 export interface AdvertisementEvent {
+  reserved: any;
   advertisementId: string;
   title: string;
   start: string;

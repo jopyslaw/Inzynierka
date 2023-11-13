@@ -16,10 +16,10 @@ const operations = (context: Context) => {
     }
   };
 
-  const removeById = async (posterId: string) => {
-    const poster = await notificationsDAO.removeById(posterId);
-    if (poster) {
-      return poster;
+  const removeById = async (advertisementId: string) => {
+    const advertisement = await notificationsDAO.removeById(advertisementId);
+    if (advertisement) {
+      return advertisement;
     }
   };
 

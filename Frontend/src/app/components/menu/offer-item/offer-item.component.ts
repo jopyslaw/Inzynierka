@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PosterModel } from 'src/app/shared/models/poster.model';
+import { AdvertisementModel } from 'src/app/shared/models/advertisement.model';
 
 @Component({
   selector: 'app-offer-item',
@@ -7,7 +7,7 @@ import { PosterModel } from 'src/app/shared/models/poster.model';
   styleUrls: ['./offer-item.component.scss'],
 })
 export class OfferItemComponent implements OnInit {
-  @Input() offerItemData!: PosterModel;
+  @Input() offerItemData!: AdvertisementModel;
   randomColorValue: string = '';
   randomClassValue: string = '';
 

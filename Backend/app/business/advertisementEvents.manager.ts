@@ -17,13 +17,15 @@ const operations = (context: Context) => {
 
       console.log(advertisementIds);
 
-      const reservedPosters =
-        await reservedEventDAO.getAllReservationForPosterId(advertisementIds);
+      const reservedEvents =
+        await reservedEventDAO.getAllReservationForAdvertisementId(
+          advertisementIds
+        );
       const preparedData = advertisements.map((advertisement) => {
         return {
           ...advertisement,
           reserved:
-            reservedPosters?.find(
+            reservedEvents?.find(
               (reservation) =>
                 reservation.advertisementEventId.toString() ===
                 advertisement._id.toString()
@@ -46,19 +48,20 @@ const operations = (context: Context) => {
 
     console.log("ids", ids);
 
-    const posters = await advertisementEventDAO.getAllUserAdvertisementEvents(
-      ids
-    );
+    const advertisements =
+      await advertisementEventDAO.getAllUserAdvertisementEvents(ids);
 
-    if (posters) {
-      return posters;
+    if (advertisements) {
+      return advertisements;
     }
   };
 
-  const removeAdvertisementById = async (posterId: string) => {
-    const poster = await advertisementEventDAO.removeById(posterId);
-    if (poster) {
-      return poster;
+  const removeAdvertisementById = async (advertisementId: string) => {
+    const advertisement = await advertisementEventDAO.removeById(
+      advertisementId
+    );
+    if (advertisement) {
+      return advertisement;
     }
   };
 

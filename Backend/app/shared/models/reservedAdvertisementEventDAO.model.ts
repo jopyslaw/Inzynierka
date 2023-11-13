@@ -1,4 +1,4 @@
-export interface ReservedPosterEventDAO {
+export interface ReservedAdvertisementEventDAO {
   id: string;
   tutorId: string;
   userId: string;

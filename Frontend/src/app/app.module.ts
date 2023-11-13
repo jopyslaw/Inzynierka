@@ -31,7 +31,7 @@ import { ErrorHandlingInterceptor } from './interceptors/error-handling.intercep
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { PosterDetailsComponent } from './components/poster-details/poster-details.component';
+import { AdvertisementDetailsComponent } from './components/advertisement-details/advertisement-details.component';
 import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TokenService } from './services/token/token.service';
@@ -61,7 +61,7 @@ import { ItemComponent } from './components/tutor-advertisement/item/item.compon
     AdminAddAccountComponent,
     OrderHistoryComponent,
     ErrorDialogComponent,
-    PosterDetailsComponent,
+    AdvertisementDetailsComponent,
     ConfirmDialogComponent,
     NotificationsComponent,
     NotificationItemComponent,

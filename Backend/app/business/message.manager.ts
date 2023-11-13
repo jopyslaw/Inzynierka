@@ -17,10 +17,10 @@ const operations = (context: Context) => {
     }
   };
 
-  const removeById = async (posterId: string) => {
-    const poster = await messageDAO.removeById(posterId);
-    if (poster) {
-      return poster;
+  const removeById = async (advertisementId: string) => {
+    const advertisement = await messageDAO.removeById(advertisementId);
+    if (advertisement) {
+      return advertisement;
     }
   };
 
@@ -65,22 +65,6 @@ const operations = (context: Context) => {
       return result;
     }
   };
-  /*
-  const getNotifications = async (userId: string) => {
-    const result = await messageDAO.getNotificationsForUserId(userId);
-    if (result) {
-      return result;
-    }
-  };
-
-  const setNotificationToReadedState = async (notificationId: string) => {
-    const result = await messageDAO.setNotificationToReadedState(
-      notificationId
-    );
-    if (result) {
-      return result;
-    }
-  };*/
 
   return {
     createNewOrUpdate,

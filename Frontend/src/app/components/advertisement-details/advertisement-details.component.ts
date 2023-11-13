@@ -1,31 +1,32 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CalendarOptions, EventClickArg } from '@fullcalendar/core';
 import {
-  PosterEventsModel,
-  PosterModel,
-} from 'src/app/shared/models/poster.model';
+  AdvertisementEventsModel,
+  AdvertisementModel,
+} from 'src/app/shared/models/advertisement.model';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { PosterService } from 'src/app/services/poster-service/poster.service';
+import { AdvertisementService } from 'src/app/services/advertisement-service/advertisement.service';
 import { ActivatedRoute } from '@angular/router';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
-import { PosterEventsService } from 'src/app/services/poster-events/poster-events.service';
+import { AdvertisementEventsService } from 'src/app/services/advertisement-events/advertisement-events.service';
 import { TokenService } from 'src/app/services/token/token.service';
 import { UtilsService } from 'src/app/services/utils/utils.service';
 import { Subject, takeUntil } from 'rxjs';
+import { ReservationModel } from 'src/app/shared/models/reservation.model';
 
 @Component({
-  selector: 'app-poster-details',
-  templateUrl: './poster-details.component.html',
-  styleUrls: ['./poster-details.component.scss'],
+  selector: 'app-advertisement-details',
+  templateUrl: './advertisement-details.component.html',
+  styleUrls: ['./advertisement-details.component.scss'],
 })
-export class PosterDetailsComponent implements OnInit, OnDestroy {
+export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
-  posterData?: PosterModel;
-  events?: PosterEventsModel[] = [];
-  posterId!: string;
+  advertisementData?: AdvertisementModel;
+  events?: AdvertisementEventsModel[] = [];
+  advertisementId!: string;
   private destroy$: Subject<void> = new Subject<void>();
 
   calendarOptions: CalendarOptions = {
@@ -40,17 +41,17 @@ export class PosterDetailsComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private service: PosterService,
+    private service: AdvertisementService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private posterEventsService: PosterEventsService,
+    private advertisementEventsService: AdvertisementEventsService,
     private tokenService: TokenService,
     private utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
-    this.posterId = this.route.snapshot.params['id'];
-    this.getPosterData(this.posterId);
+    this.advertisementId = this.route.snapshot.params['id'];
+    this.getAdvertisementData(this.advertisementId);
     this.getCurrentDate();
   }
 
@@ -66,16 +67,16 @@ export class PosterDetailsComponent implements OnInit, OnDestroy {
     this.confirmDialog(clickInfo.event.toJSON());
   }
 
-  getPosterData(id: string): void {
+  getAdvertisementData(id: string): void {
     this.service
-      .getPosterById(id)
+      .getAdvertisementById(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
-        this.posterData = response;
+        this.advertisementData = response;
       });
 
-    this.posterEventsService
-      .getAllEventsForPoster(id)
+    this.advertisementEventsService
+      .getAllEventsForAdvertisement(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         this.events = response.map((event) => {
@@ -114,17 +115,17 @@ export class PosterDetailsComponent implements OnInit, OnDestroy {
   }
 
   reserveVisit(data: any): void {
-    const preparedData = {
-      tutorId: this.posterData?.userId,
-      userId: this.tokenService.getUserId(),
+    const preparedData: ReservationModel = {
+      tutorId: this.advertisementData?.userId ?? null,
+      userId: this.tokenService.getUserId() ?? null,
       advertisementId: data.extendedProps.advertisementId,
       advertisementEventId: data.extendedProps._id,
     };
-    this.posterEventsService
+    this.advertisementEventsService
       .saveEventToUser(preparedData)
       .pipe(takeUntil(this.destroy$))
       .subscribe((d) => {
-        this.getPosterData(this.posterId);
+        this.getAdvertisementData(this.advertisementId);
       });
   }
 

@@ -1,6 +1,6 @@
 import { Context } from "vm";
 import advertisementDAO from "../DAO/advertisementDAO";
-import posterEventsDAO from "../DAO/advertisementEventDAO";
+import advertisementEventDAO from "../DAO/advertisementEventDAO";
 import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
 import moment from "moment";
 import { NotificationDAO } from "../shared/models/notificationDAO.model";
@@ -32,7 +32,7 @@ const operations = (context: Context) => {
           userId: advertisementData.userId,
         };
       });
-      await posterEventsDAO.createNewOrUpdate(data as any);
+      await advertisementEventDAO.createNewOrUpdate(data as any);
 
       const notificationData: NotificationDAO = {
         userId: advertisementData.userId,
