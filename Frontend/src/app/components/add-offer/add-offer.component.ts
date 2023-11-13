@@ -176,11 +176,13 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     this.advertisementEventService
       .getAllEventsForUser(this.token.getUserId() as string)
       .subscribe((data) => {
-        const posterData = data.map((event) => {
+        const advertisementData = data.map((event) => {
           return { ...event, backgroundColor: 'gray' };
         });
-        this.ad = Data.flatMap((event) => event) as any;
-        this.calendarComponent.events = this.posterData;
+        this.advertisementEvents = advertisementData.flatMap(
+          (event) => event
+        ) as any;
+        this.calendarComponent.events = this.advertisementEvents;
         this.calendarComponent.options = {
           ...this.calendarComponent.options,
           validRange: {
@@ -196,7 +198,7 @@ export class AddOfferComponent implements OnInit, OnDestroy {
   }
 
   isEditable(id: string): boolean {
-    const eventIndex = this.advertisementData.findIndex(
+    const eventIndex = this.advertisementEvents.findIndex(
       (advertisement) => advertisement.id === id
     );
     return eventIndex === -1 ? false : true;

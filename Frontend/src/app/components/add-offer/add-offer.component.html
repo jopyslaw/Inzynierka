@@ -16,7 +16,7 @@
         <select formControlName="category" class="addOffer__input" required>
           <option value="" disabled selected hidden>Wybierz kategorię</option>
           <option
-            *ngFor="let category of advertisementCategory"
+            *ngFor="let category of advertisementCategories"
             value="{{ category }}"
           >
             {{ category }}
