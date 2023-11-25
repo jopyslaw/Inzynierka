@@ -18,10 +18,10 @@
       <div class="container__show_messages">
         <ng-container *ngFor="let message of messages">
           <div *ngIf="message.senderId === userId">
-            <div>Ty: {{ message.content }}</div>
+            <div>Autor: {{ message.content }}</div>
           </div>
           <div *ngIf="message.senderId !== userId">
-            <div>Obcy: {{ message.content }}</div>
+            <div>Odbiorca: {{ message.content }}</div>
           </div>
           <div></div>
         </ng-container>
