@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { TokenService } from '../token/token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private token: TokenService) {}
 
   sendMessage(data: any): Observable<any> {
     return this.http.post('http://localhost:3000/api/message/send', data);
@@ -22,8 +23,18 @@ export class MessageService {
     );
   }
 
-  getAllTutors(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/user/getAllTutors');
+  getUsersForTutors(): Observable<any> {
+    return this.http.get(
+      'http://localhost:3000/api/user/getUsersForTutors/' +
+        this.token.getUserId()
+    );
+  }
+
+  getTutorsForUsers(): Observable<any> {
+    return this.http.get(
+      'http://localhost:3000/api/user/getTutorsForUsers/' +
+        this.token.getUserId()
+    );
   }
 
   getMessages(data: any): Observable<any> {

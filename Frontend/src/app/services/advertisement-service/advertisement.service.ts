@@ -31,6 +31,7 @@ export class AdvertisementService {
   getAdvertisementById(
     advertisementId: string
   ): Observable<AdvertisementModel> {
+    console.log(advertisementId);
     return this.http.get<AdvertisementModel>(
       'http://www.localhost:3000/api/advertisement/get/' + advertisementId
     );
@@ -42,6 +43,12 @@ export class AdvertisementService {
     return this.http.get<AdvertisementModel[]>(
       'http://www.localhost:3000/api/advertisement/getTutorAdvertisements/' +
         userId
+    );
+  }
+
+  deleteAdvertisement(advertisementId: string): Observable<void> {
+    return this.http.delete<void>(
+      'http://www.localhost:3000/api/advertisement/remove/' + advertisementId
     );
   }
 }

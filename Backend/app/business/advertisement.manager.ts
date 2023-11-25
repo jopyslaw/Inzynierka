@@ -9,7 +9,11 @@ import businessContainer from "./business.container";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (advertisement: AdvertisementDAO) => {
-    const { events, ...preparedData } = advertisement;
+    const { events, deletedEventsIds, ...preparedData } = advertisement;
+
+    console.log(events);
+    console.log(preparedData);
+    console.log("advertisement", advertisement);
 
     const updatedPreparedData = {
       ...preparedData,
@@ -32,6 +36,15 @@ const operations = (context: Context) => {
           userId: advertisementData.userId,
         };
       });
+
+      if (advertisement.id && deletedEventsIds?.length !== 0) {
+        console.log("deleted events ids", deletedEventsIds);
+        const data = await advertisementEventDAO.removeByIds(
+          advertisement.deletedEventsIds
+        );
+        console.log(data);
+      }
+
       await advertisementEventDAO.createNewOrUpdate(data as any);
 
       const notificationData: NotificationDAO = {

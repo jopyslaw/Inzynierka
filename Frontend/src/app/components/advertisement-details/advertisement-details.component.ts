@@ -98,8 +98,8 @@ export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
       width: '500px',
       height: '200px',
       data: {
-        title: 'Wybierz',
-        message: 'Czy chcesz zarezrwować wizytę',
+        title: 'Wydarzenie',
+        message: 'Czy chcesz chcesz usunąć wydarzenie',
         additionalData,
       },
     });

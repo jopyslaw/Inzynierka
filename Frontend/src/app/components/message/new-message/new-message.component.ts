@@ -4,6 +4,7 @@ import { MessageModel } from './new-message-form.model';
 import { MessageService } from 'src/app/services/message/message.service';
 import { TokenService } from 'src/app/services/token/token.service';
 import { Subject, takeUntil } from 'rxjs';
+import { Role } from 'src/app/shared/enums/role.enum';
 
 @Component({
   selector: 'app-new-message',
@@ -28,7 +29,11 @@ export class NewMessageComponent implements OnInit, OnDestroy {
       content: this.fb.control(null, Validators.required),
     });
 
-    this.getAllTutors();
+    if (this.tokenService.getRole() === Role.TUTOR) {
+      this.getUsersForTutors();
+    } else {
+      this.getTutorsForUsers();
+    }
   }
 
   ngOnDestroy(): void {
@@ -49,9 +54,18 @@ export class NewMessageComponent implements OnInit, OnDestroy {
       .subscribe((response) => {});
   }
 
-  getAllTutors(): void {
+  getTutorsForUsers(): void {
     this.messageService
-      .getAllTutors()
+      .getTutorsForUsers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {
+        this.tutors = response;
+      });
+  }
+
+  getUsersForTutors(): void {
+    this.messageService
+      .getUsersForTutors()
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         this.tutors = response;

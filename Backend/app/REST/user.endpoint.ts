@@ -82,10 +82,26 @@ export const userEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/user/getAllTutors",
+    "/api/user/getUsersForTutors/:userId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        const result = await businessContainer.getUserManager().getAllTutors();
+        const result = await businessContainer
+          .getUserManager()
+          .getUsersForTutors(request.params.userId);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
+
+  router.get(
+    "/api/user/getTutorsForUsers/:userId",
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const result = await businessContainer
+          .getUserManager()
+          .getTutorsForUsers(request.params.userId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);

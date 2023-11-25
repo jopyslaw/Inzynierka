@@ -38,7 +38,7 @@ const createNewOrUpdate = async (advertisement: AdvertisementEventDAO[]) => {
 
 const getAdvertisementEventById = async (id: string) => {
   const result = await AdvertisementEventModel.find(
-    { advertisementId: id },
+    { advertisementId: id, archived: false },
     null,
     {
       lean: "toObject",
@@ -55,6 +55,15 @@ const removeById = async (id: string) => {
   return await AdvertisementEventModel.findByIdAndUpdate(id, {
     archived: true,
   });
+};
+
+const removeByIds = async (ids: string[] | undefined) => {
+  const result = await AdvertisementEventModel.updateMany(
+    { _id: { $in: ids } },
+    { $set: { archived: true } }
+  );
+
+  return result;
 };
 
 const getAllUserAdvertisementEvents = async (eventsIds: string[]) => {
@@ -82,18 +91,26 @@ const getAllAdvertisement = async () => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "advertisements not exists");
 };
 
-const getAllAdvertisementWithIds = async (eventIds: string[]) => {
+const getAllAdvertisementEventsForAdvertismentIds = async (
+  advertisementIds: string[]
+) => {
   const result = await AdvertisementEventModel.find(
-    { _id: { $in: eventIds }, archvied: false },
+    { advertisementId: { $in: advertisementIds }, archived: false },
     null,
-    {
-      lean: "toObject",
-    }
+    { lean: "toObject" }
   );
 
-  if (result) {
-    return result;
-  }
+  return result;
+};
+
+const getAllAdvertismentsForArray = async (ids: string[]) => {
+  const result = await AdvertisementEventModel.find(
+    { _id: { $in: ids }, archived: false },
+    null,
+    { lean: "toObject" }
+  );
+
+  return result;
 };
 
 export default {
@@ -102,6 +119,8 @@ export default {
   removeById,
   getAllUserAdvertisementEvents,
   getAllAdvertisement,
-  getAllAdvertisementWithIds,
+  removeByIds,
+  getAllAdvertisementEventsForAdvertismentIds,
+  getAllAdvertismentsForArray,
   model: AdvertisementEventModel,
 };

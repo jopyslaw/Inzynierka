@@ -11,6 +11,7 @@ const notificationSocket = (io: Server) => {
         change.operationType === "insert" ||
         change.operationType === "update"
       ) {
+        console.log(change);
         const notificationsNumberNotReaded = await businessContainer
           .getNotificationManager()
           .getNotReadedNotifications(socket.handshake.query.userId);
@@ -28,6 +29,7 @@ const notificationSocket = (io: Server) => {
         change.operationType === "insert" ||
         change.operationType === "update"
       ) {
+        console.log(change);
         const notifications = await businessContainer
           .getNotificationManager()
           .getNotificationsNotReaded(socket.handshake.query.userId);

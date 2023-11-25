@@ -18,7 +18,7 @@ const ReservedEventSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    reserved: { type: Boolean, default: false, required: true },
+    reserved: { type: Boolean, default: true, required: true },
   },
   {
     collection: "advertisementReservedEvent",
@@ -69,7 +69,7 @@ const createNewOrUpdate = async (
 };
 
 const removeById = async (id: string) => {
-  return await ReservedEventModel.findByIdAndUpdate(id, { reserved: false });
+  return await ReservedEventModel.findByIdAndRemove(id);
 };
 
 const getReservationById = async (id: string) => {

@@ -74,7 +74,7 @@ const operations = (context: Context) => {
 
     if (eventsIds) {
       const eventsForUser =
-        await advertisementEventDAO.getAllAdvertisementWithIds(eventsIds);
+        await advertisementEventDAO.getAllUserAdvertisementEvents(eventsIds);
 
       const preparedData = eventsForUser?.map((event) => {
         return {

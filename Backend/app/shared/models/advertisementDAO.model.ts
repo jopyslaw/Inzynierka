@@ -10,4 +10,5 @@ export interface AdvertisementDAO {
   events?: [];
   startDate: string;
   endDate: string;
+  deletedEventsIds?: string[];
 }

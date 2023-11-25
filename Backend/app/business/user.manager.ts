@@ -7,6 +7,9 @@ import { ErrorCodes, errorUtils } from "../service/applicationException";
 import { UserDAO as UserDaoModel } from "../shared/models/userDAO.model";
 import { TokenDAO } from "../shared/models/tokenDAO.model";
 import userDAO from "../DAO/userDAO";
+import reservedEventDAO from "../DAO/reservedEventDAO";
+import advertisementEventDAO from "../DAO/advertisementEventDAO";
+import advertisementDAO from "../DAO/advertisementDAO";
 
 const saltRounds = 10;
 
@@ -77,6 +80,70 @@ const operations = (context: Context) => {
     }
   };
 
+  const getUsersForTutors = async (userId: string) => {
+    const adevertismements =
+      await advertisementDAO.getAllActiveAndNotArchivedAdvertismentsForTutor(
+        userId
+      );
+
+    const advertisementsIds = adevertismements.map((advertisement) =>
+      advertisement._id.toString()
+    );
+
+    const advertisementEvents =
+      await advertisementEventDAO.getAllAdvertisementEventsForAdvertismentIds(
+        advertisementsIds
+      );
+
+    const advertisementsEventsIds = advertisementEvents.map((event) =>
+      event._id.toString()
+    );
+
+    const reservedEvents =
+      await reservedEventDAO.getAllReservationForAdvertisementId(
+        advertisementsEventsIds
+      );
+
+    if (reservedEvents) {
+      const usersIds = reservedEvents.map((event) => event.userId);
+
+      const result = await userDAO.getUsersInformation(usersIds);
+
+      return result;
+    }
+  };
+
+  const getTutorsForUsers = async (userId: string) => {
+    const events = await reservedEventDAO.getAllReservationsForUserId(userId);
+
+    const eventsIds = events?.map((event) =>
+      event.advertisementEventId.toString()
+    );
+    console.log(eventsIds);
+    if (eventsIds) {
+      const result = await advertisementEventDAO.getAllAdvertismentsForArray(
+        eventsIds
+      );
+
+      const advertismentsIds = result.map((advertisement) =>
+        advertisement.advertisementId.toString()
+      );
+
+      console.log(advertismentsIds);
+
+      const advertisement =
+        await advertisementDAO.getAllAdvertistmentsFromArray(advertismentsIds);
+
+      const tutorIds = advertisement.map(
+        (advertisement) => advertisement.userId
+      );
+      console.log(tutorIds);
+      const tutors = await userDAO.getUsersInformation(tutorIds);
+
+      return tutors;
+    }
+  };
+
   return {
     authenticate: authenticate,
     createNewOrUpdate: createNewOrUpdate,
@@ -84,6 +151,8 @@ const operations = (context: Context) => {
     getAccountInfo,
     updatePassword,
     getAllTutors,
+    getTutorsForUsers,
+    getUsersForTutors,
   };
 };
 

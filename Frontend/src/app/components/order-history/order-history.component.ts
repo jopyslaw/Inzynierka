@@ -67,8 +67,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       width: '500px',
       height: '200px',
       data: {
-        title: 'Confirm',
-        message: 'Czy chcesz usunąć wizytę',
+        title: 'Rezygnacja z zajęć',
+        message: 'Czy chcesz usunąć rezerwację',
         additionalData,
       },
     });

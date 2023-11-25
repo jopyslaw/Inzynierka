@@ -20,8 +20,10 @@ import { AdvertisementService } from 'src/app/services/advertisement-service/adv
 import { AdvertisementEventsService } from 'src/app/services/advertisement-events/advertisement-events.service';
 import { UtilsService } from 'src/app/services/utils/utils.service';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-offer',
@@ -33,19 +35,21 @@ export class AddOfferComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
   addForm!: FormGroup<AddOfferModel>;
-  advertisementId: string | null = null;
+  advertisementId: string | null = null; // służy do sprawdzenia czy jest to edycja
 
-  advertisement: AdvertisementModel | null = null;
-  advertisementEvents: AdvertisementEventsModel[] = [];
-  currentDate!: string;
+  advertisement: AdvertisementModel | null = null; // ogłoszenie pobrane przy edycji
+  advertisementEvents: AdvertisementEventsModel[] = []; // wszystkie eventy użytkownika
+  currentDate!: string; // aktualna data
+  deletedEventsIds: string[] = [];
 
-  //advertisementData!: AdvertisementModel;
-
-  advertisementCategories: CategoryAdvertisementEnum[] = [
-    CategoryAdvertisementEnum.ARTISTIC,
-    CategoryAdvertisementEnum.HUMAN,
-    CategoryAdvertisementEnum.SCIENCE,
-    CategoryAdvertisementEnum.OTHERS,
+  advertisementCategories: {
+    name: string;
+    value: CategoryAdvertisementEnum;
+  }[] = [
+    { name: 'Artystyczne', value: CategoryAdvertisementEnum.ARTISTIC },
+    { name: 'Humanistyczne', value: CategoryAdvertisementEnum.HUMAN },
+    { name: 'Ścisłe', value: CategoryAdvertisementEnum.SCIENCE },
+    { name: 'Inne', value: CategoryAdvertisementEnum.OTHERS },
   ];
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
@@ -68,7 +72,9 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     private token: TokenService,
     private advertisementEventService: AdvertisementEventsService,
     private utilsService: UtilsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -86,18 +92,38 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     this.getCurrentDate();
 
     if (this.advertisementId) {
+      console.log(this.advertisementId);
       this.service
         .getAdvertisementById(this.advertisementId)
         .pipe(takeUntil(this.destroy$))
         .subscribe((response) => {
+          this.addForm.controls.startDate.disable();
+          this.addForm.controls.title.disable();
+          this.addForm.controls.price.disable();
           this.advertisement = response;
           this.addForm.patchValue(response);
-          this.advertisementEventService
-            .getAllEventsForAdvertisement(this.advertisement.id)
-            .subscribe((response) => {
-              this.advertisementEvents = response;
-              this.calendarComponent.events = response;
-            });
+          if (this.advertisementId) {
+            this.advertisementEventService
+              .getAllEventsForAdvertisement(this.advertisementId)
+              .subscribe((response) => {
+                console.log('work', response);
+                const events = response.map((event) => ({
+                  ...event,
+                  backgroundColor: event.reserved === true ? 'gray' : '',
+                }));
+                this.advertisementEvents = events.flatMap((event) => event);
+                this.calendarComponent.events = this.advertisementEvents;
+                this.calendarComponent.options = {
+                  ...this.calendarComponent.options,
+                  validRange: {
+                    start: this.currentDate,
+                    end: moment(this.addForm.controls.endDate.value).format(
+                      'YYYY-MM-DD'
+                    ),
+                  },
+                };
+              });
+          }
         });
     }
   }
@@ -113,27 +139,12 @@ export class AddOfferComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const calendarApi = this.calendarComponent.getApi();
-    const data = this.addForm.getRawValue();
-    const events = calendarApi.getEvents().filter((event) => {
-      const index = this.advertisement?.events.findIndex(
-        (e) => e.id === event.toJSON()['id']
-      );
-      if (index === -1) {
-        return true;
-      }
-      return false;
-    });
-    data.events = events;
-    data.userId = this.token.getUserId() as string;
-
     if (this.advertisementId) {
-      //data.id =
+      this.sendEditForm();
+      return;
     }
 
-    this.service.addAdvertisement(data).subscribe((data) => {
-      this.clearFrom();
-    });
+    this.sendAddForm();
   }
 
   clearFrom(): void {
@@ -156,32 +167,23 @@ export class AddOfferComponent implements OnInit, OnDestroy {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    if (this.isEditable(clickInfo.event.id)) {
-      return;
-    }
-    if (
-      confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}'`
-      )
-    ) {
-      clickInfo.event.remove();
-    }
+    this.confirmDialog(clickInfo);
   }
 
-  getAllAdvertisementForUser(): void {
-    if (!this.token.getUserId()) {
+  getAllAdvertisementEventsForUser(): void {
+    const userId = this.token.getUserId();
+    if (!userId) {
       return;
     }
 
     this.advertisementEventService
-      .getAllEventsForUser(this.token.getUserId() as string)
-      .subscribe((data) => {
-        const advertisementData = data.map((event) => {
+      .getAllEventsForUser(userId)
+      .subscribe((response) => {
+        console.log(response);
+        const events = response.map((event) => {
           return { ...event, backgroundColor: 'gray' };
         });
-        this.advertisementEvents = advertisementData.flatMap(
-          (event) => event
-        ) as any;
+        this.advertisementEvents = events.flatMap((event) => event);
         this.calendarComponent.events = this.advertisementEvents;
         this.calendarComponent.options = {
           ...this.calendarComponent.options,
@@ -211,6 +213,100 @@ export class AddOfferComponent implements OnInit, OnDestroy {
   }
 
   dateRangeChange(): void {
-    this.getAllAdvertisementForUser();
+    this.getAllAdvertisementEventsForUser();
+  }
+
+  private sendAddForm(): void {
+    const calendarApi = this.calendarComponent.getApi();
+    const data = this.addForm.getRawValue();
+    const allEventsInCalendar = calendarApi.getEvents().filter((event) => {
+      const index = this.advertisementEvents.findIndex(
+        (e) => e.id === event.toJSON()['id']
+      );
+      if (index === -1) {
+        return true;
+      }
+      return false;
+    });
+    data.events = allEventsInCalendar;
+    data.userId = this.token.getUserId() as string;
+
+    this.service.addAdvertisement(data).subscribe((data) => {
+      this.clearFrom();
+    });
+  }
+
+  private sendEditForm(): void {
+    if (!this.addForm.valid) {
+      this.addForm.markAllAsTouched();
+      return;
+    }
+
+    const calendarApi = this.calendarComponent.getApi();
+    const data = this.addForm.getRawValue();
+    const preparedData: any = {
+      ...data,
+    };
+    const allEventsInCalendar = calendarApi.getEvents().filter((event) => {
+      const index = this.advertisementEvents.findIndex(
+        (e) => e.id === event.toJSON()['id']
+      );
+      if (index === -1) {
+        return true;
+      }
+      return false;
+    });
+
+    preparedData.events = allEventsInCalendar;
+    preparedData.userId = this.token.getUserId() as string;
+    preparedData.deletedEventsIds = this.deletedEventsIds;
+    preparedData.id = this.advertisementId;
+
+    console.log(preparedData);
+
+    this.service.addAdvertisement(preparedData).subscribe((data) => {
+      //this.clearFrom();
+    });
+  }
+
+  deleteAdvertisement(): void {
+    if (this.advertisementId) {
+      this.service
+        .deleteAdvertisement(this.advertisementId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((response) => {
+          this.router.navigateByUrl('/tutorAdvertisement');
+        });
+    }
+  }
+
+  confirmDialog(additionalData: any): void {
+    const eventData = additionalData.event.toJSON();
+    if (eventData.extendedProps.reserved) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      height: '200px',
+      data: {
+        title: 'Rezygnacja z zajęć',
+        message: 'Czy chcesz usunąć rezerwację',
+        additionalData,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+        this.removeEvent(dialogResult);
+      }
+    });
+  }
+
+  removeEvent(clickInfo: any): void {
+    clickInfo.event.remove();
+    if (this.advertisementId) {
+      this.deletedEventsIds.push(clickInfo.event.extendedProps['_id']);
+    }
   }
 }

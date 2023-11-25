@@ -72,6 +72,7 @@ const createNewOrUpdate = (advertisement: AdvertisementDAO) => {
           }
         });
       } else {
+        console.log("advertisement id ", advertisement);
         return AdvertisementModel.findByIdAndUpdate(
           advertisement.id,
           _.omit(advertisement, "id"),
@@ -119,6 +120,16 @@ const getAllUserAdvertisement = async (userId: string) => {
   }
 
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "advertisements not found");
+};
+
+const getAllAdvertistmentsFromArray = async (ids: string[]) => {
+  const result = await AdvertisementModel.find(
+    { _id: { $in: ids }, archived: false },
+    null,
+    { lean: "toObject" }
+  );
+
+  return result;
 };
 
 const getAllAdvertisements = async () => {
@@ -191,5 +202,6 @@ export default {
   activateAdvertisments,
   deactivateAdvertisments,
   getAllActiveAndNotArchivedAdvertismentsForTutor,
+  getAllAdvertistmentsFromArray,
   model: AdvertisementModel,
 };

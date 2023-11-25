@@ -8,7 +8,7 @@
           type="text"
           formControlName="title"
           class="addOffer__input"
-          placeholder="Wpisz nazwę potrawy"
+          placeholder="Wpisz tytuł ogłoszenia"
         />
       </div>
       <div class="addOffer__item">
@@ -17,9 +17,9 @@
           <option value="" disabled selected hidden>Wybierz kategorię</option>
           <option
             *ngFor="let category of advertisementCategories"
-            value="{{ category }}"
+            value="{{ category.value }}"
           >
-            {{ category }}
+            {{ category.name }}
           </option>
         </select>
       </div>
@@ -40,7 +40,7 @@
           class="addOffer__input"
           min="0"
           value="0"
-          placeholder="Podaj cenę dania"
+          placeholder="Podaj cenę za godzinę"
         />
       </div>
 
@@ -97,8 +97,19 @@
         <button class="addOffer__agreeButton" (click)="this.sendForm()">
           Dodaj ofertę
         </button>
-        <button class="addOffer__deleteButton" (click)="this.clearFrom()">
+        <button
+          *ngIf="!advertisementId"
+          class="addOffer__deleteButton"
+          (click)="this.clearFrom()"
+        >
           Wyczyść formularz
+        </button>
+        <button
+          *ngIf="advertisementId"
+          class="addOffer__deleteButton"
+          (click)="this.deleteAdvertisement()"
+        >
+          Usuń ogłoszenie
         </button>
       </div>
     </form>

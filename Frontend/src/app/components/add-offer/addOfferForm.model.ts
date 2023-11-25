@@ -9,4 +9,5 @@ export interface AddOfferModel {
   userId?: FormControl<string>;
   startDate: FormControl<string | null | undefined>;
   endDate: FormControl<string | null | undefined>;
+  id?: FormControl<string | null | undefined>;
 }
