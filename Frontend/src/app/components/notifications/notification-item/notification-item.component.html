@@ -2,7 +2,12 @@
   <div class="container__item">
     {{ notification.title }}
   </div>
-  <div class="">
-    {{ notification.content }}
+  <div class="container__buttons">
+    <button class="container__button__read" (click)="checkIsReaded()">
+      Odczytaj
+    </button>
+    <button class="container__button__go" (click)="route()">
+      Pokaż ogłoszenie
+    </button>
   </div>
 </div>

@@ -10,6 +10,10 @@ import userDAO from "../DAO/userDAO";
 import reservedEventDAO from "../DAO/reservedEventDAO";
 import advertisementEventDAO from "../DAO/advertisementEventDAO";
 import advertisementDAO from "../DAO/advertisementDAO";
+import { NotificationDAO } from "../shared/models/notificationDAO.model";
+import moment from "moment";
+import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
+import businessContainer from "./business.container";
 
 const saltRounds = 10;
 
@@ -40,6 +44,23 @@ const operations = (context: Context) => {
 
   const createNewOrUpdate = async (userData: UserDaoModel) => {
     const user = await UserDAO.createNewOrUpdate(userData);
+
+    if (userData.id) {
+      const notificationData: NotificationDAO = {
+        userId: userData.id,
+        advertisementId: null,
+        title: "Dane zostały zmienione",
+        content: "Dane zostały zmienione",
+        isReaded: false,
+        dateTimeSend: moment().toISOString(),
+        typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
+      };
+
+      await businessContainer
+        .getNotificationManager()
+        .createNewOrUpdate(notificationData);
+    }
+
     console.log("userxDD", user);
     if (await userData.password) {
       return await passwordDAO.createOrUpdate({

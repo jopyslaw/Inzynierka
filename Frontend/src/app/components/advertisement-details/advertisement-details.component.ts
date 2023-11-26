@@ -99,7 +99,7 @@ export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
       height: '200px',
       data: {
         title: 'Wydarzenie',
-        message: 'Czy chcesz chcesz usunąć wydarzenie',
+        message: 'Czy chcesz chcesz zarezerwować wydarzenie',
         additionalData,
       },
     });

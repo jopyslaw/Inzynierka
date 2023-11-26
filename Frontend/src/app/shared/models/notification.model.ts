@@ -5,4 +5,5 @@ export interface Notification {
   content: string;
   isReaded: boolean;
   dateTimeSend: string;
+  advertisementId: string;
 }

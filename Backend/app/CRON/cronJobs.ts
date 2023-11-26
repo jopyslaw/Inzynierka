@@ -1,6 +1,7 @@
 import moment from "moment";
 import businessContainer from "../business/business.container";
 import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
+import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
 
 export const activateAdvertismentsIfStartDateIsToday = async () => {
   console.log("first job start");
@@ -21,6 +22,22 @@ export const activateAdvertismentsIfStartDateIsToday = async () => {
       return false;
     }
   );
+
+  const notificationToSave = advertismentsToActivate.map(
+    (advertisement: any) => ({
+      userId: advertisement.userId,
+      title: "Ogłoszenie aktywowane",
+      content: "Zostało aktywowane ogłoszenie",
+      isReaded: false,
+      dateTimeSend: moment().toISOString(),
+      typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
+      advertisementId: advertisement._id.toString(),
+    })
+  );
+
+  await businessContainer
+    .getNotificationManager()
+    .createMany(notificationToSave);
 
   const advertismentsIds = advertismentsToActivate.map(
     (advertisment: AdvertisementDAO) => advertisment.id
@@ -52,6 +69,22 @@ export const deActivateAdvertismentsIfEndDateIsNotToday = async () => {
       return false;
     }
   );
+
+  const notificationToSave = advertismentsToDeactivate.map(
+    (advertisement: any) => ({
+      userId: advertisement.userId,
+      title: "Ogłoszenie dezaktywowano",
+      content: "Zostało dezaktywowane ogłoszenie",
+      isReaded: false,
+      dateTimeSend: moment().toISOString(),
+      typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
+      advertisementId: advertisement._id.toString(),
+    })
+  );
+
+  await businessContainer
+    .getNotificationManager()
+    .createMany(notificationToSave);
 
   const advertismentsIds = advertismentsToDeactivate.map(
     (advertisment: AdvertisementDAO) => advertisment.id

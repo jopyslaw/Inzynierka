@@ -61,6 +61,12 @@ const operations = (context: Context) => {
     }
   };
 
+  const createMany = async (notifications: any[]) => {
+    const result = await notificationsDAO.createMany(notifications);
+
+    return result;
+  };
+
   return {
     createNewOrUpdate,
     removeById,
@@ -69,6 +75,7 @@ const operations = (context: Context) => {
     getNotifications,
     setNotificationToReadedState,
     getNotificationsNotReaded,
+    createMany,
   };
 };
 

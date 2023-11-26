@@ -47,14 +47,30 @@ const operations = (context: Context) => {
 
       await advertisementEventDAO.createNewOrUpdate(data as any);
 
-      const notificationData: NotificationDAO = {
-        userId: advertisementData.userId,
-        title: "Ogłoszenie zostało dodane",
-        content: "Ogłoszenie zostało dodane",
-        isReaded: false,
-        dateTimeSend: moment().toISOString(),
-        typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
-      };
+      let notificationData: NotificationDAO;
+
+      if (advertisement.id) {
+        notificationData = {
+          userId: advertisementData.userId,
+          advertisementId: advertisement.id,
+          title: "Ogłoszenie zostało edytowane",
+          content: "Ogłoszenie zostało edytowane",
+          isReaded: false,
+          dateTimeSend: moment().toISOString(),
+          typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
+        };
+      } else {
+        notificationData = {
+          userId: advertisementData.userId,
+          advertisementId: advertisementData.id,
+          title: "Ogłoszenie zostało dodane",
+          content: "Ogłoszenie zostało dodane",
+          isReaded: false,
+          dateTimeSend: moment().toISOString(),
+          typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
+        };
+      }
+
       await businessContainer
         .getNotificationManager()
         .createNewOrUpdate(notificationData);

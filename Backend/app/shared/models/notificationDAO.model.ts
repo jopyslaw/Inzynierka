@@ -8,4 +8,5 @@ export interface NotificationDAO {
   isReaded: boolean;
   dateTimeSend: string;
   typeOfNotification: NotificationTypeEnum;
+  advertisementId: string | null;
 }

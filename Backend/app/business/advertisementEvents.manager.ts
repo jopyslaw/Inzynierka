@@ -70,11 +70,19 @@ const operations = (context: Context) => {
       userId
     );
 
-    const eventsIds = reservedData?.map((event) => event.advertisementEventId);
+    console.log("reserved data", reservedData);
+
+    const eventsIds = reservedData?.map((event) =>
+      event.advertisementEventId.toString()
+    );
+
+    console.log(eventsIds);
 
     if (eventsIds) {
       const eventsForUser =
         await advertisementEventDAO.getAllUserAdvertisementEvents(eventsIds);
+
+      console.log(eventsForUser);
 
       const preparedData = eventsForUser?.map((event) => {
         return {
@@ -87,7 +95,7 @@ const operations = (context: Context) => {
             )?._id ?? null,
         };
       });
-
+      console.log(preparedData);
       return preparedData;
     }
   };

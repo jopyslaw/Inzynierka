@@ -68,7 +68,7 @@ const removeByIds = async (ids: string[] | undefined) => {
 
 const getAllUserAdvertisementEvents = async (eventsIds: string[]) => {
   const result = await AdvertisementEventModel.find(
-    { advertisementId: { $in: eventsIds }, archived: false },
+    { _id: { $in: eventsIds }, archived: false },
     null,
     { lean: "toObject" }
   );
@@ -113,6 +113,16 @@ const getAllAdvertismentsForArray = async (ids: string[]) => {
   return result;
 };
 
+const findById = async (id: string) => {
+  const result = await AdvertisementEventModel.findOne(
+    { _id: id, archvied: false },
+    null,
+    { lean: "toObject" }
+  );
+
+  return result;
+};
+
 export default {
   createNewOrUpdate,
   getAdvertisementEventById,
@@ -122,5 +132,6 @@ export default {
   removeByIds,
   getAllAdvertisementEventsForAdvertismentIds,
   getAllAdvertismentsForArray,
+  findById,
   model: AdvertisementEventModel,
 };

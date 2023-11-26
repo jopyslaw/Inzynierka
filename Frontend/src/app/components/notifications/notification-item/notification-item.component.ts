@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
@@ -13,7 +14,10 @@ import { environment } from 'src/environments/environment';
 export class NotificationItemComponent implements OnInit, OnDestroy {
   @Input() notification!: Notification;
   private destroy$: Subject<void> = new Subject<void>();
-  constructor(private notificationService: NotificationsService) {}
+  constructor(
+    private notificationService: NotificationsService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -27,5 +31,15 @@ export class NotificationItemComponent implements OnInit, OnDestroy {
       .setNotificationToReadedState(this.notification._id ?? '')
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {});
+  }
+
+  route(): void {
+    if (!this.notification.advertisementId) {
+      return;
+    }
+
+    this.router.navigateByUrl(
+      'advertisementDetails/' + this.notification.advertisementId
+    );
   }
 }

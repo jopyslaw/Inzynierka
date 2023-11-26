@@ -109,6 +109,7 @@ const getAllReservationForAdvertisementId = async (eventsIds: string[]) => {
 };
 
 const getAllReservationsForUserId = async (userId: string) => {
+  console.log("userId", userId);
   const result = await ReservedEventModel.find({ userId: userId }, null, {
     lean: "toObject",
   });

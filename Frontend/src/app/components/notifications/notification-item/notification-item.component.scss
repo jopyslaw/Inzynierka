@@ -19,11 +19,33 @@
     display: flex;
     width: 100%;
     align-items: center;
+    color: rgb(226, 226, 226);
   }
-}
 
-.container:hover {
-  border-color: rgb(0, 47, 255);
-  transform: scale(1.1);
-  cursor: pointer;
+  &__buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__button__read {
+    height: 40px;
+    width: 100px;
+    border-radius: 20px;
+  }
+
+  &__button__go {
+    height: 40px;
+    width: 100px;
+    border-radius: 20px;
+  }
+
+  &__button__read:hover {
+    cursor: pointer;
+  }
+
+  &__button__go:hover {
+    cursor: pointer;
+  }
 }

@@ -25,6 +25,12 @@ const notificationSchema = new mongoose.Schema(
       enum: NotificationTypeEnum,
       required: true,
     },
+    advertisementId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "advertisement",
+      required: false,
+      default: null,
+    },
   },
   {
     collection: "notification",
@@ -63,6 +69,12 @@ const createNewOrUpdate = (notification: NotificationDAO) => {
       }
       throw error;
     });
+};
+
+const createMany = async (notifications: any[]) => {
+  const result = await NotificationModel.insertMany(notifications);
+
+  return result;
 };
 
 const getById = async (id: string) => {
@@ -118,5 +130,6 @@ export default {
   getAllNotificationsNotReadedForUserId,
   getNotificationsForUserId,
   setNotificationToReadedState,
+  createMany,
   model: NotificationModel,
 };
