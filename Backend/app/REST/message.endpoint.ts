@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response, Router, request } from "express";
 import businessContainer from "../business/business.container";
 import { errorUtils } from "../service/applicationException";
+import auth from "../middleware/auth";
 
 export const messageEndpoint = (router: Router) => {
   router.get(
     "/api/message/counter/:userId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer
@@ -19,6 +21,7 @@ export const messageEndpoint = (router: Router) => {
 
   router.get(
     "/api/message/contacts/:userId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer
@@ -33,6 +36,7 @@ export const messageEndpoint = (router: Router) => {
 
   router.post(
     "/api/message/send",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer
@@ -47,6 +51,7 @@ export const messageEndpoint = (router: Router) => {
 
   router.get(
     "/api/message/messages/:senderId/:reciverId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer
@@ -61,6 +66,7 @@ export const messageEndpoint = (router: Router) => {
 
   router.post(
     "/api/message/readed",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer

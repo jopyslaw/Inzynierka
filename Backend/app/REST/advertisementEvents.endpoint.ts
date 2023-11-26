@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response, Router } from "express";
 import businessContainer from "../business/business.container";
 import { errorUtils } from "../service/applicationException";
+import auth from "../middleware/auth";
 
 export const advertisementEventsEndpoint = (router: Router) => {
   router.get(
     "/api/advertisementEvents/getAll/:userId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const userId = request.params.userId;
@@ -20,6 +22,7 @@ export const advertisementEventsEndpoint = (router: Router) => {
 
   router.get(
     "/api/advertisementEvents/get/:advertisementId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const advertisementId = request.params.advertisementId;
@@ -35,6 +38,7 @@ export const advertisementEventsEndpoint = (router: Router) => {
 
   router.get(
     "/api/advertisementEvents/reservedUserEvents/:userId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const userId = request.params.userId;
@@ -50,6 +54,7 @@ export const advertisementEventsEndpoint = (router: Router) => {
 
   router.delete(
     "api/advertisementEvents/remove/:advertisementEventId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const advertisementId = request.params.advertisementEventId;

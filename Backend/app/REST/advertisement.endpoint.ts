@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response, Router } from "express";
 import businessContainer from "../business/business.container";
 import { errorUtils } from "../service/applicationException";
+import auth from "../middleware/auth";
 
 export const advertisementEndpoint = (router: Router) => {
   router.post(
     "/api/advertisement/add",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer
@@ -19,6 +21,7 @@ export const advertisementEndpoint = (router: Router) => {
 
   router.get(
     "/api/advertisement/getAll/:userId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const userId = request.params.userId;
@@ -34,6 +37,7 @@ export const advertisementEndpoint = (router: Router) => {
 
   router.get(
     "/api/advertisement/get/:advertisementId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const advertisementId = request.params.advertisementId;
@@ -49,6 +53,7 @@ export const advertisementEndpoint = (router: Router) => {
 
   router.get(
     "/api/advertisement/getTutorAdvertisements/:userId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const userId = request.params.userId;
@@ -64,6 +69,7 @@ export const advertisementEndpoint = (router: Router) => {
 
   router.get(
     "/api/advertisement/getAll",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer
@@ -78,6 +84,7 @@ export const advertisementEndpoint = (router: Router) => {
 
   router.delete(
     "api/advertisement/remove/:advertisementId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const advertisementId = request.params.advertisementId;
