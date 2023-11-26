@@ -96,11 +96,7 @@ const getAllUserContacts = async (userId: string) => {
       return id.senderId;
     }
   });
-
-  if (uniqueIds.length) {
-    return uniqueIds;
-  }
-  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "User not found");
+  return uniqueIds;
 };
 
 const getAllMessages = async (senderId: string, reciverId: string) => {

@@ -5,6 +5,7 @@ import { MessageService } from 'src/app/services/message/message.service';
 import { TokenService } from 'src/app/services/token/token.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Role } from 'src/app/shared/enums/role.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-message',
@@ -19,7 +20,8 @@ export class NewMessageComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +53,9 @@ export class NewMessageComponent implements OnInit, OnDestroy {
     this.messageService
       .sendMessage(dataToSend)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((response) => {});
+      .subscribe((response) => {
+        this.router.navigateByUrl('message');
+      });
   }
 
   getTutorsForUsers(): void {

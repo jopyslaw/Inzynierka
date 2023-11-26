@@ -81,7 +81,7 @@ const operations = (context: Context) => {
         isReaded: false,
         dateTimeSend: moment().toISOString(),
         typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
-        advertisementId: advertisementId,
+        advertisementId: event.advertisementId,
       };
 
       const dataForUser: NotificationDAO = {
@@ -91,7 +91,7 @@ const operations = (context: Context) => {
         isReaded: false,
         dateTimeSend: moment().toISOString(),
         typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
-        advertisementId: advertisementId,
+        advertisementId: event.advertisementId,
       };
 
       const resultForTutor = await businessContainer

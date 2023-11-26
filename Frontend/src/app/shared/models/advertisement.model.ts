@@ -11,6 +11,7 @@ export interface AdvertisementModel {
   _id?: string;
   startDate?: string;
   endDate?: string;
+  tutor: string;
 }
 
 export interface AdvertisementEventsModel {

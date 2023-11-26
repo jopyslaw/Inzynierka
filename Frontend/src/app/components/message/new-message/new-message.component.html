@@ -3,16 +3,7 @@
     <span class="addOffer__title">Wyślij wiadomość</span>
     <form [formGroup]="messageForm">
       <div class="addOffer__item">
-        <label class="addOffer__item--text">Tytuł wiadomości</label>
-        <input
-          type="text"
-          formControlName="title"
-          class="addOffer__input"
-          placeholder="Wpisz nazwę potrawy"
-        />
-      </div>
-      <div class="addOffer__item">
-        <label class="addOffer__item--text">Kategoria</label>
+        <label class="addOffer__item--text">Odbiorca</label>
         <select formControlName="reciverId" class="addOffer__input" required>
           <option value="" disabled selected hidden>
             Wybierz korepetytora
@@ -28,7 +19,7 @@
           type="text"
           formControlName="content"
           class="addOffer__text-area"
-          placeholder="Opis ogłoszenia"
+          placeholder="Treść"
           rows="14"
         ></textarea>
       </div>

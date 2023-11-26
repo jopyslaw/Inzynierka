@@ -69,7 +69,6 @@ export const advertisementEndpoint = (router: Router) => {
 
   router.get(
     "/api/advertisement/getAll",
-    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const result = await businessContainer

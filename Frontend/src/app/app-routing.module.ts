@@ -24,7 +24,7 @@ const routes: Routes = [
     component: EditAccountComponent,
     canActivate: [TokenGuard],
   },
-  { path: 'menu', component: MenuComponent, canActivate: [TokenGuard] },
+  { path: 'menu', component: MenuComponent },
   { path: 'addOffer', component: AddOfferComponent, canActivate: [TokenGuard] },
   {
     path: 'addOffer/:id',

@@ -6,6 +6,7 @@ import moment from "moment";
 import { NotificationDAO } from "../shared/models/notificationDAO.model";
 import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
 import businessContainer from "./business.container";
+import userDAO from "../DAO/userDAO";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (advertisement: AdvertisementDAO) => {
@@ -75,8 +76,16 @@ const operations = (context: Context) => {
 
   const getById = async (id: string) => {
     const advertisement = await advertisementDAO.getById(id);
-    if (advertisement) {
-      return advertisement;
+
+    const tutor = await userDAO.get(advertisement.userId);
+
+    const preparedData = {
+      ...advertisement,
+      tutor: tutor.login,
+    };
+
+    if (preparedData) {
+      return preparedData;
     }
   };
 

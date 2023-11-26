@@ -133,11 +133,7 @@ const getAllAdvertisements = async () => {
   const result = await AdvertisementModel.find({ archived: false }, null, {
     lean: "toObject",
   });
-  if (result) {
-    return result;
-  }
-
-  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "advertisements not exists");
+  return result;
 };
 
 const getAllInActiveAndNotArchivedAdvertisments = async () => {
