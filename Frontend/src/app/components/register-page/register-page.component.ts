@@ -1,15 +1,12 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register/register.service';
-import { emailRegex } from './../../../assets/validators/email-validator';
 import { passwordRegex } from './../../../assets/validators/password-validator';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Role } from 'src/app/shared/enums/role.enum';
+import { RegisterForm } from './register-form.model';
+import { RegisterModel } from 'src/app/shared/models/register.model';
 
 @Component({
   selector: 'app-register-page',
@@ -17,9 +14,9 @@ import {
   styleUrls: ['./register-page.component.scss'],
 })
 export class RegisterPageComponent implements OnInit, OnDestroy {
-  registerForm!: FormGroup;
+  registerForm!: FormGroup<RegisterForm>;
   subscriptions: Subscription = new Subscription();
-  roles: string[] = ['USER', 'TUTOR'];
+  roles: Role[] = [Role.TUTOR, Role.USER];
 
   constructor(
     private service: RegisterService,
@@ -29,44 +26,26 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      name: this.fb.control('', [Validators.required]),
-      surname: this.fb.control('', [Validators.required]),
-      login: this.fb.control('', [Validators.required]),
-      email: this.fb.control('', [Validators.required, Validators.email]),
-      password: this.fb.control('', [
+    this.registerForm = this.fb.group<RegisterForm>({
+      name: this.fb.nonNullable.control('', [Validators.required]),
+      surname: this.fb.nonNullable.control('', [Validators.required]),
+      login: this.fb.nonNullable.control('', [Validators.required]),
+      email: this.fb.nonNullable.control('', [
+        Validators.required,
+        Validators.email,
+      ]),
+      password: this.fb.nonNullable.control('', [
         Validators.required,
         Validators.pattern(passwordRegex),
       ]),
-      repeatPassword: this.fb.control('', [
+      repeatPassword: this.fb.nonNullable.control('', [
         Validators.required,
         Validators.pattern(passwordRegex),
       ]),
-      phoneNumber: this.fb.control('', [Validators.required]),
-      checkbox: this.fb.control(false),
-      role: this.fb.control('', [Validators.required]),
+      phoneNumber: this.fb.nonNullable.control('', [Validators.required]),
+      checkbox: this.fb.nonNullable.control(false),
+      role: this.fb.nonNullable.control(Role.USER, [Validators.required]),
     });
-
-    /*this.registerForm = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      surname: new FormControl('', [Validators.required]),
-      login: new FormControl('', [Validators.required]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern(emailRegex),
-      ]),
-      password: new FormControl('', [
-        Validators.pattern(passwordRegex),
-        Validators.required,
-      ]),
-      repeatPassword: new FormControl('', [
-        Validators.pattern(passwordRegex),
-        Validators.required,
-      ]),
-      phoneNumber: new FormControl(''),
-      checkbox: new FormControl(false),
-      role: new FormControl(''),
-    });*/
   }
 
   clear(): void {
@@ -74,11 +53,21 @@ export class RegisterPageComponent implements OnInit, OnDestroy {
   }
 
   send(): void {
-    const data = this.registerForm.value;
-    delete data.checkbox;
-    delete data.repeatPassword;
+    if (this.registerForm.invalid) {
+      return;
+    }
+    const data = this.registerForm.getRawValue();
+    const dataToSend: RegisterModel = {
+      name: data.name,
+      surname: data.surname,
+      login: data.login,
+      password: data.password,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      role: data.role,
+    };
     this.subscriptions.add(
-      this.service.register(data).subscribe(() => {
+      this.service.register(dataToSend).subscribe(() => {
         this.router.navigate(['']);
       })
     );

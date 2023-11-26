@@ -1,8 +1,5 @@
-import { FoodService } from 'src/app/services/food-service/food.service';
-import { BasketService } from './../../../services/basket/basket.service';
-import { LocalStorageService } from './../../../services/local-storage/local-storage.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { AdvertisementModel } from 'src/app/shared/models/advertisement.model';
 
 @Component({
   selector: 'app-offer-item',
@@ -10,23 +7,39 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./offer-item.component.scss'],
 })
 export class OfferItemComponent implements OnInit {
-  @Input() offerItemData: any;
-  img: any;
-  constructor(
-    private basket: BasketService,
-    private foodService: FoodService,
-    private sanitizer: DomSanitizer
-  ) {}
+  @Input() offerItemData!: AdvertisementModel;
+  randomColorValue: string = '';
+  randomClassValue: string = '';
+
+  colors: string[] = [
+    '#eae672',
+    '#9FF5F5',
+    '#FAD1FF',
+    '#E3FFC9',
+    '#FFDEE8',
+    '#DEFFE1',
+  ];
+
+  class: string[] = ['transformNote1', 'transformNote2'];
+
+  constructor() {}
 
   ngOnInit(): void {
-    console.log(this.offerItemData);
-    this.foodService.getFoodImg(this.offerItemData.foodId).subscribe((data) => {
-      const objectURL = 'data:image/png;base64,' + data;
-      this.img = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    });
+    this.randomClassValue = this.randomClass();
+    this.randomColorValue = this.randomColor();
   }
 
-  addItemToBasket(): void {
-    this.basket.addItemToBasket(this.offerItemData);
+  randomColor(): string {
+    return this.randomElementFromArray(this.colors);
+  }
+
+  randomClass(): string {
+    return this.randomElementFromArray(this.class);
+  }
+
+  private randomElementFromArray(array: string[]) {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    const randomValue = array[randomIndex];
+    return randomValue;
   }
 }

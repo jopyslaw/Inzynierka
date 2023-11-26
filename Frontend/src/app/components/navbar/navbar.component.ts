@@ -1,10 +1,11 @@
-import { BasketService } from './../../services/basket/basket.service';
 import { TokenService } from '../../services/token/token.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import jwtDecode from 'jwt-decode';
-import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { MessageService } from 'src/app/services/message/message.service';
+import { NotificationsService } from 'src/app/services/notifications/notifications.service';
+import { SocketService } from 'src/app/services/socket/socket.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -13,14 +14,18 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isLogged?: boolean;
-  numberOfItemsInBasket?: number;
+  numberOfNotifications?: number;
+  numberOfMessages?: number;
   subscription: Subscription = new Subscription();
   role = '';
 
   constructor(
     private token: TokenService,
     private router: Router,
-    private basket: BasketService
+    private notificationService: NotificationsService,
+    private socketService: SocketService,
+    private socketServiceMessage: SocketService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -29,13 +34,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.isLogged = log;
         if (this.token.getRole()) {
           this.role = this.token.getRole() ?? '';
+          this.getNotifications();
+          this.connectToSSE();
+          this.getMessages();
+          this.connectToSSEMessage();
         }
-      })
-    );
-
-    this.subscription.add(
-      this.basket.numberOfElements.subscribe((number) => {
-        this.numberOfItemsInBasket = number;
       })
     );
   }
@@ -47,5 +50,55 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logOut(): void {
     this.token.removeToken();
     this.router.navigate(['/']);
+  }
+
+  getNotifications(): void {
+    this.subscription.add(
+      this.notificationService
+        .getNotificationCounter(this.token.getUserId() ?? '')
+        .subscribe((result) => {
+          this.numberOfNotifications = result.counter;
+        })
+    );
+  }
+
+  getMessages(): void {
+    this.subscription.add(
+      this.messageService
+        .getMessageCounter(this.token.getUserId() ?? '')
+        .subscribe((response) => {
+          this.numberOfMessages = response.counter;
+        })
+    );
+  }
+
+  connectToSSE(): void {
+    this.socketService.connect(environment.SOCKET_NOTIFICATION_ENDPOINT, {
+      query: {
+        userId: this.token.getUserId(),
+      },
+    });
+
+    this.subscription.add(
+      this.socketService.on('newNotificationCounter').subscribe((counter) => {
+        const counterJSON = JSON.parse(counter);
+        this.numberOfNotifications = counterJSON.counter;
+      })
+    );
+  }
+
+  connectToSSEMessage(): void {
+    this.socketServiceMessage.connect(environment.SOCKET_MESSAGE_ENDPOINT, {
+      query: {
+        userId: this.token.getUserId(),
+      },
+    });
+
+    this.subscription.add(
+      this.socketServiceMessage.on('newMessageCounter').subscribe((counter) => {
+        const counterJSON = JSON.parse(counter);
+        this.numberOfMessages = counterJSON.counter;
+      })
+    );
   }
 }

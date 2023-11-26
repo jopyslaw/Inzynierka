@@ -1,7 +1,8 @@
-import { foodModel } from '../../shared/models/food.model';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FoodService } from 'src/app/services/food-service/food.service';
+import { AdvertisementModel } from 'src/app/shared/models/advertisement.model';
+import { CategoryAdvertisementEnum } from 'src/app/shared/enums/categoryAdvertisement.enum';
+import { AdvertisementService } from 'src/app/services/advertisement-service/advertisement.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,30 +10,29 @@ import { FoodService } from 'src/app/services/food-service/food.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  filterOption: any[] = [
-    'Pizza',
-    'Dania główne',
-    'Przekąski',
-    'Napoje',
-    'Desery',
-    'Przystawki',
+  filterOption: CategoryAdvertisementEnum[] = [
+    CategoryAdvertisementEnum.ARTISTIC,
+    CategoryAdvertisementEnum.HUMAN,
+    CategoryAdvertisementEnum.SCIENCE,
+    CategoryAdvertisementEnum.OTHERS,
   ];
+  private destroy$: Subject<void> = new Subject<void>();
 
-  private subsrciption: Subscription = new Subscription();
+  items: AdvertisementModel[] = [];
 
-  items: foodModel[] = [];
-  photos: any[] = [];
+  constructor(private service: AdvertisementService) {}
 
-  constructor(private service: FoodService) {}
   ngOnDestroy(): void {
-    this.subsrciption.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngOnInit(): void {
-    this.subsrciption.add(
-      this.service.getFood().subscribe((data) => {
-        this.items = data;
-      })
-    );
+    this.service
+      .getAllAvailableAdvertisements()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response) => {
+        this.items = response;
+      });
   }
 }

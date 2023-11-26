@@ -1,0 +1,21 @@
+@use "../../../../assets/variables.scss" as *;
+
+.dialog {
+  width: 300px;
+  height: 150px;
+
+  &__button {
+    border-radius: 10px;
+    padding: 5px;
+    transition: all 0.3s ease-out;
+    border: none;
+  }
+
+  &__button:hover {
+    transform: scale(1.1);
+  }
+}
+
+::ng-deep.mat-dialog-container {
+  background-color: white;
+}

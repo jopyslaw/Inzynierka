@@ -16,26 +16,34 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 import { EditAccountComponent } from './components/edit-account/edit-account.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { OfferItemComponent } from './components/menu/offer-item/offer-item.component';
-import { BasketComponent } from './components/basket/basket.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
-import { BasketItemComponent } from './components/basket/basket-item/basket-item.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AddOfferComponent } from './components/add-offer/add-offer.component';
 import { AdminAddAccountComponent } from './components/admin-add-account/admin-add-account.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
-import { OrdersStateComponent } from './components/orders-state/orders-state.component';
-import { OrderStateItemComponent } from './components/orders-state/order-state-item/order-state-item.component';
-import { OrderHistoryItemComponent } from './components/order-history/order-history-item/order-history-item.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ErrorHandlingInterceptor } from './interceptors/error-handling.interceptor';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { CookieService } from 'ngx-cookie-service';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { AdvertisementDetailsComponent } from './components/advertisement-details/advertisement-details.component';
+import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TokenService } from './services/token/token.service';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatButtonModule } from '@angular/material/button';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationItemComponent } from './components/notifications/notification-item/notification-item.component';
+import { MessageComponent } from './components/message/message.component';
+import { NewMessageComponent } from './components/message/new-message/new-message.component';
+import { ContactItemComponent } from './components/message/contact-item/contact-item.component';
+import { TutorAdvertisementComponent } from './components/tutor-advertisement/tutor-advertisement.component';
+import { ItemComponent } from './components/tutor-advertisement/item/item.component';
 
 @NgModule({
   declarations: [
@@ -49,15 +57,19 @@ import { CookieService } from 'ngx-cookie-service';
     EditAccountComponent,
     MenuComponent,
     OfferItemComponent,
-    BasketComponent,
-    BasketItemComponent,
     AddOfferComponent,
     AdminAddAccountComponent,
     OrderHistoryComponent,
-    OrdersStateComponent,
-    OrderStateItemComponent,
-    OrderHistoryItemComponent,
     ErrorDialogComponent,
+    AdvertisementDetailsComponent,
+    ConfirmDialogComponent,
+    NotificationsComponent,
+    NotificationItemComponent,
+    MessageComponent,
+    NewMessageComponent,
+    ContactItemComponent,
+    TutorAdvertisementComponent,
+    ItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +86,10 @@ import { CookieService } from 'ngx-cookie-service';
     MatBadgeModule,
     MatDialogModule,
     MatSnackBarModule,
+    FullCalendarModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatButtonModule,
   ],
   providers: [
     {
@@ -86,7 +102,7 @@ import { CookieService } from 'ngx-cookie-service';
       useClass: ErrorHandlingInterceptor,
       multi: true,
     },
-    CookieService,
+    TokenService,
   ],
   bootstrap: [AppComponent],
 })

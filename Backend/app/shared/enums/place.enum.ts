@@ -1,0 +1,5 @@
+export enum PlaceEnum {
+  TUTOR_PLACE = "TUTOR_PLACE",
+  USER_PLACE = "USER_PLACE",
+  OTHER_PLACE = "OTHER_PLACE",
+}

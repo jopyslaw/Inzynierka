@@ -4,6 +4,9 @@ import {
   ApplicationException,
   errorUtils,
 } from "../service/applicationException";
+import auth from "../middleware/auth";
+import roleAuth from "../middleware/role";
+import { UserRole } from "../shared/enums/userRole.enum";
 
 export const userEndpoint = (router: Router) => {
   router.post(
@@ -36,7 +39,7 @@ export const userEndpoint = (router: Router) => {
 
   router.delete(
     "/api/user/logout/:userId",
-    //auth,
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         let result = await businessContainer
@@ -50,7 +53,8 @@ export const userEndpoint = (router: Router) => {
   );
 
   router.get(
-    "/api/user/data/:userId", //auth,
+    "/api/user/data/:userId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const userId = request.params.userId;
@@ -65,15 +69,45 @@ export const userEndpoint = (router: Router) => {
   );
 
   router.post(
-    "/api/user/password/:userId", //auth
+    "/api/user/password/:userId",
+    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        console.log(request.body);
         const userId = request.params.userId;
         const data = request.body.password;
         const result = await businessContainer
           .getUserManager()
           .updatePassword(userId, data);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
+
+  router.get(
+    "/api/user/getUsersForTutors/:userId",
+    roleAuth([UserRole.TUTOR]),
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const result = await businessContainer
+          .getUserManager()
+          .getUsersForTutors(request.params.userId);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
+
+  router.get(
+    "/api/user/getTutorsForUsers/:userId",
+    roleAuth([UserRole.USER]),
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const result = await businessContainer
+          .getUserManager()
+          .getTutorsForUsers(request.params.userId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);

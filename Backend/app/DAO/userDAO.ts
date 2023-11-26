@@ -30,8 +30,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-//userSchema.plugin()
-
 const UserModel = mongoose.model<UserDAO>("user", userSchema);
 
 const createNewOrUpdate = (user: UserDAO) => {
@@ -71,9 +69,7 @@ const getByEmailOrLogin = async (login: string) => {
 };
 
 const get = async (id: string) => {
-  console.log(id);
   const result = await UserModel.findOne({ _id: id });
-  console.log(result);
   if (result) {
     return convert(result);
   }
@@ -85,10 +81,36 @@ const removeById = async (id: string) => {
   return await UserModel.findByIdAndRemove(id);
 };
 
+const getAllTutors = async () => {
+  const result = await UserModel.find({ role: UserRole.TUTOR }, "login _id", {
+    lean: "toObject",
+  });
+
+  if (result) {
+    return result;
+  }
+
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Tutors not found");
+};
+
+const getUsersInformation = async (userIds: (string | undefined)[]) => {
+  const result = await UserModel.find({ _id: { $in: userIds } }, "_id login", {
+    lean: "toObject",
+  });
+
+  if (result) {
+    return result;
+  }
+
+  throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "Tutors not found");
+};
+
 export default {
   createNewOrUpdate,
   getByEmailOrLogin,
   get,
   removeById,
+  getAllTutors,
+  getUsersInformation,
   model: UserModel,
 };

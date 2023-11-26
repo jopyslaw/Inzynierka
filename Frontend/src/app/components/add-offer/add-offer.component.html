@@ -1,37 +1,35 @@
 <div class="addOffer">
   <div class="addOffer__container">
-    <span class="addOffer__title">Dodaj potrawę</span>
+    <span class="addOffer__title">Dodaj ogłoszenie</span>
     <form [formGroup]="addForm">
       <div class="addOffer__item">
-        <label class="addOffer__item--text">Nazwa potrawy</label>
+        <label class="addOffer__item--text">Tytuł ogłoszenia</label>
         <input
           type="text"
-          formControlName="foodName"
+          formControlName="title"
           class="addOffer__input"
-          placeholder="Wpisz nazwę potrawy"
+          placeholder="Wpisz tytuł ogłoszenia"
         />
       </div>
-      <!--<div class="addOffer__item">
+      <div class="addOffer__item">
         <label class="addOffer__item--text">Kategoria</label>
         <select formControlName="category" class="addOffer__input" required>
-          <option value="" disabled selected hidden>
-            Wybierz kategorię dania
-          </option>
+          <option value="" disabled selected hidden>Wybierz kategorię</option>
           <option
-            *ngFor="let category of foodCategories"
-            value="{{ category }}"
+            *ngFor="let category of advertisementCategories"
+            value="{{ category.value }}"
           >
-            {{ category }}
+            {{ category.name }}
           </option>
         </select>
-      </div>-->
+      </div>
       <div class="addOffer__item">
         <label class="addOffer__item--text">Opis</label>
         <input
           type="text"
           formControlName="description"
           class="addOffer__input"
-          placeholder="Krótki opis dania"
+          placeholder="Opis ogłoszenia"
         />
       </div>
       <div class="addOffer__item">
@@ -42,25 +40,76 @@
           class="addOffer__input"
           min="0"
           value="0"
-          placeholder="Podaj cenę dania"
+          placeholder="Podaj cenę za godzinę"
         />
       </div>
+
       <div class="addOffer__item">
-        <label class="addOffer__item--text">Dodaj zdjęcie</label>
-        <input
-          type="file"
-          formControlName="image"
-          class="addOffer__input"
-          placeholder="Dodaj zdjęcie dania"
-          (change)="onFileSelect($event)"
-        />
+        <label class="addOffer__item--text"
+          >Data obowiązywania ogłoszenia</label
+        >
+        <mat-form-field class="example-form-field">
+          <mat-label>Podaj zakres dat</mat-label>
+          <mat-date-range-input [rangePicker]="rangePicker" [min]="currentDate">
+            <input
+              matStartDate
+              placeholder="Data początku"
+              formControlName="startDate"
+              #dateRangeStart
+            />
+            <input
+              matEndDate
+              placeholder="Data końca"
+              formControlName="endDate"
+              #dateRangeEnd
+              (dateChange)="dateRangeChange()"
+            />
+          </mat-date-range-input>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="rangePicker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #rangePicker>
+            <mat-date-range-picker-actions>
+              <button mat-button matDateRangePickerCancel>Odrzuć</button>
+              <button mat-raised-button color="primary" matDateRangePickerApply>
+                Zaakceptuj
+              </button>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+      <div
+        class="addOffer__item"
+        *ngIf="
+          addForm.controls.startDate.value && addForm.controls.endDate.value
+        "
+      >
+        <label class="addOffer__item--text">Wpisz harmonogram</label>
+        <full-calendar
+          class="textColor calendar"
+          #calendar
+          [options]="calendarOptions"
+        ></full-calendar>
       </div>
       <div class="addOffer__btnContainer">
         <button class="addOffer__agreeButton" (click)="this.sendForm()">
           Dodaj ofertę
         </button>
-        <button class="addOffer__deleteButton" (click)="this.clearFrom()">
+        <button
+          *ngIf="!advertisementId"
+          class="addOffer__deleteButton"
+          (click)="this.clearFrom()"
+        >
           Wyczyść formularz
+        </button>
+        <button
+          *ngIf="advertisementId"
+          class="addOffer__deleteButton"
+          (click)="this.deleteAdvertisement()"
+        >
+          Usuń ogłoszenie
         </button>
       </div>
     </form>

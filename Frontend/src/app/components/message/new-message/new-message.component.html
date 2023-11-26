@@ -1,0 +1,34 @@
+<div class="addOffer">
+  <div class="addOffer__container">
+    <span class="addOffer__title">Wyślij wiadomość</span>
+    <form [formGroup]="messageForm">
+      <div class="addOffer__item">
+        <label class="addOffer__item--text">Odbiorca</label>
+        <select formControlName="reciverId" class="addOffer__input" required>
+          <option value="" disabled selected hidden>
+            Wybierz korepetytora
+          </option>
+          <option *ngFor="let tutor of tutors" value="{{ tutor._id }}">
+            {{ tutor.login }}
+          </option>
+        </select>
+      </div>
+      <div class="addOffer__item">
+        <label class="addOffer__item--text">Treść wiadomości</label>
+        <textarea
+          type="text"
+          formControlName="content"
+          class="addOffer__text-area"
+          placeholder="Treść"
+          rows="14"
+        ></textarea>
+      </div>
+
+      <div class="addOffer__btnContainer">
+        <button class="addOffer__agreeButton" (click)="this.sendMessage()">
+          Wyślij wiadomość
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

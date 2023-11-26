@@ -1,16 +1,33 @@
-<div class="offer-item" [style.background-image]="img">
-  <div class="offer-item__info">
-    <div class="offer-item__title">
-      {{ offerItemData.foodName }}
-    </div>
-    <div class="offer-item__price">{{ offerItemData.price }} zł</div>
-    <div class="offer-item__description">
-      {{ offerItemData.description }}
+<a [routerLink]="['/advertisementDetails/' + offerItemData._id]">
+  <div
+    class="note yellow"
+    [ngClass]="randomClassValue"
+    [style.background-color]="randomColorValue"
+  >
+    <div class="offer-item__info">
+      <div class="offer-item__title">
+        Tytuł ogłoszenia:
+        {{ offerItemData.title }}
+      </div>
+      <div class="offer-item__title">
+        Kategoria ogłoszenia:
+        <div class="offer-item__title--fontSize10">
+          {{ offerItemData.category }}
+        </div>
+      </div>
+      <div class="offer-item__price">
+        Krótki opis:
+        <div class="offer-item__title--fontSize10">
+          {{
+            offerItemData.description.length > 120
+              ? offerItemData.description.slice(0, 120) + "..."
+              : offerItemData.description
+          }}
+        </div>
+      </div>
+      <div class="offer-item__price">
+        Cena za godzinę: {{ offerItemData.price }} zł
+      </div>
     </div>
   </div>
-  <div class="offer-item__btn-container">
-    <button class="offer-item__btn" (click)="addItemToBasket()">
-      Dodaj do koszyka
-    </button>
-  </div>
-</div>
+</a>

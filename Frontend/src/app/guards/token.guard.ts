@@ -9,13 +9,14 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { TokenService } from '../services/token/token.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenGuard implements CanActivate {
   constructor(
-    private authStorageService: LocalStorageService,
+    private tokenService: TokenService,
     private router: Router
   ) {}
 
@@ -27,7 +28,7 @@ export class TokenGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authStorageService.get('userId')) {
+    if (this.tokenService.getToken()) {
       return true;
     }
     this.router.navigate(['']);

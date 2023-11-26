@@ -1,8 +1,11 @@
 <div class="navbar">
   <div class="navbar__logo">
-    <img src="../../../assets/img/Logo.PNG" alt="logo strony" />
     <a routerLink="/">
-      <span class="navbar__logo--text">Jedzonko</span>
+      <img
+        src="../../../assets/img/onlyLogo.png"
+        width="55px"
+        alt="logo strony"
+      />
     </a>
   </div>
   <div class="navbar__buttons">
@@ -12,24 +15,31 @@
     <a routerLink="login" *ngIf="!isLogged">
       <div class="navbar__button">Zaloguj się</div>
     </a>
-    <a routerLink="basket" *ngIf="isLogged">
+    <a routerLink="notifications" *ngIf="isLogged">
       <div class="navbar__button">
-        <mat-icon [matBadge]="numberOfItemsInBasket" matBadgeColor="warn"
-          >shopping_cart</mat-icon
+        <mat-icon [matBadge]="numberOfNotifications" matBadgeColor="warn"
+          >notifications</mat-icon
+        >
+      </div>
+    </a>
+    <a routerLink="message" *ngIf="isLogged">
+      <div class="navbar__button">
+        <mat-icon [matBadge]="numberOfMessages" matBadgeColor="warn"
+          >message</mat-icon
         >
       </div>
     </a>
     <a routerLink="edit-account" *ngIf="isLogged">
       <div class="navbar__button">Konto</div>
     </a>
-    <a routerLink="addAccount" *ngIf="isLogged && role === 'ADMIN'">
-      <div class="navbar__button">Dodaj pracownika</div>
+    <a routerLink="tutorAdvertisement" *ngIf="isLogged && role === 'TUTOR'">
+      <div class="navbar__button">Dodane ogłoszenia</div>
     </a>
     <a
       routerLink="addOffer"
-      *ngIf="isLogged && (role === 'EMPLOYEE' || role === 'ADMIN')"
+      *ngIf="isLogged && (role === 'TUTOR' || role === 'ADMIN')"
     >
-      <div class="navbar__button">Dodaj potrawę</div>
+      <div class="navbar__button">Dodaj ogłoszenie</div>
     </a>
     <a routerLink="orderHistory" *ngIf="isLogged">
       <div class="navbar__button">Historia zamówień</div>

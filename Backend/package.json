@@ -19,16 +19,20 @@
     "bluebird": "3.5.5",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "cron": "^3.1.4",
     "express": "^4.17.3",
     "express-session": "1.17.3",
     "jsonwebtoken": "8.5.1",
+    "jwt-decode": "^4.0.0",
     "keycloak-connect": "22.0.1",
     "lodash": "^4.17.11",
     "moment": "2.24.0",
     "mongodb": "4.5.0",
     "mongoose": "6.2.10",
+    "mongoose-erd-generator": "^0.0.5",
     "mongoose-unique-validator": "3.0.0",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "socket.io": "^4.7.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
