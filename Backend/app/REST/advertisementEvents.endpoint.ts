@@ -37,7 +37,6 @@ export const advertisementEventsEndpoint = (router: Router) => {
     "/api/advertisementEvents/reservedUserEvents/:userId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        console.log("asdsadada");
         const userId = request.params.userId;
         const result = await businessContainer
           .getAdvertisementEventsManager()

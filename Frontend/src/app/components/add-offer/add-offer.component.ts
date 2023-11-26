@@ -92,7 +92,6 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     this.getCurrentDate();
 
     if (this.advertisementId) {
-      console.log(this.advertisementId);
       this.service
         .getAdvertisementById(this.advertisementId)
         .pipe(takeUntil(this.destroy$))
@@ -106,7 +105,6 @@ export class AddOfferComponent implements OnInit, OnDestroy {
             this.advertisementEventService
               .getAllEventsForAdvertisement(this.advertisementId)
               .subscribe((response) => {
-                console.log('work', response);
                 const events = response.map((event) => ({
                   ...event,
                   backgroundColor: event.reserved === true ? 'gray' : '',
@@ -179,7 +177,6 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     this.advertisementEventService
       .getAllEventsForUser(userId)
       .subscribe((response) => {
-        console.log(response);
         const events = response.map((event) => {
           return { ...event, backgroundColor: 'gray' };
         });
@@ -261,8 +258,6 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     preparedData.userId = this.token.getUserId() as string;
     preparedData.deletedEventsIds = this.deletedEventsIds;
     preparedData.id = this.advertisementId;
-
-    console.log(preparedData);
 
     this.service.addAdvertisement(preparedData).subscribe((data) => {
       //this.clearFrom();

@@ -11,10 +11,6 @@ const operations = (context: Context) => {
   const createNewOrUpdate = async (advertisement: AdvertisementDAO) => {
     const { events, deletedEventsIds, ...preparedData } = advertisement;
 
-    console.log(events);
-    console.log(preparedData);
-    console.log("advertisement", advertisement);
-
     const updatedPreparedData = {
       ...preparedData,
       isActive:
@@ -38,11 +34,9 @@ const operations = (context: Context) => {
       });
 
       if (advertisement.id && deletedEventsIds?.length !== 0) {
-        console.log("deleted events ids", deletedEventsIds);
         const data = await advertisementEventDAO.removeByIds(
           advertisement.deletedEventsIds
         );
-        console.log(data);
       }
 
       await advertisementEventDAO.createNewOrUpdate(data as any);

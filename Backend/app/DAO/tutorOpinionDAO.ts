@@ -41,7 +41,6 @@ const createNewOrUpdate = (advertisement: AdvertisementDAO) => {
     .then(() => {
       if (!advertisement.id) {
         return new TutorOpinionModel(advertisement).save().then((result) => {
-          console.log(result);
           if (result) {
             return convert(result);
           }
@@ -85,7 +84,6 @@ const getAllTutorOpinions = async (userId: string) => {
     lean: "toObject",
   });
   if (result) {
-    console.log(result);
     return result;
   }
 

@@ -7,7 +7,6 @@ export const reservationEventsEndpoint = (router: Router) => {
     "/api/reserve/add",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        console.log(request.body);
         const result = await businessContainer
           .getReservedEventsManager()
           .createNewOrUpdate(request.body);
@@ -52,7 +51,6 @@ export const reservationEventsEndpoint = (router: Router) => {
     "/api/reserve/remove/:advertisementId",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        console.log("delete");
         const advertisementId = request.params.advertisementId;
         const result = await businessContainer
           .getReservedEventsManager()

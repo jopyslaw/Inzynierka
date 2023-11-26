@@ -23,13 +23,11 @@ const passwordSchema = new mongoose.Schema(
 const PasswordModel = mongoose.model("password", passwordSchema);
 
 const createOrUpdate = async (data: PasswordDAO) => {
-  console.log("data", data);
   const result = await PasswordModel.findOneAndUpdate(
     { userId: data.userId },
     _.omit(data, "id, userId"),
     { new: true }
   );
-  console.log(result);
   if (!result) {
     const result = await new PasswordModel({
       userId: data.userId,

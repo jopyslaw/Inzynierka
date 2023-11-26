@@ -47,7 +47,6 @@ const createNewOrUpdate = (notification: NotificationDAO) => {
     .then(() => {
       if (!notification.id) {
         return new NotificationModel(notification).save().then((result) => {
-          console.log(result);
           if (result) {
             return convert(result);
           }

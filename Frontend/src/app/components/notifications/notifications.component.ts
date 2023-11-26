@@ -55,7 +55,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       .on('newNotifications')
       .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
-        console.log(response);
         this.notifications = response;
       });
   }

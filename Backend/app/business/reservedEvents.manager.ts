@@ -15,7 +15,6 @@ const operations = (context: Context) => {
     reservedData: ReservedAdvertisementEventDAO
   ) => {
     const reserved = await reservedEventDAO.createNewOrUpdate(reservedData);
-    console.log(reserved);
     if (reserved) {
       const dataForTutor: NotificationDAO = {
         userId: reservedData.tutorId,
@@ -65,21 +64,16 @@ const operations = (context: Context) => {
 
   const removeById = async (advertisementId: string) => {
     const reserved = await reservedEventDAO.getReservationById(advertisementId);
-    console.log("reserved", reserved);
 
     const event = await advertisementEventDAO.findById(
       reserved.advertisementEventId
     );
-    console.log(event);
-    console.log("evemt", event);
-    if (event) {
-      console.log("evemt", event);
 
+    if (event) {
       const advertisementData = await advertisementDAO.getById(
         event.advertisementId
       );
 
-      console.log(advertisementData);
       const dataForTutor: NotificationDAO = {
         userId: advertisementData.userId,
         title: "Rezygnacja z korepetycji",

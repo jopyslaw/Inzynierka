@@ -4,7 +4,6 @@ import { AdvertisementDAO } from "../shared/models/advertisementDAO.model";
 import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
 
 export const activateAdvertismentsIfStartDateIsToday = async () => {
-  console.log("first job start");
   const advertisments = await businessContainer
     .getAdvertisementManager()
     .getAllInActiveAndNotArchivedAdvertisments();
@@ -46,12 +45,10 @@ export const activateAdvertismentsIfStartDateIsToday = async () => {
   await businessContainer
     .getAdvertisementManager()
     .activateAdvertisments(advertismentsIds);
-  console.log("first job end");
   await deActivateAdvertismentsIfEndDateIsNotToday();
 };
 
 export const deActivateAdvertismentsIfEndDateIsNotToday = async () => {
-  console.log("second job started");
   const advertisments = await businessContainer
     .getAdvertisementManager()
     .getAllInActiveAndNotArchivedAdvertisments();
@@ -93,6 +90,4 @@ export const deActivateAdvertismentsIfEndDateIsNotToday = async () => {
   await businessContainer
     .getAdvertisementManager()
     .deactivateAdvertisments(advertismentsIds);
-
-  console.log("second Job ended");
 };

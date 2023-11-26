@@ -5,8 +5,6 @@ import advertisementDAO from "../DAO/advertisementDAO";
 
 const operations = (context: Context) => {
   const getAdvertisementEventsById = async (id: string) => {
-    console.log(id);
-
     const advertisements =
       await advertisementEventDAO.getAdvertisementEventById(id);
 
@@ -14,8 +12,6 @@ const operations = (context: Context) => {
       const advertisementIds = advertisements.map((advertisment) =>
         advertisment._id.toString()
       );
-
-      console.log(advertisementIds);
 
       const reservedEvents =
         await reservedEventDAO.getAllReservationForAdvertisementId(
@@ -46,8 +42,6 @@ const operations = (context: Context) => {
       advertisment._id.toString()
     );
 
-    console.log("ids", ids);
-
     const advertisements =
       await advertisementEventDAO.getAllUserAdvertisementEvents(ids);
 
@@ -70,19 +64,13 @@ const operations = (context: Context) => {
       userId
     );
 
-    console.log("reserved data", reservedData);
-
     const eventsIds = reservedData?.map((event) =>
       event.advertisementEventId.toString()
     );
 
-    console.log(eventsIds);
-
     if (eventsIds) {
       const eventsForUser =
         await advertisementEventDAO.getAllUserAdvertisementEvents(eventsIds);
-
-      console.log(eventsForUser);
 
       const preparedData = eventsForUser?.map((event) => {
         return {
@@ -95,7 +83,6 @@ const operations = (context: Context) => {
             )?._id ?? null,
         };
       });
-      console.log(preparedData);
       return preparedData;
     }
   };

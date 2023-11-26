@@ -35,7 +35,6 @@ export const notificationEndpoint = (router: Router) => {
     "/api/notification/readed",
     async (request: Request, response: Response, next: NextFunction) => {
       try {
-        console.log("Workins");
         const data = request.body.notificationId;
         let result = await businessContainer
           .getNotificationManager()

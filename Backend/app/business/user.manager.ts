@@ -61,7 +61,6 @@ const operations = (context: Context) => {
         .createNewOrUpdate(notificationData);
     }
 
-    console.log("userxDD", user);
     if (await userData.password) {
       return await passwordDAO.createOrUpdate({
         userId: user.id,
@@ -140,7 +139,7 @@ const operations = (context: Context) => {
     const eventsIds = events?.map((event) =>
       event.advertisementEventId.toString()
     );
-    console.log(eventsIds);
+
     if (eventsIds) {
       const result = await advertisementEventDAO.getAllAdvertismentsForArray(
         eventsIds
@@ -150,15 +149,13 @@ const operations = (context: Context) => {
         advertisement.advertisementId.toString()
       );
 
-      console.log(advertismentsIds);
-
       const advertisement =
         await advertisementDAO.getAllAdvertistmentsFromArray(advertismentsIds);
 
       const tutorIds = advertisement.map(
         (advertisement) => advertisement.userId
       );
-      console.log(tutorIds);
+
       const tutors = await userDAO.getUsersInformation(tutorIds);
 
       return tutors;

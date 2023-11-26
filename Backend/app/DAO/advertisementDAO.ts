@@ -66,13 +66,11 @@ const createNewOrUpdate = (advertisement: AdvertisementDAO) => {
     .then(() => {
       if (!advertisement.id) {
         return new AdvertisementModel(advertisement).save().then((result) => {
-          console.log(result);
           if (result) {
             return convert(result);
           }
         });
       } else {
-        console.log("advertisement id ", advertisement);
         return AdvertisementModel.findByIdAndUpdate(
           advertisement.id,
           _.omit(advertisement, "id"),
@@ -115,7 +113,6 @@ const getAllUserAdvertisement = async (userId: string) => {
     }
   );
   if (result) {
-    console.log(result);
     return result;
   }
 

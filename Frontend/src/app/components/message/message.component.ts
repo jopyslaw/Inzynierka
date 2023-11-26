@@ -45,7 +45,6 @@ export class MessageComponent implements OnInit, OnDestroy {
         disabled: true,
       }),
     });
-    console.log(this.userId);
   }
 
   ngOnDestroy(): void {

@@ -69,9 +69,7 @@ const getByEmailOrLogin = async (login: string) => {
 };
 
 const get = async (id: string) => {
-  console.log(id);
   const result = await UserModel.findOne({ _id: id });
-  console.log(result);
   if (result) {
     return convert(result);
   }
@@ -88,8 +86,6 @@ const getAllTutors = async () => {
     lean: "toObject",
   });
 
-  console.log("its", result);
-
   if (result) {
     return result;
   }
@@ -101,8 +97,6 @@ const getUsersInformation = async (userIds: (string | undefined)[]) => {
   const result = await UserModel.find({ _id: { $in: userIds } }, "_id login", {
     lean: "toObject",
   });
-
-  console.log("usersData", result);
 
   if (result) {
     return result;

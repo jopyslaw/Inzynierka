@@ -5,22 +5,22 @@ import userDAO from "../DAO/userDAO";
 import moment from "moment";
 
 const operations = (context: Context) => {
-  const createNewOrUpdate = async (notification: MessageDAO) => {
+  const createNewOrUpdate = async (message: MessageDAO) => {
     const data: MessageDAO = {
-      ...notification,
+      ...message,
       dateTimeSend: moment().toISOString(),
     };
 
-    const reserved = await messageDAO.createNewOrUpdate(data);
-    if (reserved) {
-      return reserved;
+    const messageData = await messageDAO.createNewOrUpdate(data);
+    if (messageData) {
+      return messageData;
     }
   };
 
-  const removeById = async (advertisementId: string) => {
-    const advertisement = await messageDAO.removeById(advertisementId);
-    if (advertisement) {
-      return advertisement;
+  const removeById = async (messageId: string) => {
+    const message = await messageDAO.removeById(messageId);
+    if (message) {
+      return message;
     }
   };
 
@@ -40,7 +40,6 @@ const operations = (context: Context) => {
 
     if (result.length) {
       const usersData = await userDAO.getUsersInformation(result);
-      console.log(usersData);
       return usersData;
     }
   };

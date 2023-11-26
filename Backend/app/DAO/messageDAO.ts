@@ -36,15 +36,18 @@ const createNewOrUpdate = (message: MessageDAO) => {
     .then(() => {
       if (!message.id) {
         return new MessageModel(message).save().then((result) => {
-          console.log(result);
           if (result) {
             return convert(result);
           }
         });
       } else {
-        return MessageModel.findByIdAndUpdate(message.id, _.omit(message, "id"), {
-          new: true,
-        });
+        return MessageModel.findByIdAndUpdate(
+          message.id,
+          _.omit(message, "id"),
+          {
+            new: true,
+          }
+        );
       }
     })
     .catch((error) => {
@@ -84,26 +87,16 @@ const getAllUserContacts = async (userId: string) => {
     },
     "senderId reciverId",
     { lean: "toObject" }
-  ); // Wszystkie dane
-
-  console.log("results", result);
-  console.log("userId", userId);
+  );
 
   const uniqueIds = result.map((id) => {
-    console.log("id", id);
-    console.log("userId", userId);
-
     if (id.reciverId.toString() !== userId) {
-      console.log("reciver id inne od userId", id.reciverId !== userId);
       return id.reciverId;
     } else if (id.senderId.toString() !== userId) {
-      console.log("sender id inne od userId", id.senderId !== userId);
       return id.senderId;
     }
   });
-  console.log(userId);
 
-  console.log("uniqueIds", uniqueIds);
   if (uniqueIds.length) {
     return uniqueIds;
   }
@@ -129,8 +122,6 @@ const getAllMessages = async (senderId: string, reciverId: string) => {
   );
 
   const allMessages = [...senderMessages, ...reciverMessages];
-
-  console.log("allMessages", allMessages);
 
   const sortedAllMessages = allMessages.sort((a: any, b: any) => {
     return a.dateTimeSend.localeCompare(b.dateTimeSend);

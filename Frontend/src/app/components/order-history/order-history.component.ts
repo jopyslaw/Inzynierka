@@ -55,7 +55,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       return;
     }*/
     this.confirmDialog(clickInfo.event.toJSON());
-    console.log(clickInfo.event.toJSON());
   }
 
   confirmDialog(additionalData: any): void {

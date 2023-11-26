@@ -31,7 +31,6 @@ export class AdvertisementService {
   getAdvertisementById(
     advertisementId: string
   ): Observable<AdvertisementModel> {
-    console.log(advertisementId);
     return this.http.get<AdvertisementModel>(
       'http://www.localhost:3000/api/advertisement/get/' + advertisementId
     );
