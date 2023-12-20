@@ -4,6 +4,32 @@ import { errorUtils } from "../service/applicationException";
 import auth from "../middleware/auth";
 
 export const notificationEndpoint = (router: Router) => {
+  /**
+   * @swagger
+   * tags:
+   *   name: Notification
+   *   description: Moduł API odpowiadający za powiadomienia
+   * /api/notification/counter/{userId}:
+   *   get:
+   *     summary: Pobiera liczbę nie odczytanych powiadomień dla danego użytkownika
+   *     tags: [Notification]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Advertisement'
+   *     responses:
+   *       200:
+   *         description: Ogłoszenie zostało dodane.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Advertisement'
+   *       500:
+   *         description: Bład serwera
+   *
+   */
   router.get(
     "/api/notification/counter/:userId",
     auth,
@@ -19,6 +45,32 @@ export const notificationEndpoint = (router: Router) => {
     }
   );
 
+  /**
+   * @swagger
+   * tags:
+   *   name: Notification
+   *   description: Moduł API odpowiadający za powiadomienia
+   * /api/notification/{userId}:
+   *   get:
+   *     summary: Pobiera powiadomienia dla użytkownika
+   *     tags: [Notification]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Advertisement'
+   *     responses:
+   *       200:
+   *         description: Ogłoszenie zostało dodane.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Advertisement'
+   *       500:
+   *         description: Bład serwera
+   *
+   */
   router.get(
     "/api/notification/:userId",
     auth,
@@ -34,6 +86,32 @@ export const notificationEndpoint = (router: Router) => {
     }
   );
 
+  /**
+   * @swagger
+   * tags:
+   *   name: Notification
+   *   description: Moduł API odpowiadający za powiadomienia
+   * /api/notification/{userId}:
+   *   post:
+   *     summary: Zmiana stanu powiadomienia na przeczytane
+   *     tags: [Notification]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Advertisement'
+   *     responses:
+   *       200:
+   *         description: Ogłoszenie zostało dodane.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Advertisement'
+   *       500:
+   *         description: Bład serwera
+   *
+   */
   router.post(
     "/api/notification/readed",
     auth,
