@@ -98,6 +98,47 @@ export const advertisementEndpoint = (router: Router) => {
    * tags:
    *   name: Advertisement
    *   description: Moduł API odpowiadający za obsługę ogłoszeń
+   * /api/advertisement/edit:
+   *   put:
+   *     summary: Dodanie nowego ogłoszenia
+   *     tags: [Advertisement]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Advertisement'
+   *     responses:
+   *       200:
+   *         description: Ogłoszenie zostało dodane.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Advertisement'
+   *       500:
+   *         description: Bład serwera
+   *
+   */
+  router.put(
+    "/api/advertisement/edit",
+    auth,
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const result = await businessContainer
+          .getAdvertisementManager()
+          .createNewOrUpdate(request.body);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
+
+  /**
+   * @swagger
+   * tags:
+   *   name: Advertisement
+   *   description: Moduł API odpowiadający za obsługę ogłoszeń
    * /api/advertisement/getAll/{userId}:
    *   get:
    *     summary: Pobranie wszystkich ogłoszeń użtykownika o danym ID
@@ -286,14 +327,14 @@ export const advertisementEndpoint = (router: Router) => {
    *
    */
   router.delete(
-    "api/advertisement/remove/:advertisementId",
+    "/api/advertisement/remove/:advertisementId",
     auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const advertisementId = request.params.advertisementId;
         const result = await businessContainer
           .getAdvertisementManager()
-          .removeById(advertisementId);
+          .removeAdvertisementById(advertisementId);
         response.status(200).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);

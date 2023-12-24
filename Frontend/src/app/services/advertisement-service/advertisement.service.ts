@@ -16,6 +16,13 @@ export class AdvertisementService {
     );
   }
 
+  editAdvertisement(data: any): Observable<AdvertisementModel> {
+    return this.http.put<AdvertisementModel>(
+      'http://www.localhost:3000/api/advertisement/edit',
+      data
+    );
+  }
+
   getAllAdvertisements(userId: string): Observable<AdvertisementModel[]> {
     return this.http.get<AdvertisementModel[]>(
       'http://www.localhost:3000/api/advertisement/getAll/' + userId

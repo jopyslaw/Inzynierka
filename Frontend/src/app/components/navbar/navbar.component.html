@@ -35,6 +35,9 @@
     <a routerLink="tutorAdvertisement" *ngIf="isLogged && role === 'TUTOR'">
       <div class="navbar__button">Dodane ogłoszenia</div>
     </a>
+    <a routerLink="tutorAdvertisement" *ngIf="isLogged && role === 'ADMIN'">
+      <div class="navbar__button">Wszystkie ogłoszenia</div>
+    </a>
     <a
       routerLink="addOffer"
       *ngIf="isLogged && (role === 'TUTOR' || role === 'ADMIN')"

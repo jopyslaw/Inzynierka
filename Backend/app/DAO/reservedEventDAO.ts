@@ -118,6 +118,18 @@ const getAllReservationsForUserId = async (userId: string) => {
   }
 };
 
+const removeEventsByIds = async (eventsIds: string[] | undefined) => {
+  if (eventsIds?.length === 0) {
+    return;
+  }
+
+  const result = await ReservedEventModel.deleteMany({
+    _id: { $in: eventsIds },
+  });
+
+  return result;
+};
+
 export default {
   createNewOrUpdate,
   getReservationById,
@@ -125,5 +137,6 @@ export default {
   getAllReservationForTutor,
   getAllReservationForAdvertisementId,
   getAllReservationsForUserId,
+  removeEventsByIds,
   model: ReservedEventModel,
 };

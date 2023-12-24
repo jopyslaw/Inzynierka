@@ -94,6 +94,46 @@ export const userEndpoint = (router: Router) => {
    * tags:
    *   name: User
    *   description: Moduł API odpowiadający za operacja na użytkownikach
+   * /api/user/edit:
+   *   put:
+   *     summary: Edycja danych użytkownika
+   *     tags: [User]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Advertisement'
+   *     responses:
+   *       200:
+   *         description: Ogłoszenie zostało dodane.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Advertisement'
+   *       500:
+   *         description: Bład serwera
+   *
+   */
+  router.put(
+    "/api/user/edit",
+    async (request: Request, response: Response, next: NextFunction) => {
+      try {
+        const result = await businessContainer
+          .getUserManager()
+          .createNewOrUpdate(request.body);
+        response.status(200).send(result);
+      } catch (error: any) {
+        errorUtils.errorHandler(error, response);
+      }
+    }
+  );
+
+  /**
+   * @swagger
+   * tags:
+   *   name: User
+   *   description: Moduł API odpowiadający za operacja na użytkownikach
    * /api/user/logout/{userId}:
    *   delete:
    *     summary: Wylogowanie użytkownika
@@ -178,7 +218,7 @@ export const userEndpoint = (router: Router) => {
    *   name: User
    *   description: Moduł API odpowiadający za operacja na użytkownikach
    * /api/user/password/{userId}:
-   *   post:
+   *   put:
    *     summary: Zmiana hasła użytkownika
    *     tags: [User]
    *     requestBody:
@@ -198,7 +238,7 @@ export const userEndpoint = (router: Router) => {
    *         description: Bład serwera
    *
    */
-  router.post(
+  router.put(
     "/api/user/password/:userId",
     auth,
     async (request: Request, response: Response, next: NextFunction) => {

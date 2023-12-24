@@ -259,7 +259,7 @@ export class AddOfferComponent implements OnInit, OnDestroy {
     preparedData.deletedEventsIds = this.deletedEventsIds;
     preparedData.id = this.advertisementId;
 
-    this.service.addAdvertisement(preparedData).subscribe((data) => {
+    this.service.editAdvertisement(preparedData).subscribe((data) => {
       //this.clearFrom();
     });
   }

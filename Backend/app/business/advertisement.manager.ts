@@ -7,6 +7,8 @@ import { NotificationDAO } from "../shared/models/notificationDAO.model";
 import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
 import businessContainer from "./business.container";
 import userDAO from "../DAO/userDAO";
+import reservedEventDAO from "../DAO/reservedEventDAO";
+import notificationsDAO from "../DAO/notificationsDAO";
 
 const operations = (context: Context) => {
   const createNewOrUpdate = async (advertisement: AdvertisementDAO) => {
@@ -106,7 +108,61 @@ const operations = (context: Context) => {
   };
 
   const removeAdvertisementById = async (advertisementId: string) => {
+    const advertisementsEvents =
+      await advertisementEventDAO.getAdvertisementEventById(advertisementId);
+
+    const advertisementEventsIds = advertisementsEvents.map(
+      (advertisementsEvent) => advertisementsEvent._id.toString()
+    );
+
+    const reservedAdvertismenets =
+      await reservedEventDAO.getAllReservationForAdvertisementId(
+        advertisementEventsIds
+      );
+
+    const reservedAdvertismenetsIds = reservedAdvertismenets?.map((event) =>
+      event._id.toString()
+    );
+
+    const deleteReserverdAdvertisementsEvents =
+      await reservedEventDAO.removeEventsByIds(reservedAdvertismenetsIds);
+
+    const deleteAdvertisementsEvents = await advertisementEventDAO.removeByIds(
+      advertisementEventsIds
+    );
+
     const advertisement = await advertisementDAO.removeById(advertisementId);
+
+    let notificationDataForTutor: NotificationDAO;
+
+    notificationDataForTutor = {
+      userId: advertisement?.userId ?? "",
+      advertisementId: advertisementId,
+      title: "Ogłoszenie zostało usunięte",
+      content: "Ogłoszenie zostało usunięte",
+      isReaded: false,
+      dateTimeSend: moment().toISOString(),
+      typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
+    };
+
+    let notificationDataForUsers: NotificationDAO[] | undefined;
+
+    notificationDataForUsers = reservedAdvertismenets?.map((reserved) => ({
+      userId: reserved.userId,
+      advertisementId: advertisementId,
+      title: "Rezerwacja została usunięta ponieważ ogłoszenie zostało usunięte",
+      content:
+        "Rezerwacja została usunięta ponieważ ogłoszenie zostało usunięte",
+      isReaded: false,
+      dateTimeSend: moment().toISOString(),
+      typeOfNotification: NotificationTypeEnum.ADVERTISMENTS,
+    }));
+
+    await notificationsDAO.createNewOrUpdate(notificationDataForTutor);
+    if (notificationDataForUsers) {
+      await notificationsDAO.createMany(notificationDataForUsers);
+    }
+
     if (advertisement) {
       return advertisement;
     }
