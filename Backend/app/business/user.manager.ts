@@ -14,6 +14,7 @@ import { NotificationDAO } from "../shared/models/notificationDAO.model";
 import moment from "moment";
 import { NotificationTypeEnum } from "../shared/enums/notificationType.enum";
 import businessContainer from "./business.container";
+import { UserRole } from "../shared/enums/userRole.enum";
 
 const saltRounds = 10;
 
@@ -162,6 +163,12 @@ const operations = (context: Context) => {
     }
   };
 
+  const getUsersByRole = async (role: UserRole) => {
+    const result = await userDAO.getUsersByRole(role);
+
+    return result;
+  };
+
   return {
     authenticate: authenticate,
     createNewOrUpdate: createNewOrUpdate,
@@ -171,6 +178,7 @@ const operations = (context: Context) => {
     getAllTutors,
     getTutorsForUsers,
     getUsersForTutors,
+    getUsersByRole,
   };
 };
 

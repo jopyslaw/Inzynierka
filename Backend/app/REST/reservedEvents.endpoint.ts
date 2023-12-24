@@ -4,6 +4,32 @@ import { errorUtils } from "../service/applicationException";
 import auth from "../middleware/auth";
 
 export const reservationEventsEndpoint = (router: Router) => {
+  /**
+   * @swagger
+   * tags:
+   *   name: ReservationEvents
+   *   description: Moduł API odpowiadający za zapis na korepetycje
+   * /api/reserve/add:
+   *   post:
+   *     summary: Zapis na korepetycje
+   *     tags: [ReservationEvents]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Advertisement'
+   *     responses:
+   *       200:
+   *         description: Ogłoszenie zostało dodane.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Advertisement'
+   *       500:
+   *         description: Bład serwera
+   *
+   */
   router.post(
     "/api/reserve/add",
     auth,
@@ -19,6 +45,32 @@ export const reservationEventsEndpoint = (router: Router) => {
     }
   );
 
+  /**
+   * @swagger
+   * tags:
+   *   name: ReservationEvents
+   *   description: Moduł API odpowiadający za zapis na korepetycje
+   * /api/reserve/getAll/{userId}:
+   *   get:
+   *     summary: Pobiera wszystkie wizyty na które zapisany jest dany użytkownik
+   *     tags: [ReservationEvents]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Advertisement'
+   *     responses:
+   *       200:
+   *         description: Ogłoszenie zostało dodane.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Advertisement'
+   *       500:
+   *         description: Bład serwera
+   *
+   */
   router.get(
     "/api/reserve/getAll/:userId",
     auth,
@@ -35,6 +87,32 @@ export const reservationEventsEndpoint = (router: Router) => {
     }
   );
 
+  /**
+   * @swagger
+   * tags:
+   *   name: ReservationEvents
+   *   description: Moduł API odpowiadający za zapis na korepetycje
+   * /api/reserve/get/{advertisementId}:
+   *   get:
+   *     summary: Pobiera wszystkie rezerwacje dla danego ogłoszenia
+   *     tags: [ReservationEvents]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Advertisement'
+   *     responses:
+   *       200:
+   *         description: Ogłoszenie zostało dodane.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Advertisement'
+   *       500:
+   *         description: Bład serwera
+   *
+   */
   router.get(
     "/api/reserve/get/:advertisementId",
     auth,
@@ -51,6 +129,32 @@ export const reservationEventsEndpoint = (router: Router) => {
     }
   );
 
+  /**
+   * @swagger
+   * tags:
+   *   name: ReservationEvents
+   *   description: Moduł API odpowiadający za zapis na korepetycje
+   * /api/reserve/remove/{advertisementId}:
+   *   delete:
+   *     summary: Usunięcie rezerwacji
+   *     tags: [ReservationEvents]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/Advertisement'
+   *     responses:
+   *       200:
+   *         description: Ogłoszenie zostało dodane.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Advertisement'
+   *       500:
+   *         description: Bład serwera
+   *
+   */
   router.delete(
     "/api/reserve/remove/:advertisementId",
     auth,

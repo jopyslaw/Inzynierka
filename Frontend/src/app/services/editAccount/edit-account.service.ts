@@ -15,10 +15,10 @@ export class EditAccountService {
   }
 
   updateAccountInfo(data: any): Observable<any> {
-    return this.http.post(this.url + '/create', data);
+    return this.http.put(this.url + '/edit', data);
   }
 
   updatePassword(userId: string, password: string): Observable<any> {
-    return this.http.post(this.url + '/password/' + userId, { password });
+    return this.http.put(this.url + '/password/' + userId, { password });
   }
 }

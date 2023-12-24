@@ -68,6 +68,12 @@ const getByEmailOrLogin = async (login: string) => {
   throw errorUtils.new(ErrorCodes.NOT_FOUND.code, "User not found");
 };
 
+const getUsersByRole = async (role: UserRole) => {
+  const result = await UserModel.find({ role: role }, {}, { lean: "toObject" });
+
+  return result;
+};
+
 const get = async (id: string) => {
   const result = await UserModel.findOne({ _id: id });
   if (result) {
@@ -112,5 +118,6 @@ export default {
   removeById,
   getAllTutors,
   getUsersInformation,
+  getUsersByRole,
   model: UserModel,
 };

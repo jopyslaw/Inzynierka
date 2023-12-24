@@ -11,6 +11,8 @@ import { activateAdvertismentsIfStartDateIsToday } from "./CRON/cronJobs";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { sockets } from "./Sockets/sockets";
+import swaggerDocs from "./service/swagger";
+import { addAdminAccount } from "./service/createAdminAccount";
 
 const StartFunction = async () => {
   const app: Express = express();
@@ -33,6 +35,7 @@ const StartFunction = async () => {
   try {
     await mongoose.connect(config.databaseUrl);
     console.log("Mongo connected");
+    await addAdminAccount();
   } catch (error) {
     console.log(error);
     process.exit();
@@ -56,6 +59,8 @@ const StartFunction = async () => {
     null,
     true
   );
+
+  swaggerDocs(app, config.port as number);
 
   app.get("/*", (req: Request, res: Response) => {
     res.sendFile(__dirname + "/public/index.html");
