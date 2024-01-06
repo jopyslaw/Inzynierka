@@ -61,9 +61,9 @@ export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    /*if (this.isEditable(clickInfo.event.id)) {
+    if (!this.tokenService.getToken()) {
       return;
-    }*/
+    }
     this.confirmDialog(clickInfo.event.toJSON());
   }
 
@@ -98,8 +98,8 @@ export class AdvertisementDetailsComponent implements OnInit, OnDestroy {
       width: '500px',
       height: '200px',
       data: {
-        title: 'Wydarzenie',
-        message: 'Czy chcesz chcesz zarezerwować wydarzenie',
+        title: 'Rezerwacja na korepetycje',
+        message: 'Czy chcesz chcesz zapisać się na wybrany termin ?',
         additionalData,
       },
     });

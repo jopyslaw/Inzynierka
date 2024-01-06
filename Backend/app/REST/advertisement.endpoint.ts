@@ -204,7 +204,6 @@ export const advertisementEndpoint = (router: Router) => {
    */
   router.get(
     "/api/advertisement/get/:advertisementId",
-    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const advertisementId = request.params.advertisementId;

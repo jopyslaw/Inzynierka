@@ -32,7 +32,6 @@ export const utilsEndpoint = (router: Router) => {
    */
   router.get(
     "/api/utils/currentDate",
-    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         let result = await businessContainer.getUtilsManager().getCurrentDate();

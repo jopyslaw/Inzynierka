@@ -44,7 +44,6 @@ const routes: Routes = [
   {
     path: 'advertisementDetails/:id',
     component: AdvertisementDetailsComponent,
-    canActivate: [TokenGuard],
   },
   {
     path: 'notifications',

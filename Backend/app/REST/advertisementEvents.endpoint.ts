@@ -74,7 +74,6 @@ export const advertisementEventsEndpoint = (router: Router) => {
    */
   router.get(
     "/api/advertisementEvents/get/:advertisementId",
-    auth,
     async (request: Request, response: Response, next: NextFunction) => {
       try {
         const advertisementId = request.params.advertisementId;

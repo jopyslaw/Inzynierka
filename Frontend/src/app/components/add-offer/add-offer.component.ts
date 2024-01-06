@@ -285,8 +285,8 @@ export class AddOfferComponent implements OnInit, OnDestroy {
       width: '500px',
       height: '200px',
       data: {
-        title: 'Rezygnacja z zajęć',
-        message: 'Czy chcesz usunąć rezerwację',
+        title: 'Usuń dodany termin',
+        message: 'Czy chcesz usunąć dodany termin',
         additionalData,
       },
     });

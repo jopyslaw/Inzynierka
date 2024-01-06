@@ -14,12 +14,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   width: 70%;
   background: $background-second-color;
   padding: 20px;
   border-radius: 20px;
   margin-bottom: 20px;
   height: 80%;
+}
+
+.text {
+  text-align: center;
+  font-size: 35px;
+  margin-bottom: 20px;
+  color: $background-third-color;
 }
 
 .calendar {
