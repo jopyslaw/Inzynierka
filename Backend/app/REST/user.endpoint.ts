@@ -82,7 +82,7 @@ export const userEndpoint = (router: Router) => {
         const result = await businessContainer
           .getUserManager()
           .createNewOrUpdate(request.body);
-        response.status(200).send(result);
+        response.status(201).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
       }

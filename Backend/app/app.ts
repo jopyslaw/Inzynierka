@@ -1,36 +1,19 @@
-import bodyParser from "body-parser";
 import config from "./config";
-import cors from "cors";
-import express from "express";
 import mongoose from "mongoose";
-import morgan from "morgan";
-import { Express, Request, Response } from "express";
-import { routes } from "./REST/routes";
+import { Request, Response } from "express";
 import { CronJob } from "cron";
 import { activateAdvertismentsIfStartDateIsToday } from "./CRON/cronJobs";
-import { Server } from "socket.io";
-import { createServer } from "http";
 import { sockets } from "./Sockets/sockets";
 import swaggerDocs from "./service/swagger";
 import { addAdminAccount } from "./service/createAdminAccount";
+import createExpressServer from "./service/server";
 
 const StartFunction = async () => {
-  const app: Express = express();
-  const httpServer = createServer(app);
-  const io = new Server(httpServer, {
-    cors: {
-      origin: ["http://localhost:4200"],
-    },
-  });
-  app.use(express.static(__dirname + "/public"));
+  const server = createExpressServer();
 
-  app.use(morgan("dev"));
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json({ limit: "2048kb" }));
-
-  app.use(express.static("public"));
-
-  app.use(cors());
+  const app = server.app;
+  const io = server.io;
+  const httpServer = server.httpServer;
 
   try {
     await mongoose.connect(config.databaseUrl);
@@ -50,7 +33,6 @@ const StartFunction = async () => {
     });
   });
 
-  routes(app);
   sockets(io);
 
   const changeActivationOfAdvertismentsCRONJob = new CronJob(

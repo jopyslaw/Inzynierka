@@ -54,6 +54,7 @@ const authorize = async (userId: string, password: string) => {
       "User and password does not match"
     );
   }
+  console.log("XD");
   throw errorUtils.new(
     ErrorCodes.UNAUTHORIZED.code,
     "User and password does not match"

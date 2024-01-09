@@ -10,4 +10,5 @@ export interface UserDAO {
   active: boolean;
   isAdmin: boolean;
   password: string;
+  phoneNumber: string;
 }

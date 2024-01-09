@@ -86,7 +86,7 @@ export const advertisementEndpoint = (router: Router) => {
         const result = await businessContainer
           .getAdvertisementManager()
           .createNewOrUpdate(request.body);
-        response.status(200).send(result);
+        response.status(201).send(result);
       } catch (error: any) {
         errorUtils.errorHandler(error, response);
       }
