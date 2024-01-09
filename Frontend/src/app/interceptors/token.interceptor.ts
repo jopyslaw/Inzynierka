@@ -17,7 +17,10 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const token = this.store.get('token');
-    if (request.url !== '/login') {
+    if (
+      !request.url.includes('user/auth') &&
+      !request.url.includes('user/create')
+    ) {
       if (token) {
         const newRequest = request.clone({
           headers: request.headers.set('Authorization', 'Bearer ' + token),
