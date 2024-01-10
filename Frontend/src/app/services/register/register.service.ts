@@ -11,7 +11,7 @@ export class RegisterService {
 
   register(data: RegisterModel): Observable<RegisterModel> {
     return this.http.post<RegisterModel>(
-      'http://www.localhost:3000/api/user/create',
+      'http://localhost:3000/api/user/create',
       data
     );
   }

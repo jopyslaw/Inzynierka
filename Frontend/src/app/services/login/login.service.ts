@@ -15,7 +15,7 @@ export class LoginService {
   login(loginData: LoginModel): Observable<LoginModelResponse> {
     const headers = new HttpHeaders({ Accept: '*/*' });
     return this.http.post<LoginModelResponse>(
-      'http://www.localhost:3000/api/user/auth',
+      'http://localhost:3000/api/user/auth',
       loginData,
       {
         headers: headers,
