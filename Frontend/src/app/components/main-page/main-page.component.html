@@ -1,0 +1,70 @@
+<div class="main-page">
+  <div class="main-page__menu">
+    <div class="main-page__menu-img">
+      <a [routerLink]="'menu'" [queryParams]="{ category: 'wszystko' }">
+        <img src="../../../assets/img/Logo.png" alt="zdjęcie menu" />
+      </a>
+    </div>
+    <div class="main-page__menu-category">
+      <a [routerLink]="'menu'">
+        <div class="main-page__one-category">
+          <img src="../../../assets/img/002-calculator.png" />
+          <div class="margin20">Przedmioty ścisłe</div>
+        </div>
+      </a>
+      <a [routerLink]="'menu'">
+        <div class="main-page__one-category">
+          <img src="../../../assets/img/003-open-book.png" />
+          <div class="margin20">Przedmioty humanistyczne</div>
+        </div>
+      </a>
+      <a [routerLink]="'menu'">
+        <div class="main-page__one-category">
+          <img src="../../../assets/img/004-paint-brush.png" />
+          <div class="margin20">Przedmioty artystyczne</div>
+        </div>
+      </a>
+      <a [routerLink]="'menu'">
+        <div class="main-page__one-category">
+          <img src="../../../assets/img/001-question.png" />
+          <div class="margin20">Inne przedmioty</div>
+        </div>
+      </a>
+      <a [routerLink]="'menu'">
+        <div class="main-page__one-category">
+          <img src="../../../assets/img/005-all.png" />
+          <div class="margin20">Wszystkie przedmioty</div>
+        </div>
+      </a>
+    </div>
+    <hr class="line" />
+    <div class="main-page--text">To co wyciągamy karteczki ?</div>
+    <div class="main-page__menu-category">
+      <div class="main-page__one-category">
+        <div class="note yellow">
+          Matematyka królowa wszystkich nauk. Ps. nikt jej tak naprawdę nie lubi
+          :D
+        </div>
+      </div>
+
+      <div class="main-page__one-category">
+        <div class="note yellow">
+          Język polski mowią ,że jak jesteś polakiem to przydałoby się znać
+        </div>
+      </div>
+
+      <div class="main-page__one-category">
+        <div class="note yellow">
+          Język angielski w polsce żyje mówi się po polsku i tyle :)
+        </div>
+      </div>
+
+      <div class="main-page__one-category">
+        <div class="note yellow">
+          Historia po co mam się uczyć czegoś co się kiedyś wydarzyło. Bez sensu
+          :D
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

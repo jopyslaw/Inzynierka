@@ -1,0 +1,60 @@
+<div class="navbar">
+  <div class="navbar__logo">
+    <a routerLink="/">
+      <img
+        src="../../../assets/img/onlyLogo.png"
+        width="55px"
+        alt="logo strony"
+      />
+    </a>
+  </div>
+  <div class="navbar__buttons">
+    <a routerLink="register" *ngIf="!isLogged">
+      <div class="navbar__button">Zarejstruj się</div>
+    </a>
+    <a routerLink="login" *ngIf="!isLogged">
+      <div class="navbar__button" id="loginOption">Zaloguj się</div>
+    </a>
+    <a routerLink="notifications" *ngIf="isLogged">
+      <div class="navbar__button">
+        <mat-icon [matBadge]="numberOfNotifications" matBadgeColor="warn"
+          >notifications</mat-icon
+        >
+      </div>
+    </a>
+    <a routerLink="message" *ngIf="isLogged">
+      <div class="navbar__button">
+        <mat-icon [matBadge]="numberOfMessages" matBadgeColor="warn"
+          >message</mat-icon
+        >
+      </div>
+    </a>
+    <a routerLink="edit-account" *ngIf="isLogged">
+      <div class="navbar__button">Konto</div>
+    </a>
+    <a routerLink="tutorAdvertisement" *ngIf="isLogged && role === 'TUTOR'">
+      <div class="navbar__button">Dodane ogłoszenia</div>
+    </a>
+    <a routerLink="tutorAdvertisement" *ngIf="isLogged && role === 'ADMIN'">
+      <div class="navbar__button">Wszystkie ogłoszenia</div>
+    </a>
+    <a
+      routerLink="addOffer"
+      *ngIf="isLogged && (role === 'TUTOR' || role === 'ADMIN')"
+    >
+      <div class="navbar__button">Dodaj ogłoszenie</div>
+    </a>
+    <a routerLink="orderHistory" *ngIf="isLogged">
+      <div class="navbar__button">Rezerwacje</div>
+    </a>
+    <a
+      routerLink="ordersStatus"
+      *ngIf="isLogged && (role === 'ADMIN' || role === 'EMPLOYEE')"
+    >
+      <div class="navbar__button">Status zamówień</div>
+    </a>
+    <div class="navbar__button" *ngIf="isLogged" (click)="logOut()">
+      Wyloguj się
+    </div>
+  </div>
+</div>

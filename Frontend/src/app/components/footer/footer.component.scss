@@ -1,0 +1,17 @@
+@use "../../../assets/variables.scss" as *;
+
+.footer {
+  width: 100%;
+  min-height: 50px;
+  background-color: $background-second-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+
+  &__text {
+    font-family: "Codec Pro";
+    color: $main-font-color;
+  }
+}

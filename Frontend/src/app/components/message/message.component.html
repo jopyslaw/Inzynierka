@@ -1,0 +1,45 @@
+<div class="main_container">
+  <div class="container">
+    <div class="container__users">
+      <div class="container__button">
+        <button class="button" (click)="sendNewMessage()">
+          Wyślij nową wiadomość
+        </button>
+      </div>
+      <div>
+        <app-contact-item
+          *ngFor="let contact of contacts"
+          [contact]="contact"
+          (selectedItemEmitter)="selectedItem($event)"
+        ></app-contact-item>
+      </div>
+    </div>
+    <div class="container__messages">
+      <div class="container__show_messages">
+        <ng-container *ngFor="let message of messages">
+          <div *ngIf="message.senderId === userId">
+            <div>Autor: {{ message.content }}</div>
+          </div>
+          <div *ngIf="message.senderId !== userId">
+            <div>Odbiorca: {{ message.content }}</div>
+          </div>
+          <div></div>
+        </ng-container>
+      </div>
+      <div class="container__input_message">
+        <form [formGroup]="form" class="container__form">
+          <div class="container__input-div">
+            <input
+              type="text"
+              formControlName="content"
+              class="container__input"
+            />
+          </div>
+          <div>
+            <button class="button-send" (click)="sendMessage()">Wyślij</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

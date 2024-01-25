@@ -1,1 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+@use "../src/assets/variables.scss" as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Codec Pro";
+}
+
+body {
+  background-color: $background-color-base;
+}
+
+@font-face {
+  font-family: "Codec Pro";
+  src: local("Codec Pro Extra Bold"), local("Codec-Pro-Extra-Bold"),
+    url("../src/assets/fonts/CodecPro-ExtraBold.woff2") format("woff2"),
+    url("../src/assets/fonts/CodecPro-ExtraBold.woff") format("woff"),
+    url("../src/assets/fonts/CodecPro-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+/*@font-face {
+  font-family: "Caveat";
+  src: local("Caveat-VariableFont_wght"),
+    url("../src/assets/fonts/Caveat-VariableFont_wght") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}*/
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.red-snackbar {
+  background-color: red;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,4 +1,4 @@
-FROM node:16-alpine as development
+FROM node:18-alpine as development
 
 RUN mkdir -p /usr/src/app
 
@@ -14,17 +14,17 @@ EXPOSE 3000
 
 CMD ["npm","run","dev"]
 
-FROM node:16-alpine as production
+#FROM node:18-alpine as production
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+#ARG NODE_ENV=production
+#ENV NODE_ENV=${NODE_ENV}
 
-WORKDIR /usr/src/app
+#WORKDIR /usr/src/app
 
-COPY package*.json .
+#COPY package*.json .
 
-RUN npm ci --only=production
+#RUN npm ci --only=production
 
-COPY --from=development /usr/src/app/dist ./dist
+#COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/index.js"]
+#CMD ["node", "dist/index.js"]

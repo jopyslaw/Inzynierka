@@ -1,42 +1,56 @@
-import bodyParser from "body-parser";
 import config from "./config";
-import cors from "cors";
-import express from "express";
 import mongoose from "mongoose";
-import morgan from "morgan";
+import { Request, Response } from "express";
+import { CronJob } from "cron";
+import { activateAdvertismentsIfStartDateIsToday } from "./CRON/cronJobs";
+import { sockets } from "./Sockets/sockets";
+import swaggerDocs from "./service/swagger";
+import { addAdminAccount } from "./service/createAdminAccount";
+import createExpressServer from "./service/server";
 
-const app = express();
-app.use(express.static(__dirname + "/public"));
+const StartFunction = async () => {
+  const server = createExpressServer();
 
-app.use(morgan("dev"));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json({ limit: "2048kb" }));
+  const app = server.app;
+  const io = server.io;
+  const httpServer = server.httpServer;
 
-app.use(express.static("public"));
-
-app.use(cors());
-
-mongoose.connect(config.databaseUrl, {}, (error) => {
-  if (error) {
-    console.error(error);
-  } else {
-    console.info("Connect with database estabilished");
+  try {
+    await mongoose.connect(config.databaseUrl);
+    console.log("Mongo connected");
+    await addAdminAccount();
+  } catch (error) {
+    console.log(error);
+    process.exit();
   }
-});
 
-process.on("SIGINT", () => {
-  mongoose.connection.close(() => {
-    console.error(
-      "Mongoose default connection disconnected through app termination"
-    );
-    process.exit(0);
+  process.on("SIGINT", () => {
+    mongoose.connection.close(() => {
+      console.error(
+        "Mongoose default connection disconnected through app termination"
+      );
+      process.exit(0);
+    });
   });
-});
 
-app.get("/*", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
-});
+  sockets(io);
 
-app.listen(config.port, () => {
-  console.info(`Server is running at ${config.port}`);
-});
+  const changeActivationOfAdvertismentsCRONJob = new CronJob(
+    "30 00 * * *",
+    activateAdvertismentsIfStartDateIsToday,
+    null,
+    true
+  );
+
+  swaggerDocs(app, config.port as number);
+
+  app.get("/*", (req: Request, res: Response) => {
+    res.sendFile(__dirname + "/public/index.html");
+  });
+
+  httpServer.listen(config.port, () => {
+    console.info(`Server is running at ${config.port}`);
+  });
+};
+
+StartFunction();

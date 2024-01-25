@@ -1,0 +1,42 @@
+@use "../../../assets/variables.scss" as *;
+
+.advertisement-details {
+  &__component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: $background-third-color;
+  }
+
+  &__container {
+    margin-top: 30px;
+    background-color: $background-second-color;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+  }
+
+  &__info {
+    margin: 10px;
+    font-size: 20px;
+    color: $main-font-color;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    height: 250px;
+
+    &-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  &__calendar {
+    color: $main-font-color;
+  }
+}

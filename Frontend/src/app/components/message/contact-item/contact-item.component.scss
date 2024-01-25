@@ -1,0 +1,14 @@
+.container {
+  min-height: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid black;
+  margin-top: 5px;
+
+  &__contact {
+    display: flex;
+  }
+}
